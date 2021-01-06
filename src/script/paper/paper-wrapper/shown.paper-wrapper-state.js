@@ -62,7 +62,7 @@ export class ShownPaperWrapperState extends PaperWrapperState {
   }
 
   switchToHidden() {
-    // TODO: fix temporary solution
+    // FIXME: fix temporary solution
     document.querySelector('.js-img-screenshot').classList.remove('area-selected');
 
     this.paper.canvasHolderElement.classList.remove('shown');

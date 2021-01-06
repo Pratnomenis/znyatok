@@ -220,7 +220,6 @@ ipcMain.on('screenshot-created', () => {
 });
 
 ipcMain.on('action-quit', () => {
-  // app.quit();
   win.destroy();
 });
 

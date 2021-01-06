@@ -42,7 +42,6 @@ export class Actions {
   }
 
   resetAll() {
-    // TODO: ТУТ ОСТАНОВИЛИСЬ! Какая-то хуйня если сохранять скриншот с текстом
     this.shot.reset();
     this.paper.reset();
     this.tools.reset();

@@ -15,17 +15,10 @@ export class Saver {
     ipcRenderer.send('action-quit');
   }
 
-  // TODO: Find a way to save full screen in good quality
   async saveToClipboard() {
     await this.shot.paper.deactivateLastState();
     const imageBase64 = this.shot.getLastBase64();
-    // if (this.shot.getSceenshotFillPercentage() <= 99 ) {
     clipboard.writeImage(nativeImage.createFromDataURL(imageBase64));
-    // } else {
-    //   const imageJPEG = nativeImage.createFromDataURL(imageBase64).toJPEG(80);
-    //   clipboard.writeBuffer('image/jpeg', imageJPEG);
-    // }
-
     this.closeApp();
   }
 

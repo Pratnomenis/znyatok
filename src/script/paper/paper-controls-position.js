@@ -10,14 +10,6 @@ export class PaperControlsPosition {
       width: 310,
       height: 60
     }
-
-    // this.colorOffset = {
-    //   width: 60,
-    //   height: 310
-    // }
-
-    // TODO: Show cords and sizes
-
   }
 
   resetCssClasses() {

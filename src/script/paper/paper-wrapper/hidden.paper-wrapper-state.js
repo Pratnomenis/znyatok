@@ -31,7 +31,7 @@ export class HiddenPaperWrapperState extends PaperWrapperState {
       (distanceX >= this.minDistance || distanceX <= -this.minDistance) &&
       (distanceY >= this.minDistance || distanceY <= -this.minDistance)
     ) {
-      // TODO: fix temporary solution
+      // FIXME: fix temporary solution
       document.querySelector('.js-img-screenshot').classList.add('area-selected');
 
       this.paper.canvasHolderElement.classList.add('shown');

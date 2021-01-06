@@ -9,7 +9,6 @@ export const squeareType = {
   border3: 3,
   fill: 4,
   blur: 5,
-  // crystal: 6
 }
 
 export class SquarePaperBrushState extends PaperBrushState {
@@ -60,12 +59,7 @@ export class SquarePaperBrushState extends PaperBrushState {
       case squeareType.blur:
         ctx.drawImage(this.bluredCanvas, startX, startY, distanceX, distanceY, startCanvasX, startCanvasY, distanceX, distanceY);
         break;
-        // TODO:
-        // case squeareType.crystal:
-
-        //   break;
     }
-
   }
 
   async processMouseUp(data) {

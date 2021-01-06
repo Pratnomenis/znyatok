@@ -25,7 +25,6 @@ export class SaveToolSettings extends ToolSetings {
       element.addEventListener('mousedown', this.getMouseDownListener(typeId))
       element.addEventListener('click', this.getClickListener(typeId))
     });
-    // this.setTypeFromSettings();
   }
 
   deactivate() {
@@ -49,7 +48,6 @@ export class SaveToolSettings extends ToolSetings {
   getClickListener(typeId) {
     const listenerName = `click${typeId}`;
     if (!this.listeners[listenerName]) {
-      // const listener = () => this.setType(typeId);
       const listener = () => this.customSave(typeId);
       this.listeners[listenerName] = listener;
     }

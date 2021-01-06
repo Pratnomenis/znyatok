@@ -36,7 +36,7 @@ export class ResizePaperWrapperState extends PaperWrapperState {
 
   processMouseUp(data) {
     this.paper.setState(new ShownPaperWrapperState(this.paper));
-    // TODO: If size < 7 remove
+    // FIXME: If size < 7 remove
   }
 }
 

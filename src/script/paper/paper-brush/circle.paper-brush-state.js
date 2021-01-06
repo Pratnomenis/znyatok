@@ -8,8 +8,7 @@ export const circleType = {
   border2: 2,
   border3: 3,
   fill: 4,
-  blur: 5,
-  // crystal: 6
+  blur: 5
 }
 
 export class CirclePaperBrushState extends PaperBrushState {
@@ -60,10 +59,6 @@ export class CirclePaperBrushState extends PaperBrushState {
       case circleType.blur:
         this.drawCircleBlured(ctx, startCanvasX, startCanvasY, distanceX, distanceY, startX, startY);
         break;
-        // TODO:
-        // case squeareType.crystal:
-
-        //   break;
     }
 
   }

@@ -55,7 +55,6 @@ export class PancilPaperBrushState extends PaperBrushState {
     this.ctx.moveTo(this.path[0].x, this.path[0].y);
     this.path.forEach((crd) => this.ctx.lineTo(crd.x, crd.y));
     this.endDrawing();
-    // this.ctx.moveTo(currentX, currentY);
   }
 
   async processMouseUp(data) {
