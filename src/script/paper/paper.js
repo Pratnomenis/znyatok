@@ -2,6 +2,9 @@ import {
   HiddenPaperWrapperState
 } from './paper-wrapper/hidden.paper-wrapper-state.js';
 import {
+  ShownPaperWrapperState
+} from './paper-wrapper/shown.paper-wrapper-state.js';
+import {
   PaperWrapperState
 } from './paper-wrapper/paper-wrapper-state.js';
 import {
@@ -67,6 +70,8 @@ export class Paper {
     const newStateIsText = newState instanceof TextPaperBrushState;
     const oldStateIsSave = this.state instanceof SavePaperBrushState;
     const newStateIsSave = newState instanceof SavePaperBrushState;
+    const newStateIsShownPaperWrapper = newState instanceof ShownPaperWrapperState;
+    const newStateIsHiddenPaperWrapper = newState instanceof HiddenPaperWrapperState;
 
     this.deactivateLastState();
 
@@ -84,6 +89,12 @@ export class Paper {
     }
     if (newStateIsSave) {
       this.turnOnSaveMode();
+    }
+    if (newStateIsShownPaperWrapper) {
+      this.turnOnAreaSelected();
+    }
+    if (newStateIsHiddenPaperWrapper) {
+      this.turnOffAreaSelected();
     }
 
     this.state = newState;
@@ -116,6 +127,14 @@ export class Paper {
 
   turnOffSaveMode() {
     this.canvasHolderElement.classList.remove('do-nothing');
+  }
+
+  turnOnAreaSelected() {
+    this.imageFullScreen.classList.add('area-selected');
+  }
+
+  turnOffAreaSelected() {
+    this.imageFullScreen.classList.remove('area-selected');
   }
 
   saveCanvasSize() {

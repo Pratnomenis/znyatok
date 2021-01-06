@@ -62,16 +62,12 @@ export class ShownPaperWrapperState extends PaperWrapperState {
   }
 
   switchToHidden() {
-    // FIXME: fix temporary solution
-    document.querySelector('.js-img-screenshot').classList.remove('area-selected');
-
     this.paper.canvasHolderElement.classList.remove('shown');
     this.paper.canvasHolderElement.style.left = '0px';
     this.paper.canvasHolderElement.style.top = '0px';
     this.paper.canvasHolderElement.style.width = '0px';
     this.paper.canvasHolderElement.style.height = '0px';
     this.paper.setState(new HiddenPaperWrapperState(this.paper));
-
   }
 
   getCoords(data) {
