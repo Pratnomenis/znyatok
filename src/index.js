@@ -91,6 +91,9 @@ const shortcuts = new class {
       globalShortcut.register('CommandOrControl+Shift+S', () => {
         win.send('keyboard-control-shift-s');
       });
+      globalShortcut.register('CommandOrControl+Shift+B', () => {
+        win.send('keyboard-control-shift-b');
+      });
       this.keysRegistred = true;
     }
   }
@@ -103,6 +106,7 @@ const shortcuts = new class {
       globalShortcut.unregister('CommandOrControl+C');
       globalShortcut.unregister('CommandOrControl+S');
       globalShortcut.unregister('CommandOrControl+Shift+S');
+      globalShortcut.unregister('CommandOrControl+Shift+B');
       this.keysRegistred = false;
     }
   }
@@ -140,7 +144,7 @@ const win = new class {
 
     this.browserWindow.loadFile(path.join(__dirname, 'index.html'));
     this.browserWindow.removeMenu();
-    // this.browserWindow.webContents.openDevTools();
+    this.browserWindow.webContents.openDevTools();
   }
 
   getScaledScreenSize() {

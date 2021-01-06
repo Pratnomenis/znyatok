@@ -197,19 +197,22 @@
       </div>
       
       <div class="settings-list settings-list__save js-settings-list__save">
-        <button class="settings-list--list-item js-settings-type" data-type="clipboard" title="Save to clipboard [Ctrl+C]">
-          <i class="ri-clipboard-line"></i>
-        </button>
-        <button class="settings-list--list-item js-settings-type" data-type="desktop" title="Save to desktop [Ctrl+S]">
-          <i class="ri-save-3-line"></i>
-        </button>
-        <button class="settings-list--list-item js-settings-type" data-type="folder" title="Save to selected folder [Ctrl+Shift+S]">
-          <i class="ri-folder-line"></i>
-        </button>
-        <!-- TODO: Base64 -->
-        <!-- <button class="settings-list--list-item js-settings-type" data-type="base64">
-          <i class="ri-code-box-line"></i>
-        </button> -->
+        <div class="settings-list--group">
+          <button class="settings-list--list-item js-settings-type" data-type="clipboard" title="Copy to clipboard [Ctrl+C]">
+            <i class="ri-clipboard-line"></i>
+          </button>
+          <button class="settings-list--list-item js-settings-type" data-type="desktop" title="Save to desktop [Ctrl+S]">
+            <i class="ri-save-3-line"></i>
+          </button>
+          <button class="settings-list--list-item js-settings-type" data-type="folder" title="Save to selected folder [Ctrl+Shift+S]">
+            <i class="ri-folder-line"></i>
+          </button>
+        </div>
+        <div class="settings-list--group">
+          <button class="settings-list--list-item js-settings-type" data-type="base64" title="Copy Base64 to clipboard [Ctrl+Shift+B]">
+            <i class="ri-code-box-line"></i>
+          </button>
+        </div>
       </div>
       
     </div>

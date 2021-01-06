@@ -30,6 +30,7 @@ export class Actions {
     ipcRenderer.on('keyboard-control-c', () => this.saver.saveToClipboard());
     ipcRenderer.on('keyboard-control-s', () => this.saver.saveToFile());
     ipcRenderer.on('keyboard-control-shift-s', () => this.saver.saveToFolder());
+    ipcRenderer.on('keyboard-control-shift-b', () => this.saver.saveAsBase64());
 
     ipcRenderer.on('action-load-screen-to-image', (_, screenOptions) => {
       this.loadScreenToImage(screenOptions);

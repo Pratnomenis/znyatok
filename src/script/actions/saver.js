@@ -65,6 +65,13 @@ export class Saver {
     });
   }
 
+  async saveAsBase64() {
+    await this.shot.paper.deactivateLastState();
+    const imageBase64 = this.shot.getLastBase64();
+    clipboard.writeText(imageBase64);
+    this.closeApp();
+  }
+
   getImageName() {
     const date = new Date();
     const y = date.getFullYear();

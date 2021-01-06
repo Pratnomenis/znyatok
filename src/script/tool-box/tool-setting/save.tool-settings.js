@@ -56,11 +56,13 @@ export class SaveToolSettings extends ToolSetings {
 
   customSave(saveType) {
     if (saveType == 'clipboard') {
-      this.saver.saveToClipboard()
+      this.saver.saveToClipboard();
     } else if (saveType == 'desktop') {
-      this.saver.saveToFile()
+      this.saver.saveToFile();
     } else if (saveType == 'folder') {
-      this.saver.saveToFolder()
+      this.saver.saveToFolder();
+    } else if (saveType == 'base64') {
+      this.saver.saveAsBase64();
     }
   }
 }
