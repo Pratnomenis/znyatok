@@ -28,7 +28,10 @@ export class Settings {
     this.loadDefaultSettings();
     if (fs.existsSync(this.settingsFilePath)) {
       const rawData = fs.readFileSync(this.settingsFilePath, 'utf8');
-      this.list = {...this.list, ...JSON.parse(rawData)};
+      this.list = {
+        ...this.list,
+        ...JSON.parse(rawData)
+      };
     }
     this.saveSettings();
   }
@@ -42,8 +45,7 @@ export class Settings {
       'brush-square': 2,
       'brush-text': 2,
       'save-type': 2,
-      'palette-color': '#17a2b8',
-      // 'palette-transparency': false
+      'palette-color': '#17a2b8'
     }
   }
 }

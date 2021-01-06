@@ -15,14 +15,14 @@ export class PaperBrushState extends PaperState {
   setColor(newColor) {
     this.color = newColor;
   }
-  
+
   setType(newType) {
     this.type = Number(newType);
   }
 
   typeIncrese() {
     const currentTypeId = this.listType.indexOf(String(this.type));
-    if ( currentTypeId !== -1 && currentTypeId < this.listType.length - 1 ) {
+    if (currentTypeId !== -1 && currentTypeId < this.listType.length - 1) {
       const newType = this.listType[currentTypeId + 1];
       this.setType(newType);
       return newType;
@@ -30,15 +30,15 @@ export class PaperBrushState extends PaperState {
       return null;
     }
   }
-  
+
   typeDecrese() {
     const currentTypeId = this.listType.indexOf(String(this.type));
-    if ( currentTypeId !== -1 && currentTypeId > 0 ) {
+    if (currentTypeId !== -1 && currentTypeId > 0) {
       const newType = this.listType[currentTypeId - 1];
       this.setType(newType);
       return newType;
     } else {
       return null;
-    }  
+    }
   }
 }

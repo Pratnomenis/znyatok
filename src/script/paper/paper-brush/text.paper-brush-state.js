@@ -2,17 +2,61 @@ import {
   PaperBrushState
 } from "./paper-brush-state.js";
 
-// TODO:
 export const textType = {
-  1: {size: 10, offsetY: 4, shadowOffset: 1, shadowBlur: 0},
-  2: {size: 14, offsetY: 5, shadowOffset: 1, shadowBlur: 0},
-  3: {size: 18, offsetY: 6, shadowOffset: 1, shadowBlur: 1},
-  4: {size: 24, offsetY: 8, shadowOffset: 1, shadowBlur: 1},
-  5: {size: 36, offsetY: 12, shadowOffset: 2, shadowBlur: 1},
-  6: {size: 48, offsetY: 17, shadowOffset: 2, shadowBlur: 1},
-  7: {size: 64, offsetY: 22, shadowOffset: 2, shadowBlur: 2},
-  8: {size: 72, offsetY: 25, shadowOffset: 2, shadowBlur: 2},
-  9: {size: 96, offsetY: 33, shadowOffset: 2, shadowBlur: 2}
+  1: {
+    size: 10,
+    offsetY: 4,
+    shadowOffset: 1,
+    shadowBlur: 0
+  },
+  2: {
+    size: 14,
+    offsetY: 5,
+    shadowOffset: 1,
+    shadowBlur: 0
+  },
+  3: {
+    size: 18,
+    offsetY: 6,
+    shadowOffset: 1,
+    shadowBlur: 1
+  },
+  4: {
+    size: 24,
+    offsetY: 8,
+    shadowOffset: 1,
+    shadowBlur: 1
+  },
+  5: {
+    size: 36,
+    offsetY: 12,
+    shadowOffset: 2,
+    shadowBlur: 1
+  },
+  6: {
+    size: 48,
+    offsetY: 17,
+    shadowOffset: 2,
+    shadowBlur: 1
+  },
+  7: {
+    size: 64,
+    offsetY: 22,
+    shadowOffset: 2,
+    shadowBlur: 2
+  },
+  8: {
+    size: 72,
+    offsetY: 25,
+    shadowOffset: 2,
+    shadowBlur: 2
+  },
+  9: {
+    size: 96,
+    offsetY: 33,
+    shadowOffset: 2,
+    shadowBlur: 2
+  }
 }
 
 const textInputDOM = new class {
@@ -22,7 +66,7 @@ const textInputDOM = new class {
   }
 
   get visible() {
-    return !!( this.wrapper.offsetWidth || this.wrapper.offsetHeight || this.wrapper.getClientRects().length );
+    return !!(this.wrapper.offsetWidth || this.wrapper.offsetHeight || this.wrapper.getClientRects().length);
   }
 
   set visible(newValue) {
@@ -32,7 +76,7 @@ const textInputDOM = new class {
   get value() {
     return this.input.value;
   }
-  
+
   get shadowColor() {
     return '#4b4a45e0';
   }
@@ -45,11 +89,11 @@ const textInputDOM = new class {
     this.input.focus();
   }
 
-  setColor(newColor){
+  setColor(newColor) {
     this.wrapper.style.color = newColor;
   }
 
-  setFontSize(newFontSize){
+  setFontSize(newFontSize) {
     this.wrapper.style.fontSize = `${newFontSize.size}px`;
     this.input.style.textShadow = [
       `${newFontSize.shadowOffset}px`,
@@ -66,7 +110,7 @@ const textInputDOM = new class {
     this.focus();
   }
 
-  getPosition(){
+  getPosition() {
     return {
       x: parseInt(this.wrapper.style.left),
       y: parseInt(this.wrapper.style.top),
@@ -95,7 +139,7 @@ export class TextPaperBrushState extends PaperBrushState {
     textInputDOM.setColor(newColor);
     textInputDOM.placeCaretAtEnd();
   }
-  
+
   // Override of PaperBrushState
   setType(newType) {
     this.type = Number(newType);
@@ -110,8 +154,7 @@ export class TextPaperBrushState extends PaperBrushState {
     this.shot.resetUndo();
   }
 
-  processMouseMove(data) {
-  }
+  processMouseMove(data) {}
 
   processMouseUp(data) {
     const {
@@ -123,25 +166,29 @@ export class TextPaperBrushState extends PaperBrushState {
     } = data;
 
     textInputDOM.visible = true;
-    textInputDOM.setPosition(startCanvasX+distanceX, startCanvasY+distanceY, canvasWidth);
+    textInputDOM.setPosition(startCanvasX + distanceX, startCanvasY + distanceY, canvasWidth);
     this.shot.setUndoTo(this.ctrlZ.bind(this));
   }
 
   async drawText() {
     const value = textInputDOM.value;
-    if(value){
-      const {x, y, width} = textInputDOM.getPosition();
+    if (value) {
+      const {
+        x,
+        y,
+        width
+      } = textInputDOM.getPosition();
       const ctx = this.paper.canvasContext;
       const fontSize = textType[this.type];
       const realY = y + fontSize.offsetY;
       this.paper.clearCtx();
       ctx.save();
-      
+
       ctx.shadowBlur = fontSize.shadowBlur;
       ctx.shadowOffsetX = fontSize.shadowOffset;
       ctx.shadowOffsetY = fontSize.shadowOffset;
       ctx.shadowColor = textInputDOM.shadowColor;
-      
+
       ctx.fillStyle = this.color;
       ctx.font = `${fontSize.size}px sans-serif`;
       ctx.fillText(value, x, realY, width);
@@ -151,13 +198,13 @@ export class TextPaperBrushState extends PaperBrushState {
     }
   }
 
-  ctrlZ(){
+  ctrlZ() {
     textInputDOM.visible = false;
     textInputDOM.clear();
     this.shot.resetUndo();
   }
 
-  async deactivate(){
+  async deactivate() {
     await this.drawText();
     textInputDOM.clear();
     textInputDOM.visible = false;

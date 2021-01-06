@@ -13,20 +13,24 @@ export class Shot {
     this.paper = paper;
     this.cnvPaper = cnvPaper;
     this.imgLastShot = imgLastShot;
-    
+
     this.undoImportant = null;
 
     this.reset();
   }
-  
-  reset(){
+
+  reset() {
     this.shotListHistory = new ShotHistory(this.imgLastShot);
 
     this.screenHeight = 0;
     this.screenWidth = 0;
   }
 
-  async screenToImage({width, height, screen = 0}) {
+  async screenToImage({
+    width,
+    height,
+    screen = 0
+  }) {
     // FIXME: This thing is very slow
     const sources = await desktopCapturer.getSources({
       types: ['screen'],
@@ -35,7 +39,7 @@ export class Shot {
         height
       }
     });
-    
+
     this.screenHeight = height;
     this.screenWidth = width;
 
@@ -46,7 +50,7 @@ export class Shot {
     image.addEventListener('load', () => {
       ipcRenderer.send('screenshot-created');
     })
-  
+
     image.src = thumbnailDataUrl;
   }
 
@@ -78,7 +82,7 @@ export class Shot {
   }
 
   takeShot() {
-    return new Promise( resolveTakeShot => {
+    return new Promise(resolveTakeShot => {
       const lastShotBase64 = this.getLastBase64();
       const tImg = new Image();
       tImg.addEventListener('load', () => {
@@ -86,14 +90,14 @@ export class Shot {
           canvasWidth,
           canvasHeight
         } = this.paper.startParams;
-  
+
         const tCanvas = document.createElement('canvas');
         tCanvas.width = canvasWidth;
         tCanvas.height = canvasHeight;
         const tCtx = tCanvas.getContext('2d');
         tCtx.drawImage(tImg, 0, 0);
         tCtx.drawImage(this.cnvPaper, 0, 0);
-  
+
         const imgBase64 = tCanvas.toDataURL();
         this.shotListHistory.add(imgBase64);
         resolveTakeShot();
@@ -113,12 +117,12 @@ export class Shot {
     return this.imgLastShot;
   }
 
-  getSceenshotFillPercentage(){
+  getSceenshotFillPercentage() {
     const {
       canvasWidth,
       canvasHeight,
     } = this.paper;
-    
+
     const screenSize = this.screenHeight * this.screenWidth;
     const shotSize = canvasHeight * canvasWidth;
     const percentage = Math.ceil(shotSize / screenSize * 100);

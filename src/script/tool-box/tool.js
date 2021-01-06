@@ -32,11 +32,11 @@ export class Tool {
     this.toolSettings.deactivate();
   }
 
-  typeIncrese(){
+  typeIncrese() {
     this.toolSettings.typeIncrese();
   }
-  
-  typeDecrese(){
+
+  typeDecrese() {
     this.toolSettings.typeDecrese();
   }
 }

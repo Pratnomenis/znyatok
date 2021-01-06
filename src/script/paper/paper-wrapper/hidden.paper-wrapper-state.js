@@ -28,9 +28,9 @@ export class HiddenPaperWrapperState extends PaperWrapperState {
     } = data;
 
     if (
-        (distanceX >= this.minDistance || distanceX <= -this.minDistance) && 
-        (distanceY >= this.minDistance || distanceY <= -this.minDistance)
-      ) {
+      (distanceX >= this.minDistance || distanceX <= -this.minDistance) &&
+      (distanceY >= this.minDistance || distanceY <= -this.minDistance)
+    ) {
       // TODO: fix temporary solution
       document.querySelector('.js-img-screenshot').classList.add('area-selected');
 

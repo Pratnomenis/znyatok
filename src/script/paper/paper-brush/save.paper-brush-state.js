@@ -10,11 +10,11 @@ export class SavePaperBrushState extends PaperBrushState {
   processMouseDown(data) {
     // DoNothing
   }
-  
+
   processMouseMove(data) {
     // DoNothing
   }
-  
+
   processMouseUp(data) {
     // DoNothing
   }

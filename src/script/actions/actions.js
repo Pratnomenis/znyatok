@@ -22,7 +22,7 @@ export class Actions {
     const btnQuit = document.querySelector('.js-tool-exit');
     btnQuit.addEventListener('mousedown', e => e.stopPropagation());
     btnQuit.addEventListener('click', () => this.closeApp());
-    
+
     ipcRenderer.on('keyboard-escape', () => this.closeApp());
     ipcRenderer.on('keyboard-control-z', () => this.historyUndo());
     ipcRenderer.on('keyboard-control-shift-z', () => this.historyRedo());
@@ -37,11 +37,11 @@ export class Actions {
     ipcRenderer.on('reset-all', () => this.resetAll());
   }
 
-  loadScreenToImage(screenOptions){
+  loadScreenToImage(screenOptions) {
     this.shot.screenToImage(screenOptions);
   }
-  
-  resetAll(){
+
+  resetAll() {
     // TODO: ТУТ ОСТАНОВИЛИСЬ! Какая-то хуйня если сохранять скриншот с текстом
     this.shot.reset();
     this.paper.reset();
@@ -60,12 +60,12 @@ export class Actions {
     this.shot.redo();
   }
 
-  onMouseWheel(event){
-    if (this.tools && this.tools.activeTool){
-      if (event.wheelDelta > 0 && this.tools.activeTool.typeIncrese){
+  onMouseWheel(event) {
+    if (this.tools && this.tools.activeTool) {
+      if (event.wheelDelta > 0 && this.tools.activeTool.typeIncrese) {
         this.tools.activeTool.typeIncrese();
       }
-      if (event.wheelDelta < 0 && this.tools.activeTool.typeDecrese){
+      if (event.wheelDelta < 0 && this.tools.activeTool.typeDecrese) {
         this.tools.activeTool.typeDecrese();
       }
     }

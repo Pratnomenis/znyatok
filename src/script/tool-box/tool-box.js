@@ -57,11 +57,11 @@ export class ToolBox {
     save.addToolSettings(new SaveToolSettings('.js-settings-list__save', text, paper, shot, palette, this.settings));
   }
 
-  reset(){
+  reset() {
     if (this.activeTool && this.activeTool.deactivate) {
       this.activeTool.deactivate()
     };
-    
+
     this.activeTool = null;
   }
 }

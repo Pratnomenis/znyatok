@@ -26,7 +26,7 @@ export class ToolSetings {
   setType(typeId) {
     this.paper.state.setType(typeId);
     this.settings.setSetting(this.settingName, typeId);
-    
+
     this.removeCssActive();
     this.addCssActive(typeId);
   }
@@ -38,7 +38,7 @@ export class ToolSetings {
     }
   }
 
-  addCssActive(typeId){
+  addCssActive(typeId) {
     this.holder.querySelector(`.settings-list--list-item[data-type="${typeId}"]`).classList.add(activeCssClass);
   }
 
@@ -50,7 +50,7 @@ export class ToolSetings {
     this.holder.classList.remove('settings-list__shown');
   }
 
-  typeIncrese(){
+  typeIncrese() {
     const newType = this.paper.state.typeIncrese();
     if (newType) {
       this.removeCssActive();
@@ -58,8 +58,8 @@ export class ToolSetings {
       this.settings.setSetting(this.settingName, newType);
     }
   }
-  
-  typeDecrese(){
+
+  typeDecrese() {
     const newType = this.paper.state.typeDecrese();
     if (newType) {
       this.removeCssActive();
