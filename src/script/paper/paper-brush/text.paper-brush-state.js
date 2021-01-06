@@ -147,14 +147,14 @@ export class TextPaperBrushState extends PaperBrushState {
     textInputDOM.placeCaretAtEnd();
   }
 
-  processMouseDown(data) {
+  processMouseDown(_) {
     this.drawText();
     textInputDOM.visible = false;
     textInputDOM.clear();
     this.shot.resetUndo();
   }
 
-  processMouseMove(data) {}
+  processMouseMove(_) {}
 
   processMouseUp(data) {
     const {

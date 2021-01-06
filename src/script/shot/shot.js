@@ -4,8 +4,7 @@ import {
 
 const {
   desktopCapturer,
-  ipcRenderer,
-  clipboard
+  ipcRenderer
 } = require('electron');
 
 export class Shot {

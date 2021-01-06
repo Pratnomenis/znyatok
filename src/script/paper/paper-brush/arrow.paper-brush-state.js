@@ -18,7 +18,7 @@ export class ArrowPaperBrushState extends PaperBrushState {
     this.doDraw = false;
   }
 
-  processMouseDown(data) {
+  processMouseDown(_) {
     this.doDraw = true;
   }
 
@@ -27,9 +27,7 @@ export class ArrowPaperBrushState extends PaperBrushState {
       distanceX,
       distanceY,
       startCanvasX,
-      startCanvasY,
-      canvasWidth,
-      canvasHeight
+      startCanvasY
     } = data;
 
     const ctx = this.paper.canvasContext;
@@ -64,12 +62,7 @@ export class ArrowPaperBrushState extends PaperBrushState {
     ctx.fill();
   }
 
-  async processMouseUp(data) {
-    const {
-      canvasHeight,
-      canvasWidth
-    } = data;
-
+  async processMouseUp(_) {
     this.doDraw = false;
     await this.shot.takeShot();
     this.paper.clearCtx();

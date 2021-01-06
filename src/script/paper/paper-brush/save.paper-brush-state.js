@@ -7,15 +7,15 @@ export class SavePaperBrushState extends PaperBrushState {
     super(paper, shot, palette, []);
   }
 
-  processMouseDown(data) {
+  processMouseDown(_) {
     // DoNothing
   }
 
-  processMouseMove(data) {
+  processMouseMove(_) {
     // DoNothing
   }
 
-  processMouseUp(data) {
+  processMouseUp(_) {
     // DoNothing
   }
 }

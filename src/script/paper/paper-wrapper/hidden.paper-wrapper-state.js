@@ -17,7 +17,7 @@ export class HiddenPaperWrapperState extends PaperWrapperState {
     this.minDistance = 10;
   }
 
-  processMouseDown(data) {
+  processMouseDown(_) {
     this.cursorCords.show();
   }
 
@@ -41,7 +41,7 @@ export class HiddenPaperWrapperState extends PaperWrapperState {
     }
   }
 
-  processMouseUp(data) {
+  processMouseUp(_) {
     this.cursorCords.show();
   }
 }

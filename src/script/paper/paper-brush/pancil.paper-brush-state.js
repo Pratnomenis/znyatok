@@ -43,9 +43,7 @@ export class PancilPaperBrushState extends PaperBrushState {
       canvasTop,
       canvasLeft,
       currentX,
-      currentY,
-      canvasWidth,
-      canvasHeight
+      currentY
     } = data;
     this.path.push({
       x: currentX - canvasLeft,
@@ -57,7 +55,7 @@ export class PancilPaperBrushState extends PaperBrushState {
     this.endDrawing();
   }
 
-  async processMouseUp(data) {
+  async processMouseUp(_) {
     this.doDraw = false;
     await this.shot.takeShot();
     this.paper.clearCtx();

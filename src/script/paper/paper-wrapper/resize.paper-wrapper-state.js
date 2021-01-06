@@ -15,7 +15,7 @@ export class ResizePaperWrapperState extends PaperWrapperState {
     this.controlsPosition = new PaperControlsPosition(this.paper.canvasHolderElement);
   }
 
-  processMouseDown(data) {}
+  processMouseDown(_) {}
 
   processMouseMove(data) {
     const {
@@ -34,7 +34,7 @@ export class ResizePaperWrapperState extends PaperWrapperState {
     this.controlsPosition.refresh();
   }
 
-  processMouseUp(data) {
+  processMouseUp(_) {
     this.paper.setState(new ShownPaperWrapperState(this.paper));
     // FIXME: If size < 7 remove
   }

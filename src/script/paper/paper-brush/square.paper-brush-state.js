@@ -62,11 +62,7 @@ export class SquarePaperBrushState extends PaperBrushState {
     }
   }
 
-  async processMouseUp(data) {
-    const {
-      canvasHeight,
-      canvasWidth
-    } = data;
+  async processMouseUp(_) {
     this.doDraw = false;
     await this.shot.takeShot();
     this.paper.clearCtx();

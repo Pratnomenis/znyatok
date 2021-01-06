@@ -44,7 +44,7 @@ export class ShownPaperWrapperState extends PaperWrapperState {
     this.processMouseMoveUp(data);
   }
 
-  processMouseUp(data) {
+  processMouseUp(_) {
     this.proceeseMove = false;
   }
 

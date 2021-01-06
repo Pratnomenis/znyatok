@@ -35,9 +35,7 @@ export class CirclePaperBrushState extends PaperBrushState {
       startX,
       startY,
       startCanvasX,
-      startCanvasY,
-      canvasHeight,
-      canvasWidth,
+      startCanvasY
     } = data;
 
     const ctx = this.paper.canvasContext;
@@ -63,11 +61,7 @@ export class CirclePaperBrushState extends PaperBrushState {
 
   }
 
-  async processMouseUp(data) {
-    const {
-      canvasHeight,
-      canvasWidth
-    } = data;
+  async processMouseUp(_) {
     this.doDraw = false;
     await this.shot.takeShot();
     this.paper.clearCtx();
