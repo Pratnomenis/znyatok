@@ -14,14 +14,11 @@ export const pancilType = {
 export class PancilPaperBrushState extends PaperBrushState {
   constructor(paper, shot, palette) {
     super(paper, shot, palette, Object.keys(pancilType));
-    this.doDraw = false;
     this.ctx = null;
     this.path = [];
   }
 
   processMouseDown(data) {
-    this.doDraw = true;
-
     const {
       startCanvasX,
       startCanvasY,
@@ -56,7 +53,6 @@ export class PancilPaperBrushState extends PaperBrushState {
   }
 
   async processMouseUp(_) {
-    this.doDraw = false;
     await this.shot.takeShot();
     this.paper.clearCtx();
   }

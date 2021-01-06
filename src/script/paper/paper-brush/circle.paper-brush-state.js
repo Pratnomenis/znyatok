@@ -14,7 +14,6 @@ export const circleType = {
 export class CirclePaperBrushState extends PaperBrushState {
   constructor(paper, shot, palette) {
     super(paper, shot, palette, Object.values(circleType));
-    this.doDraw = false;
   }
 
   processMouseDown(data) {
@@ -22,7 +21,6 @@ export class CirclePaperBrushState extends PaperBrushState {
       canvasLeft,
       canvasTop
     } = data;
-    this.doDraw = true;
     if (this.type === circleType.blur) {
       this.setBluredCancas(canvasLeft, canvasTop);
     }
@@ -62,7 +60,6 @@ export class CirclePaperBrushState extends PaperBrushState {
   }
 
   async processMouseUp(_) {
-    this.doDraw = false;
     await this.shot.takeShot();
     this.paper.clearCtx();
   }

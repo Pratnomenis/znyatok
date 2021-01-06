@@ -14,12 +14,9 @@ export const lineType = {
 export class LinePaperBrushState extends PaperBrushState {
   constructor(paper, shot, palette) {
     super(paper, shot, palette, Object.values(lineType));
-    this.doDraw = false;
   }
 
-  processMouseDown(_) {
-    this.doDraw = true;
-  }
+  processMouseDown(_) {}
 
   processMouseMove(data) {
     const {
@@ -56,7 +53,6 @@ export class LinePaperBrushState extends PaperBrushState {
   }
 
   async processMouseUp(_) {
-    this.doDraw = false;
     await this.shot.takeShot();
     this.paper.clearCtx();
   }

@@ -14,7 +14,6 @@ export const squeareType = {
 export class SquarePaperBrushState extends PaperBrushState {
   constructor(paper, shot, palette) {
     super(paper, shot, palette, Object.values(squeareType));
-    this.doDraw = false;
   }
 
   processMouseDown(data) {
@@ -22,7 +21,6 @@ export class SquarePaperBrushState extends PaperBrushState {
       canvasLeft,
       canvasTop
     } = data;
-    this.doDraw = true;
     if (this.type === squeareType.blur) {
       this.setBluredCancas(canvasLeft, canvasTop);
     }
@@ -63,7 +61,6 @@ export class SquarePaperBrushState extends PaperBrushState {
   }
 
   async processMouseUp(_) {
-    this.doDraw = false;
     await this.shot.takeShot();
     this.paper.clearCtx();
   }
