@@ -56,7 +56,7 @@ const tray = new class {
   }
 
   actionMakeScreenshot() {
-    if(!win.isShown()){
+    if (!win.isShown()) {
       win.startScreenshot();
     }
   }
@@ -72,7 +72,7 @@ const shortcuts = new class {
   }
 
   registerAll() {
-    if( !this.keysRegistred ) {
+    if (!this.keysRegistred) {
       globalShortcut.register('Escape', () => {
         win.send('keyboard-escape');
       });
@@ -96,7 +96,7 @@ const shortcuts = new class {
   }
 
   unregisterAll() {
-    if( this.keysRegistred ) {
+    if (this.keysRegistred) {
       globalShortcut.unregister('Escape');
       globalShortcut.unregister('CommandOrControl+Z');
       globalShortcut.unregister('CommandOrControl+Shift+Z');
@@ -121,7 +121,7 @@ const win = new class {
     const {
       width,
       height
-    } = this.update();
+    } = this.getScaledScreenSize();
 
     this.browserWindow = new BrowserWindow({
       width,
@@ -143,17 +143,18 @@ const win = new class {
     // this.browserWindow.webContents.openDevTools();
   }
 
-  // Ne ebu pochemu update
-  update(){
+  getScaledScreenSize() {
     // TODO: change window size to active screen,
     // When support more than 1 display added
     const {
-      scaleFactor
+      scaleFactor,
+      size
     } = screen.getPrimaryDisplay();
     let {
       width,
       height
-    } = screen.getPrimaryDisplay().size;
+    } = size;
+
     width *= scaleFactor;
     height *= scaleFactor;
 
@@ -169,31 +170,31 @@ const win = new class {
     this.isVisible = false;
     this.send('reset-all');
   }
-  
+
   send(...args) {
     this.browserWindow.send(...args);
   }
-  
+
   show() {
     shortcuts.registerAll();
     this.browserWindow.show();
     this.browserWindow.setFullScreen(true);
   }
-  
+
   hide() {
     this.browserWindow.setFullScreen(false);
     this.browserWindow.hide();
   }
 
   startScreenshot() {
-    if (!this.isVisible){
+    if (!this.isVisible) {
       this.isVisible = true;
-      const activeScreen = this.update();
-      win.send('action-load-screen-to-image', activeScreen);
+      const activeScreenSize = this.getScaledScreenSize();
+      win.send('action-load-screen-to-image', activeScreenSize);
     }
   }
 
-  isShown(){
+  isShown() {
     return this.isVisible;
   }
 };
@@ -207,17 +208,9 @@ app.whenReady().then(() => {
   // win.show();
 });
 
-// app.on('window-all-closed', () => {
-//   if (process.platform !== 'darwin') {
-//     app.quit();
-//   }
-// });
-
 app.on('activate', () => {
 
   if (BrowserWindow.getAllWindows().length === 0) {
-    // createWindow();
-    // FIXME: Not shure!
     win.create();
   }
 });

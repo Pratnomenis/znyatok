@@ -25,8 +25,8 @@ export class PancilPaperBrushState extends PaperBrushState {
     const {
       startCanvasX,
       startCanvasY,
-      startHeight,
-      startWidth
+      canvasHeight,
+      canvasWidth
     } = data;
 
     this.path = [{
@@ -35,21 +35,21 @@ export class PancilPaperBrushState extends PaperBrushState {
     }];
 
     this.ctx = this.paper.canvasContext;
-    this.drawDot(startWidth, startHeight);
+    this.drawDot(canvasWidth, canvasHeight);
   }
 
   processMouseMove(data) {
     const {
-      startTop,
-      startLeft,
+      canvasTop,
+      canvasLeft,
       currentX,
       currentY,
-      startWidth,
-      startHeight
+      canvasWidth,
+      canvasHeight
     } = data;
     this.path.push({
-      x: currentX - startLeft,
-      y: currentY - startTop
+      x: currentX - canvasLeft,
+      y: currentY - canvasTop
     });
     this.startDrawing();
     this.ctx.moveTo(this.path[0].x, this.path[0].y);
@@ -67,7 +67,7 @@ export class PancilPaperBrushState extends PaperBrushState {
   startDrawing() {
     this.paper.clearCtx();
     this.ctx.save();
-    this.ctx.filter = 'blur(1px)';
+    this.ctx.filter = 'blur(0.5px)';
     this.ctx.lineWidth = pancilType[this.type];
     this.ctx.lineCap = 'round';
     this.ctx.strokeStyle = this.color;
@@ -79,8 +79,8 @@ export class PancilPaperBrushState extends PaperBrushState {
     this.ctx.restore();
   }
 
-  drawDot(startWidth, startHeight) {
-    this.startDrawing(startWidth, startHeight);
+  drawDot(canvasWidth, canvasHeight) {
+    this.startDrawing(canvasWidth, canvasHeight);
     const {
       x,
       y

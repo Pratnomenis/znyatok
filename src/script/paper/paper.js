@@ -34,8 +34,8 @@ export class Paper {
     this.reset();
   }
 
-  reset(){
-    if(this.state){
+  reset() {
+    if (this.state) {
       this.setState(new HiddenPaperWrapperState(this));
     } else {
       this.state = new HiddenPaperWrapperState(this);
@@ -44,10 +44,10 @@ export class Paper {
     this.mouseDowned = false;
     this.startX = -1;
     this.startY = -1;
-    this.startTop = 0;
-    this.startLeft = 0;
-    this.startWidth = 0;
-    this.startHeight = 0;
+    this.canvasTop = 0;
+    this.canvasLeft = 0;
+    this.canvasWidth = 0;
+    this.canvasHeight = 0;
 
     this.canvasHolderElement.classList.remove('no-resize');
     this.canvasHolderElement.classList.remove('shown');
@@ -56,7 +56,7 @@ export class Paper {
     this.cursorCords.show();
   }
 
-  setPalete(palete){
+  setPalete(palete) {
     this.palete = palete;
   }
 
@@ -90,7 +90,7 @@ export class Paper {
   }
 
   async deactivateLastState() {
-    if (this.state && typeof this.state.deactivate === 'function'){
+    if (this.state && typeof this.state.deactivate === 'function') {
       await this.state.deactivate();
     }
   }
@@ -102,40 +102,39 @@ export class Paper {
     this.canvasContext = this.canvasElement.getContext('2d');
   }
 
-  turnOnTextInput(){
+  turnOnTextInput() {
     this.canvasHolderElement.classList.add('draw-text');
   }
 
-  turnOffTextInput(){
+  turnOffTextInput() {
     this.canvasHolderElement.classList.remove('draw-text');
   }
 
-  turnOnSaveMode(){
+  turnOnSaveMode() {
     this.canvasHolderElement.classList.add('do-nothing');
   }
 
-  turnOffSaveMode(){
+  turnOffSaveMode() {
     this.canvasHolderElement.classList.remove('do-nothing');
   }
 
   saveCanvasSize() {
-    this.startTop = this.canvasHolderElement.offsetTop;
-    this.startLeft = this.canvasHolderElement.offsetLeft;
-    this.startWidth = this.canvasHolderElement.offsetWidth;
-    this.startHeight = this.canvasHolderElement.offsetHeight;
+    this.canvasTop = this.canvasHolderElement.offsetTop;
+    this.canvasLeft = this.canvasHolderElement.offsetLeft;
+    this.canvasWidth = this.canvasHolderElement.offsetWidth;
+    this.canvasHeight = this.canvasHolderElement.offsetHeight;
   }
 
-  // FIXME: Technical debt
   get startParams() {
     return {
       startX: this.startX,
       startY: this.startY,
-      startTop: this.startTop,
-      startLeft: this.startLeft,
-      startWidth: this.startWidth,
-      startHeight: this.startHeight,
-      startCanvasX: this.startX - this.startLeft,
-      startCanvasY: this.startY - this.startTop,
+      canvasTop: this.canvasTop,
+      canvasLeft: this.canvasLeft,
+      canvasWidth: this.canvasWidth,
+      canvasHeight: this.canvasHeight,
+      startCanvasX: this.startX - this.canvasLeft,
+      startCanvasY: this.startY - this.canvasTop,
     }
   }
 
@@ -154,8 +153,8 @@ export class Paper {
     }
   }
 
-  clearCtx(){
-    this.canvasContext.clearRect(0, 0, this.startWidth, this.startHeight);
+  clearCtx() {
+    this.canvasContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
   }
 
   processMouseDown(event) {
@@ -164,7 +163,7 @@ export class Paper {
       this.startX = event.clientX;
       this.startY = event.clientY;
       this.saveCanvasSize();
-      
+
       this.state.processMouseDown({
         path: event.path,
         srcElement: event.srcElement,
@@ -172,7 +171,10 @@ export class Paper {
       });
     }
     if (event.button === 2 && this.palete) {
-      const {clientX, clientY} = event;
+      const {
+        clientX,
+        clientY
+      } = event;
       this.palete.show(clientX, clientY);
     } else if (this.palete) {
       this.palete.hide();
@@ -191,7 +193,7 @@ export class Paper {
       this.state.processMouseMove(coordsData);
     }
   }
-  
+
   processMouseUp(event) {
     if (event.button === 0 && this.mouseDowned) {
       const distance = this.getDistance(event);

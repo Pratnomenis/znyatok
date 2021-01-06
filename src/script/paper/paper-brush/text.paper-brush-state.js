@@ -119,11 +119,11 @@ export class TextPaperBrushState extends PaperBrushState {
       startCanvasY,
       distanceX,
       distanceY,
-      startWidth
+      canvasWidth
     } = data;
 
     textInputDOM.visible = true;
-    textInputDOM.setPosition(startCanvasX+distanceX, startCanvasY+distanceY, startWidth);
+    textInputDOM.setPosition(startCanvasX+distanceX, startCanvasY+distanceY, canvasWidth);
     this.shot.setUndoTo(this.ctrlZ.bind(this));
   }
 

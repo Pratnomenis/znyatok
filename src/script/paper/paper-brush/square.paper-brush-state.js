@@ -20,12 +20,12 @@ export class SquarePaperBrushState extends PaperBrushState {
 
   processMouseDown(data) {
     const {
-      startLeft,
-      startTop
+      canvasLeft,
+      canvasTop
     } = data;
     this.doDraw = true;
     if (this.type === squeareType.blur) {
-      this.setBluredCancas(startLeft, startTop);
+      this.setBluredCancas(canvasLeft, canvasTop);
     }
   }
 
@@ -70,8 +70,8 @@ export class SquarePaperBrushState extends PaperBrushState {
 
   async processMouseUp(data) {
     const {
-      startHeight,
-      startWidth
+      canvasHeight,
+      canvasWidth
     } = data;
     this.doDraw = false;
     await this.shot.takeShot();
@@ -87,7 +87,7 @@ export class SquarePaperBrushState extends PaperBrushState {
     ctx.filter = 'none';
   }
 
-  setBluredCancas(startLeft, startTop) {
+  setBluredCancas(canvasLeft, canvasTop) {
     const lastShotImage = this.shot.getLastImage();
     const originalImage = this.paper.imageFullScreen;
     const tCanvas = document.createElement('canvas');
@@ -100,7 +100,7 @@ export class SquarePaperBrushState extends PaperBrushState {
     const tCtx = tCanvas.getContext('2d');
     tCtx.filter = 'blur(5px)';
     tCtx.drawImage(originalImage, 0, 0, width, height, -5, -5, width + 10, height + 10);
-    tCtx.drawImage(lastShotImage, startLeft, startTop);
+    tCtx.drawImage(lastShotImage, canvasLeft, canvasTop);
     tCtx.filter = 'none';
     this.bluredCanvas = tCanvas;
   }

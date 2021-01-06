@@ -52,20 +52,20 @@ export class Shot {
 
   takeFirstShot() {
     const {
-      startTop,
-      startLeft,
-      startWidth,
-      startHeight
+      canvasTop,
+      canvasLeft,
+      canvasWidth,
+      canvasHeight
     } = this.paper.startParams;
     const fullScreenShot = document.querySelector('.js-img-screenshot');
-    if (startWidth <= 0 || startHeight <= 0) {
+    if (canvasWidth <= 0 || canvasHeight <= 0) {
       this.shotListHistory.add(fullScreenShot.src);
     } else {
       const tCanvas = document.createElement('canvas');
-      tCanvas.width = startWidth;
-      tCanvas.height = startHeight;
+      tCanvas.width = canvasWidth;
+      tCanvas.height = canvasHeight;
       const tCtx = tCanvas.getContext('2d');
-      tCtx.drawImage(fullScreenShot, startLeft, startTop, startWidth, startHeight, 0, 0, startWidth, startHeight);
+      tCtx.drawImage(fullScreenShot, canvasLeft, canvasTop, canvasWidth, canvasHeight, 0, 0, canvasWidth, canvasHeight);
       const imgBase64 = tCanvas.toDataURL();
       this.shotListHistory.add(imgBase64);
     }
@@ -83,13 +83,13 @@ export class Shot {
       const tImg = new Image();
       tImg.addEventListener('load', () => {
         const {
-          startWidth,
-          startHeight
+          canvasWidth,
+          canvasHeight
         } = this.paper.startParams;
   
         const tCanvas = document.createElement('canvas');
-        tCanvas.width = startWidth;
-        tCanvas.height = startHeight;
+        tCanvas.width = canvasWidth;
+        tCanvas.height = canvasHeight;
         const tCtx = tCanvas.getContext('2d');
         tCtx.drawImage(tImg, 0, 0);
         tCtx.drawImage(this.cnvPaper, 0, 0);
@@ -115,12 +115,12 @@ export class Shot {
 
   getSceenshotFillPercentage(){
     const {
-      startWidth,
-      startHeight,
+      canvasWidth,
+      canvasHeight,
     } = this.paper;
     
     const screenSize = this.screenHeight * this.screenWidth;
-    const shotSize = startHeight * startWidth;
+    const shotSize = canvasHeight * canvasWidth;
     const percentage = Math.ceil(shotSize / screenSize * 100);
 
     return percentage || 100;

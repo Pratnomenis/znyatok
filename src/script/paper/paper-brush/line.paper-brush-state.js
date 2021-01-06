@@ -27,8 +27,8 @@ export class LinePaperBrushState extends PaperBrushState {
       distanceY,
       startCanvasX,
       startCanvasY,
-      startWidth,
-      startHeight
+      canvasWidth,
+      canvasHeight
     } = data;
 
     const ctx = this.paper.canvasContext;
@@ -59,8 +59,8 @@ export class LinePaperBrushState extends PaperBrushState {
 
   async processMouseUp(data) {
     const {
-      startHeight,
-      startWidth
+      canvasHeight,
+      canvasWidth
     } = data;
     this.doDraw = false;
     await this.shot.takeShot();

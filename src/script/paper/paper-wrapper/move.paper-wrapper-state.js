@@ -26,10 +26,10 @@ export class MovePaperWrapperState extends PaperWrapperState {
     const {
       distanceX,
       distanceY,
-      startWidth,
-      startHeight,
-      startLeft,
-      startTop
+      canvasWidth,
+      canvasHeight,
+      canvasLeft,
+      canvasTop
     } = data;
 
     const {
@@ -37,11 +37,11 @@ export class MovePaperWrapperState extends PaperWrapperState {
       maxHeight
     } = this.bodyOffset;
 
-    const maxTop = maxHeight - startHeight;
-    const maxLeft = maxWidth - startWidth;
+    const maxTop = maxHeight - canvasHeight;
+    const maxLeft = maxWidth - canvasWidth;
 
-    let newTop = startTop + distanceY;
-    let newLeft = startLeft + distanceX;
+    let newTop = canvasTop + distanceY;
+    let newLeft = canvasLeft + distanceX;
 
     if (newTop < 0) {
       newTop = 0;

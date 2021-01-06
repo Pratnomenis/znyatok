@@ -68,17 +68,17 @@ class ResizeCalculator {
   static create(resizeName) {
     if (resizeName === 'top-left') {
       return ({
-        startHeight,
-        startLeft,
-        startTop,
-        startWidth,
+        canvasHeight,
+        canvasLeft,
+        canvasTop,
+        canvasWidth,
         distanceX,
         distanceY
       }) => {
-        let newLeft = startLeft + distanceX;
-        let newTop = startTop + distanceY;
-        let newWidth = startWidth - distanceX;
-        let newHeight = startHeight - distanceY;
+        let newLeft = canvasLeft + distanceX;
+        let newTop = canvasTop + distanceY;
+        let newWidth = canvasWidth - distanceX;
+        let newHeight = canvasHeight - distanceY;
 
         return ResizeCalculator.fixMinusSize({
           newLeft,
@@ -91,17 +91,17 @@ class ResizeCalculator {
 
     if (resizeName === 'top-middle') {
       return ({
-        startHeight,
-        startLeft,
-        startTop,
-        startWidth,
+        canvasHeight,
+        canvasLeft,
+        canvasTop,
+        canvasWidth,
         distanceY
       }) => {
 
-        let newLeft = startLeft;
-        let newTop = startTop + distanceY;
-        let newWidth = startWidth;
-        let newHeight = startHeight - distanceY;
+        let newLeft = canvasLeft;
+        let newTop = canvasTop + distanceY;
+        let newWidth = canvasWidth;
+        let newHeight = canvasHeight - distanceY;
 
         return ResizeCalculator.fixMinusSize({
           newLeft,
@@ -114,18 +114,18 @@ class ResizeCalculator {
 
     if (resizeName === 'top-right') {
       return ({
-        startHeight,
-        startLeft,
-        startTop,
-        startWidth,
+        canvasHeight,
+        canvasLeft,
+        canvasTop,
+        canvasWidth,
         distanceX,
         distanceY
       }) => {
 
-        let newLeft = startLeft;
-        let newTop = startTop + distanceY;
-        let newWidth = startWidth + distanceX;
-        let newHeight = startHeight - distanceY;
+        let newLeft = canvasLeft;
+        let newTop = canvasTop + distanceY;
+        let newWidth = canvasWidth + distanceX;
+        let newHeight = canvasHeight - distanceY;
 
         return ResizeCalculator.fixMinusSize({
           newLeft,
@@ -138,17 +138,17 @@ class ResizeCalculator {
 
     if (resizeName === 'middle-right') {
       return ({
-        startHeight,
-        startLeft,
-        startTop,
-        startWidth,
+        canvasHeight,
+        canvasLeft,
+        canvasTop,
+        canvasWidth,
         distanceX
       }) => {
 
-        let newLeft = startLeft;
-        let newTop = startTop;
-        let newWidth = startWidth + distanceX;
-        let newHeight = startHeight;
+        let newLeft = canvasLeft;
+        let newTop = canvasTop;
+        let newWidth = canvasWidth + distanceX;
+        let newHeight = canvasHeight;
 
         return ResizeCalculator.fixMinusSize({
           newLeft,
@@ -161,18 +161,18 @@ class ResizeCalculator {
 
     if (resizeName === 'bottom-right') {
       return ({
-        startHeight,
-        startLeft,
-        startTop,
-        startWidth,
+        canvasHeight,
+        canvasLeft,
+        canvasTop,
+        canvasWidth,
         distanceX,
         distanceY
       }) => {
 
-        let newLeft = startLeft;
-        let newTop = startTop;
-        let newWidth = startWidth + distanceX;
-        let newHeight = startHeight + distanceY;
+        let newLeft = canvasLeft;
+        let newTop = canvasTop;
+        let newWidth = canvasWidth + distanceX;
+        let newHeight = canvasHeight + distanceY;
 
         return ResizeCalculator.fixMinusSize({
           newLeft,
@@ -185,17 +185,17 @@ class ResizeCalculator {
 
     if (resizeName === 'bottom-middle') {
       return ({
-        startHeight,
-        startLeft,
-        startTop,
-        startWidth,
+        canvasHeight,
+        canvasLeft,
+        canvasTop,
+        canvasWidth,
         distanceY
       }) => {
 
-        let newLeft = startLeft;
-        let newTop = startTop;
-        let newWidth = startWidth;
-        let newHeight = startHeight + distanceY;
+        let newLeft = canvasLeft;
+        let newTop = canvasTop;
+        let newWidth = canvasWidth;
+        let newHeight = canvasHeight + distanceY;
 
         return ResizeCalculator.fixMinusSize({
           newLeft,
@@ -208,18 +208,18 @@ class ResizeCalculator {
 
     if (resizeName === 'bottom-left') {
       return ({
-        startLeft,
-        startTop,
-        startWidth,
-        startHeight,
+        canvasLeft,
+        canvasTop,
+        canvasWidth,
+        canvasHeight,
         distanceX,
         distanceY
       }) => {
 
-        let newLeft = startLeft + distanceX;
-        let newTop = startTop;
-        let newWidth = startWidth - distanceX;
-        let newHeight = startHeight + distanceY;
+        let newLeft = canvasLeft + distanceX;
+        let newTop = canvasTop;
+        let newWidth = canvasWidth - distanceX;
+        let newHeight = canvasHeight + distanceY;
 
         return ResizeCalculator.fixMinusSize({
           newLeft,
@@ -232,17 +232,17 @@ class ResizeCalculator {
 
     if (resizeName === 'middle-left') {
       return ({
-        startLeft,
-        startTop,
-        startWidth,
-        startHeight,
+        canvasLeft,
+        canvasTop,
+        canvasWidth,
+        canvasHeight,
         distanceX
       }) => {
 
-        let newLeft = startLeft + distanceX;
-        let newTop = startTop;
-        let newWidth = startWidth - distanceX;
-        let newHeight = startHeight;
+        let newLeft = canvasLeft + distanceX;
+        let newTop = canvasTop;
+        let newWidth = canvasWidth - distanceX;
+        let newHeight = canvasHeight;
 
         return ResizeCalculator.fixMinusSize({
           newLeft,

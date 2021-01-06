@@ -20,12 +20,12 @@ export class CirclePaperBrushState extends PaperBrushState {
 
   processMouseDown(data) {
     const {
-      startLeft,
-      startTop
+      canvasLeft,
+      canvasTop
     } = data;
     this.doDraw = true;
     if (this.type === circleType.blur) {
-      this.setBluredCancas(startLeft, startTop);
+      this.setBluredCancas(canvasLeft, canvasTop);
     }
   }
 
@@ -37,8 +37,8 @@ export class CirclePaperBrushState extends PaperBrushState {
       startY,
       startCanvasX,
       startCanvasY,
-      startHeight,
-      startWidth,
+      canvasHeight,
+      canvasWidth,
     } = data;
 
     const ctx = this.paper.canvasContext;
@@ -70,8 +70,8 @@ export class CirclePaperBrushState extends PaperBrushState {
 
   async processMouseUp(data) {
     const {
-      startHeight,
-      startWidth
+      canvasHeight,
+      canvasWidth
     } = data;
     this.doDraw = false;
     await this.shot.takeShot();
@@ -130,7 +130,7 @@ export class CirclePaperBrushState extends PaperBrushState {
     ctx.closePath();
   }
 
-  setBluredCancas(startLeft, startTop) {
+  setBluredCancas(canvasLeft, canvasTop) {
     const lastShotImage = this.shot.getLastImage();
     const originalImage = this.paper.imageFullScreen;
     const tCanvas = document.createElement('canvas');
@@ -143,7 +143,7 @@ export class CirclePaperBrushState extends PaperBrushState {
     const tCtx = tCanvas.getContext('2d');
     tCtx.filter = 'blur(5px)';
     tCtx.drawImage(originalImage, 0, 0, width, height, -5, -5, width + 10, height + 10);
-    tCtx.drawImage(lastShotImage, startLeft, startTop);
+    tCtx.drawImage(lastShotImage, canvasLeft, canvasTop);
     tCtx.filter = 'none';
     this.bluredCanvas = tCanvas;
   }
