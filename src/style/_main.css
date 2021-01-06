@@ -1,0 +1,53 @@
+* {
+  user-select: none;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+:root {
+  --panel-bg-color: #282c34;
+  --panel-icon-color: #696c74;
+  --panel-icon-active-color: #d7dae0;
+
+  --panel-icon-action-color: #696c74;
+  --panel-icon-action-active-color: #d7dae0;
+
+  --wrapper-margin-main: 5px;
+  --wrapper-margin-second: 0;
+
+  --tools-wrapper-width: 300px;
+  --tools-wrapper-height: 65px;
+  --tools-wrapper-vertical-margin: calc(-1 * (var(--tools-wrapper-height) + var(--wrapper-margin-main)));
+  --tools-wrapper-horisontal-margin: var(--wrapper-margin-second);
+
+  --palatte-wrapper-width: 32px;
+  --palatte-wrapper-height: 250px;
+  --palatte-wrapper-vertical-margin: var(--wrapper-margin-second);
+  --palatte-wrapper-horisontal-margin: calc(-1 * (var(--palatte-wrapper-width) + var(--wrapper-margin-main)));
+}
+
+.img-screenshot {
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  right: 0;
+  width: auto;
+  height: auto;
+  -webkit-user-drag: none;
+  cursor: crosshair;
+}
+
+.img-screenshot.area-selected {
+  cursor: default;
+}

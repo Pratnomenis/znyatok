@@ -1,0 +1,41 @@
+{
+  "name": "znyatok",
+  "version": "1.2.2",
+  "homepage": "https://znyatok.com/",
+  "description": "Secure screenshot application",
+  "author": "Pratnomenis <pratnomenis+znyatok@gmail.com>",
+  "license": "MIT",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.electron.znyatok",
+    "productName": "Znyatok",
+    "files": [
+      "**/*"
+    ],
+    "linux": {
+      "icon": "./src/icons/png/",
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "./src/icons/ico/icon.ico"
+    }
+  },
+  "keywords": [
+    "Znyatok",
+    "screenshot",
+    "Screen shot"
+  ],
+  "devDependencies": {
+    "electron-builder": "^22.9.1",
+    "electron": "^11.0.3"
+  }
+}

@@ -1,0 +1,49 @@
+@import "_main.css";
+@import "_cursor-coords.css";
+@import "_paper-holder.css";
+@import "_resize-box.css";
+@import "_tool-box.css";
+@import "_textreader.css";
+@import "_palete.css";
+
+.paper-wrapper {
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  z-index: 5;
+
+}
+
+.cnv-paper {
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.settings-list {
+  display: none;
+}
+
+.settings-list__shown {
+  display: flex;
+}
+
+.settings-list__full-width {
+  justify-content: space-around;
+}
+
+.img-last-shot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: none;
+  z-index: 4;
+}
+
+.img-last-shot[src] {
+  display: block;
+}

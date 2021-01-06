@@ -1,0 +1,37 @@
+.paper-holder {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  box-shadow: 0 0 300vw 300vh rgba(0, 0, 0, 0.4);
+  cursor: grab;
+}
+
+.paper-holder:active {
+  cursor: grabbing;
+}
+
+.paper-holder.no-resize {
+  cursor: crosshair !important;
+}
+
+.paper-holder.no-resize.draw-text {
+  cursor: text !important;
+}
+
+.paper-holder.no-resize.do-nothing {
+  cursor: not-allowed !important;
+}
+
+.paper-holder.no-resize {
+  box-shadow: 0 0 300vw 300vh rgba(0, 0, 0, 0.6);
+}
+
+.paper-holder * {
+  visibility: hidden;
+}
+
+.paper-holder.shown * {
+  visibility: visible;
+}

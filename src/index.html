@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Znyatok</title>
+  <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+  <link rel="stylesheet" href="style/index.css">
+  <link rel="stylesheet" href="style/remixicon.css">
+  <link rel="stylesheet" href="style/sizeicon.css">
+</head>
+
+
+<body>
+  <img class="img-screenshot js-img-screenshot">
+  <div class="cursor-coords js-cursor-coords">
+    <div class="cursor-coords-x js-cursor-coords-x"></div>
+    <div class="cursor-coords-y js-cursor-coords-y"></div>
+  </div>
+  <div class="paper-holder js-paper-holder">
+    <img class="img-last-shot js-img-last-shot">
+    <div class="paper-wrapper js-paper-wrapper">
+      <canvas class="cnv-paper js-cnv-paper"></canvas>
+    </div>
+
+    <div class="textreader-wrapper js-textreader-wrapper">
+      <input type="text" class="textreader-input js-textreader-input">
+    </div>
+
+    <div class="tool-box js-tool-box">
+      <div class="tool-box--list">
+        <div class="tool-box--group">
+          <button class="tool-box--list-item js-tool-box__square" title="Draw square">
+            <i class="ri-checkbox-blank-line"></i>
+          </button>
+          <button class="tool-box--list-item js-tool-box__circle" title="Draw circle">
+            <i class="ri-checkbox-blank-circle-line"></i>
+          </button>
+          <button class="tool-box--list-item js-tool-box__line" title="Draw line">
+            <i class="ri-subtract-fill"></i>
+          </button>
+          <button class="tool-box--list-item js-tool-box__arrow" title="Draw arrow">
+            <i class="ri-arrow-right-up-line"></i>
+          </button>
+          <button class="tool-box--list-item js-tool-box__pancil" title="Pancil">
+            <i class="ri-pencil-line"></i>
+          </button>
+          <button class="tool-box--list-item js-tool-box__text" title="Text">
+            <i class="ri-text"></i>
+          </button>
+        </div>
+        <div class="tool-box--group">
+          <button class="tool-box--list-item js-tool-save" title="Save to desktop [Ctrl+S]">
+            <i class="ri-save-3-line"></i>
+          </button>
+          <button class="tool-box--list-item tool-box--list-item__thin js-tool-box__save"
+            title="Other save options">
+            <i class="ri-more-2-line"></i>
+          </button>
+        </div>
+        <div class="tool-box--group">
+          <button class="tool-box--list-item js-tool-exit" title="Cancel [Escape]">
+            <i class="ri-close-line"></i>
+          </button>
+        </div>
+      </div>
+      <div class="settings-list settings-list__square js-settings-list__square">
+        <div class="settings-list--group">
+          <button class="settings-list--list-item js-settings-type" data-type="1">
+            <i class="size-icon-1"></i>
+          </button>
+          <button class="settings-list--list-item js-settings-type" data-type="2">
+            <i class="size-icon-2"></i>
+          </button>
+          <button class="settings-list--list-item js-settings-type" data-type="3">
+            <i class="size-icon-3"></i>
+          </button>
+        </div>
+        <div class="settings-list--group">
+          <button class="settings-list--list-item js-settings-type" data-type="4" title="Filled">
+            <i class="ri-checkbox-blank-fill"></i>
+          </button>
+          <button class="settings-list--list-item js-settings-type" data-type="5" title="Blured">
+            <i class="ri-drop-fill"></i>
+          </button>
+        </div>
+      </div>
+      <div class="settings-list settings-list__circle js-settings-list__circle">
+        <div class="settings-list--group">
+          <button class="settings-list--list-item js-settings-type" data-type="1">
+            <i class="size-icon-1"></i>
+          </button>
+          <button class="settings-list--list-item js-settings-type" data-type="2">
+            <i class="size-icon-2"></i>
+          </button>
+          <button class="settings-list--list-item js-settings-type" data-type="3">
+            <i class="size-icon-3"></i>
+          </button>
+        </div>
+        <div class="settings-list--group">
+          <button class="settings-list--list-item js-settings-type" data-type="4" title="Filled">
+            <i class="ri-checkbox-blank-circle-fill"></i>
+          </button>
+          <button class="settings-list--list-item js-settings-type" data-type="5" title="Blured">
+            <i class="ri-drop-fill"></i>
+          </button>
+        </div>
+      </div>
+      <div class="settings-list settings-list__line js-settings-list__line">
+        <div class="settings-list--group">
+          <button class="settings-list--list-item js-settings-type" data-type="1">
+            <i class="size-icon-1"></i>
+          </button>
+          <button class="settings-list--list-item js-settings-type" data-type="2">
+            <i class="size-icon-2"></i>
+          </button>
+          <button class="settings-list--list-item js-settings-type" data-type="3">
+            <i class="size-icon-3"></i>
+          </button>
+          <button class="settings-list--list-item js-settings-type" data-type="4">
+            <i class="size-icon-4"></i>
+          </button>
+          <button class="settings-list--list-item js-settings-type" data-type="5">
+            <i class="size-icon-5"></i>
+          </button>
+        </div>
+      </div>
+      <div class="settings-list settings-list__line js-settings-list__arrow">
+        <button class="settings-list--list-item js-settings-type" data-type="1">
+          <i class="size-icon-1"></i>
+        </button>
+        <button class="settings-list--list-item js-settings-type" data-type="2">
+          <i class="size-icon-2"></i>
+        </button>
+        <button class="settings-list--list-item js-settings-type" data-type="3">
+          <i class="size-icon-3"></i>
+        </button>
+        <button class="settings-list--list-item js-settings-type" data-type="4" title="Meteor arrow">
+          <i class="ri-share-forward-fill"></i>
+        </button>
+        <button class="settings-list--list-item js-settings-type" data-type="5" title="Branch">
+          <i class="ri-node-tree ri-sm"></i>
+        </button>
+        <button class="settings-list--list-item js-settings-type" data-type="6" title="Double arrow">
+          <i class="ri-arrow-left-right-line"></i>
+        </button>
+      </div>
+      <div class="settings-list settings-list__pancil js-settings-list__pancil">
+        <button class="settings-list--list-item js-settings-type" data-type="1">
+          <i class="size-icon-1"></i>
+        </button>
+        <button class="settings-list--list-item js-settings-type" data-type="2">
+          <i class="size-icon-2"></i>
+        </button>
+        <button class="settings-list--list-item js-settings-type" data-type="3">
+          <i class="size-icon-3"></i>
+        </button>
+        <button class="settings-list--list-item js-settings-type" data-type="4">
+          <i class="size-icon-4"></i>
+        </button>
+        <button class="settings-list--list-item js-settings-type" data-type="5">
+          <i class="size-icon-5"></i>
+        </button>
+        <button class="settings-list--list-item js-settings-type" data-type="6">
+          <i class="size-icon-6"></i>
+        </button>
+      </div>
+      <div class="settings-list settings-list__pancil settings-list__full-width js-settings-list__text">
+        <button class="settings-list--list-item settings-list--list-item__text js-settings-type" data-type="1">
+          10px
+        </button>
+        <button class="settings-list--list-item settings-list--list-item__text js-settings-type" data-type="2">
+          14px
+        </button>
+        <button class="settings-list--list-item settings-list--list-item__text js-settings-type" data-type="3">
+          18px
+        </button>
+        <button class="settings-list--list-item settings-list--list-item__text js-settings-type" data-type="4">
+          24px
+        </button>
+        <button class="settings-list--list-item settings-list--list-item__text js-settings-type" data-type="5">
+          36px
+        </button>
+        <button class="settings-list--list-item settings-list--list-item__text js-settings-type" data-type="6">
+          48px
+        </button>
+        <button class="settings-list--list-item settings-list--list-item__text js-settings-type" data-type="7">
+          64px
+        </button>
+        <button class="settings-list--list-item settings-list--list-item__text js-settings-type" data-type="8">
+          72px
+        </button>
+        <button class="settings-list--list-item settings-list--list-item__text js-settings-type" data-type="9">
+          96px
+        </button>
+      </div>
+      
+      <div class="settings-list settings-list__save js-settings-list__save">
+        <button class="settings-list--list-item js-settings-type" data-type="clipboard" title="Save to clipboard [Ctrl+C]">
+          <i class="ri-clipboard-line"></i>
+        </button>
+        <button class="settings-list--list-item js-settings-type" data-type="desktop" title="Save to desktop [Ctrl+S]">
+          <i class="ri-save-3-line"></i>
+        </button>
+        <button class="settings-list--list-item js-settings-type" data-type="folder" title="Save to selected folder [Ctrl+Shift+S]">
+          <i class="ri-folder-line"></i>
+        </button>
+        <!-- TODO: Base64 -->
+        <!-- <button class="settings-list--list-item js-settings-type" data-type="base64">
+          <i class="ri-code-box-line"></i>
+        </button> -->
+      </div>
+      
+    </div>
+
+    <button class="resize-box resize-box__top-left coords-start-point js-coords-start-point"></button>
+    <button class="resize-box resize-box__top-middle coords-start-width js-coords-start-width"></button>
+    <button class="resize-box resize-box__top-right"></button>
+    <button class="resize-box resize-box__middle-right"></button>
+    <button class="resize-box resize-box__bottom-right"></button>
+    <button class="resize-box resize-box__bottom-middle"></button>
+    <button class="resize-box resize-box__bottom-left"></button>
+    <button class="resize-box resize-box__middle-left coords-start-height js-coords-start-height"></button>
+  </div>
+
+  <div class="palete js-palete">
+    <svg viewBox="20 20 60 60" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <defs>
+        <path id="piePiece" d="M 42.2,78.9 46.1,64.4 Q 50,65 53.88,64.48 L 57.7,78.9 Q 50,80 42.2,78.9Z" />
+        <path id="piePieceTwo"
+          d="m 46.275424,63.678808 1.885151,-7.008893 q 1.885151,0.290024 3.760633,0.03867 l 1.846481,6.970223 q -3.721963,0.531708 -7.492265,0 z" />
+      </defs>
+      <use xlink:href="#piePiece" class="palete-color palete-color_1 js-palete-color" fill="#00bcd4" />
+      <use xlink:href="#piePiece" class="palete-color palete-color_2 js-palete-color" transform="rotate(30,50,50)" fill="#009688" />
+      <use xlink:href="#piePiece" class="palete-color palete-color_3 js-palete-color" transform="rotate(60,50,50)" fill="#4caf50" />
+      <use xlink:href="#piePiece" class="palete-color palete-color_4 js-palete-color" transform="rotate(90,50,50)" fill="#8bc34a" />
+      <use xlink:href="#piePiece" class="palete-color palete-color_5 js-palete-color" transform="rotate(120,50,50)" fill="#ffeb3b" />
+      <use xlink:href="#piePiece" class="palete-color palete-color_6 js-palete-color" transform="rotate(150,50,50)" fill="#ffc107" />
+      <use xlink:href="#piePiece" class="palete-color palete-color_7 js-palete-color" transform="rotate(180,50,50)" fill="#f44336" />
+      <use xlink:href="#piePiece" class="palete-color palete-color_8 js-palete-color" transform="rotate(210,50,50)" fill="#e91e63" />
+      <use xlink:href="#piePiece" class="palete-color palete-color_9 js-palete-color" transform="rotate(240,50,50)" fill="#673ab7" />
+      <use xlink:href="#piePiece" class="palete-color palete-color_10 js-palete-color" transform="rotate(270,50,50)" fill="#3f51b5" />
+      <use xlink:href="#piePiece" class="palete-color palete-color_11 js-palete-color" transform="rotate(300,50,50)" fill="#2196f3" />
+      <use xlink:href="#piePiece" class="palete-color palete-color_12 js-palete-color" transform="rotate(330,50,50)" fill="#03a9f4" />
+
+      <use xlink:href="#piePieceTwo" class="palete-color palete-color_13 js-palete-color" fill="#00bcd480" />
+      <use xlink:href="#piePieceTwo" class="palete-color palete-color_14 js-palete-color" transform="rotate(30,50,50)" fill="#00968880" />
+      <use xlink:href="#piePieceTwo" class="palete-color palete-color_15 js-palete-color" transform="rotate(60,50,50)" fill="#4caf5080" />
+      <use xlink:href="#piePieceTwo" class="palete-color palete-color_16 js-palete-color" transform="rotate(90,50,50)" fill="#8bc34a80" />
+      <use xlink:href="#piePieceTwo" class="palete-color palete-color_17 js-palete-color" transform="rotate(120,50,50)" fill="#ffeb3b80" />
+      <use xlink:href="#piePieceTwo" class="palete-color palete-color_18 js-palete-color" transform="rotate(150,50,50)" fill="#ffc10780" />
+      <use xlink:href="#piePieceTwo" class="palete-color palete-color_19 js-palete-color" transform="rotate(180,50,50)" fill="#f4433680" />
+      <use xlink:href="#piePieceTwo" class="palete-color palete-color_20 js-palete-color" transform="rotate(210,50,50)" fill="#e91e6380" />
+      <use xlink:href="#piePieceTwo" class="palete-color palete-color_21 js-palete-color" transform="rotate(240,50,50)" fill="#673ab780" />
+      <use xlink:href="#piePieceTwo" class="palete-color palete-color_22 js-palete-color" transform="rotate(270,50,50)" fill="#3f51b580" />
+      <use xlink:href="#piePieceTwo" class="palete-color palete-color_23 js-palete-color" transform="rotate(300,50,50)" fill="#2196f380" />
+      <use xlink:href="#piePieceTwo" class="palete-color palete-color_24 js-palete-color" transform="rotate(330,50,50)" fill="#03a9f480" />
+    </svg>
+    <div class="palete-value js-palete-value"></div>
+  </div>
+
+  <script type="module" async>
+    import App from './script/app.js';
+    new App();
+  </script>
+</body>
+
+</html>

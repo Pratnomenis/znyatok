@@ -1,0 +1,83 @@
+.resize-box {
+  --indent: -5px;
+
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  border-radius: 1px;
+
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+
+  z-index: 9998;
+}
+
+.no-resize .resize-box {
+  display: none !important;
+}
+
+.resize-box__top-left {
+  top: var(--indent);
+  left: var(--indent);
+  bottom: auto;
+  right: auto;
+  cursor: nwse-resize;
+}
+
+.resize-box__top-middle {
+  top: var(--indent);
+  left: calc(50% + var(--indent));
+  bottom: auto;
+  right: auto;
+  cursor: ns-resize;
+}
+
+.resize-box__top-right {
+  top: var(--indent);
+  left: auto;
+  bottom: auto;
+  right: var(--indent);
+  cursor: nesw-resize;
+}
+
+.resize-box__middle-right {
+  top: calc(50% + var(--indent));
+  left: auto;
+  bottom: auto;
+  right: var(--indent);
+  cursor: ew-resize;
+}
+
+.resize-box__bottom-right {
+  top: auto;
+  left: auto;
+  bottom: var(--indent);
+  right: var(--indent);
+  cursor: nwse-resize;
+}
+
+.resize-box__bottom-middle {
+  top: auto;
+  left: calc(50% + var(--indent));
+  bottom: var(--indent);
+  right: auto;
+  cursor: ns-resize;
+}
+
+.resize-box__bottom-left {
+  top: auto;
+  left: var(--indent);
+  bottom: var(--indent);
+  right: auto;
+  cursor: nesw-resize;
+}
+
+.resize-box__middle-left {
+  top: calc(50% + var(--indent));
+  left: var(--indent);
+  bottom: auto;
+  right: auto;
+  cursor: ew-resize;
+}
