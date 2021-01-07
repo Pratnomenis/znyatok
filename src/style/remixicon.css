@@ -90,7 +90,6 @@
     width: 1.25em;
 }
 
-
 .ri-clipboard-line:before {
     content: "\eb91";
 }
@@ -165,4 +164,32 @@
 
 .ri-node-tree:before {
     content: "\ef90";
+}
+
+.ri-picture-in-picture-line:before {
+    content: "\eff4";
+}
+
+.ri-picture-in-picture-2-line:before {
+    content: "\eff0";
+}
+
+.ri-picture-in-picture-exit-line:before {
+    content: "\eff2";
+}
+
+.ri-information-line:before {
+    content: "\ee59";
+}
+
+.ri-error-warning-line:before {
+    content: "\eca1";
+}
+
+.ri-map-pin-add-line:before {
+    content: "\ef12";
+}
+
+.ri-pushpin-line:before {
+    content: "\f039";
 }
