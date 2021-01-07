@@ -4,11 +4,11 @@ import {
 
 export const pancilType = {
   1: 2,
-  2: 5,
-  3: 8,
-  4: 12,
-  5: 18,
-  6: 24
+  2: 6,
+  3: 12,
+  4: 24,
+  5: 36,
+  6: 48
 }
 
 export class PancilPaperBrushState extends PaperBrushState {

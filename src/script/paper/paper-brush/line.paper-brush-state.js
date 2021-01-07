@@ -8,7 +8,8 @@ export const lineType = {
   border2: 2,
   border3: 3,
   border4: 4,
-  border5: 5
+  border5: 5,
+  border6: 6,
 }
 
 export class LinePaperBrushState extends PaperBrushState {
@@ -34,19 +35,19 @@ export class LinePaperBrushState extends PaperBrushState {
         this.drawLine(2, ctx, startCanvasX, startCanvasY, distanceX, distanceY);
         break;
       case lineType.border2:
-        this.drawLine(4, ctx, startCanvasX, startCanvasY, distanceX, distanceY);
-        break;
-      case lineType.border3:
         this.drawLine(6, ctx, startCanvasX, startCanvasY, distanceX, distanceY);
         break;
-      case lineType.border4:
-        this.drawLine(8, ctx, startCanvasX, startCanvasY, distanceX, distanceY);
-        break;
-      case lineType.border5:
+      case lineType.border3:
         this.drawLine(12, ctx, startCanvasX, startCanvasY, distanceX, distanceY);
         break;
-      case lineType.border6:
+      case lineType.border4:
         this.drawLine(24, ctx, startCanvasX, startCanvasY, distanceX, distanceY);
+        break;
+      case lineType.border5:
+        this.drawLine(36, ctx, startCanvasX, startCanvasY, distanceX, distanceY);
+        break;
+      case lineType.border6:
+        this.drawLine(48, ctx, startCanvasX, startCanvasY, distanceX, distanceY);
         break;
     }
 
