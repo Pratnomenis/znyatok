@@ -7,9 +7,7 @@
 
 @font-face {
     font-family: "remixicon";
-    src: url("../font/remixicon.woff?t=1607783693420") format("woff"),
-        url('../font/remixicon.ttf?t=1607783693420') format('truetype'),
-        url('../font/remixicon.svg?t=1607783693420#remixicon') format('svg');
+    src: url("../font/remixicon.woff?t=1610036363513") format("woff");
     font-display: swap;
 }
 
