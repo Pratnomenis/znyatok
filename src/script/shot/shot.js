@@ -108,7 +108,7 @@ export class Shot {
   // This is final screenshot image
   getLastBase64() {
     this.takeFirstShotIfRequired();
-    return this.shotListHistory.current();
+    return this.shotListHistory.current().image;
   }
 
   getLastImage() {
@@ -127,6 +127,10 @@ export class Shot {
     const percentage = Math.ceil(shotSize / screenSize * 100);
 
     return percentage || 100;
+  }
+
+  setMarkToLastImage(markValue) {
+    this.shotListHistory.addMark(markValue);
   }
 
   undo() {

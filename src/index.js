@@ -209,11 +209,10 @@ app.commandLine.appendSwitch('force-device-scale-factor', 1);
 app.whenReady().then(() => {
   win.create();
   tray.create();
-  // win.show();
+  win.show();
 });
 
 app.on('activate', () => {
-
   if (BrowserWindow.getAllWindows().length === 0) {
     win.create();
   }

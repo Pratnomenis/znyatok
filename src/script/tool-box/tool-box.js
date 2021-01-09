@@ -27,6 +27,10 @@ import {
 } from "./tool-setting/text.tool-settings.js";
 
 import {
+  MarkToolSettings
+} from "./tool-setting/mark.tool-settings.js";
+
+import {
   SaveToolSettings
 } from "./tool-setting/save.tool-settings.js";
 
@@ -52,6 +56,9 @@ export class ToolBox {
 
     const text = new Tool('.js-tool-box__text', this);
     text.addToolSettings(new TextToolSettings('.js-settings-list__text', text, paper, shot, palette, this.settings));
+
+    const mark = new Tool('.js-tool-box__mark', this);
+    mark.addToolSettings(new MarkToolSettings('.js-settings-list__mark', mark, paper, shot, palette, this.settings));
 
     const save = new Tool('.js-tool-box__save', this);
     save.addToolSettings(new SaveToolSettings('.js-settings-list__save', text, paper, shot, palette, this.settings));

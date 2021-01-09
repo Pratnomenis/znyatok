@@ -1,3 +1,7 @@
+import {
+  MarkCounterSingletone
+} from "../mark-counter/mark-counter.js";
+
 export class ShotHistory {
   constructor(imgLastShot) {
     this.list = [];
@@ -5,20 +9,31 @@ export class ShotHistory {
     this.imgLastShot = imgLastShot;
 
     this.imgLastShot.src = '';
+
+    this.mark = MarkCounterSingletone.getInstance();
   }
 
   add(imgBase64) {
     if (this.currentId < this.list.length - 1) {
       this.list.length = this.currentId + 1;
     }
-    this.list.push(imgBase64);
+    this.list.push({
+      image: imgBase64
+    });
     this.currentId++;
     this.refreshLastShot();
+  }
+
+  addMark(markValue) {
+    this.list[this.list.length - 1].mark = markValue;
   }
 
   undo() {
     // First is image itself
     if (this.currentId >= 1) {
+      if (this.list[this.currentId].mark) {
+        this.mark.undo(this.list[this.currentId].mark);
+      }
       this.currentId--;
       this.refreshLastShot();
     }
@@ -26,6 +41,9 @@ export class ShotHistory {
 
   redo() {
     if (this.currentId < this.list.length - 1) {
+      if (this.list[this.currentId].mark) {
+        this.mark.redo(this.list[this.currentId].mark);
+      }
       this.currentId++;
       this.refreshLastShot();
     }
@@ -36,9 +54,9 @@ export class ShotHistory {
   }
 
   refreshLastShot() {
-    const lastBase65 = this.current();
-    if (lastBase65) {
-      this.imgLastShot.src = lastBase65;
+    const lastShot = this.current();
+    if (lastShot) {
+      this.imgLastShot.src = lastShot.image;
     }
   }
 

@@ -44,6 +44,7 @@ export class Settings {
       'brush-pancil': 2,
       'brush-square': 2,
       'brush-text': 2,
+      'brush-mark': 1,
       'save-type': 2,
       'palette-color': '#17a2b8'
     }

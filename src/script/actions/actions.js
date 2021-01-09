@@ -6,6 +6,10 @@ import {
   Saver
 } from './saver.js'
 
+import {
+  MarkCounterSingletone
+} from "../mark-counter/mark-counter.js";
+
 export class Actions {
   constructor(shot, paper, tools) {
     this.shot = shot;
@@ -46,6 +50,7 @@ export class Actions {
     this.shot.reset();
     this.paper.reset();
     this.tools.reset();
+    MarkCounterSingletone.getInstance().reset();
   }
 
   closeApp() {
