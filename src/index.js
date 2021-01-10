@@ -166,6 +166,10 @@ const mainWindow = new class {
 
     this.browserWindow.loadFile(path.join(__dirname, 'index.html'));
     this.browserWindow.removeMenu();
+
+    this.browserWindow.on('blur', () => {
+      this.destroy();
+    });
     //this.browserWindow.webContents.openDevTools();
   }
 
