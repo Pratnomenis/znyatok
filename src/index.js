@@ -11,7 +11,22 @@ const {
   nativeImage
 } = require('electron');
 
+const os = require('os');
 const path = require('path');
+
+// Execute on startup
+(() => {
+  const isDev = process.env.APP_DEV ? (process.env.APP_DEV.trim() == "true") : false;
+  console.log(os.platform());
+  if (!isDev && os.platform() === 'win32') {
+    const loginOptions = app.getLoginItemSettings();
+    if (!loginOptions.openAtLogin) {
+      app.setLoginItemSettings({
+        openAtLogin: true
+      });
+    }
+  }
+})();
 
 const tray = new class {
   constructor() {
