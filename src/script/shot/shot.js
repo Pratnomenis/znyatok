@@ -116,17 +116,20 @@ export class Shot {
     return this.imgLastShot;
   }
 
-  getSceenshotFillPercentage() {
+  getParams() {
     const {
+      canvasTop,
+      canvasLeft,
       canvasWidth,
-      canvasHeight,
-    } = this.paper;
+      canvasHeight
+    } = this.paper.startParams;
 
-    const screenSize = this.screenHeight * this.screenWidth;
-    const shotSize = canvasHeight * canvasWidth;
-    const percentage = Math.ceil(shotSize / screenSize * 100);
-
-    return percentage || 100;
+    return {
+      top: canvasTop,
+      left: canvasLeft,
+      width: canvasWidth,
+      height: canvasHeight
+    }
   }
 
   setMarkToLastImage(markValue) {

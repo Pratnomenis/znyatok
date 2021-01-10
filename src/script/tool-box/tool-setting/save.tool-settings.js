@@ -61,6 +61,8 @@ export class SaveToolSettings extends ToolSetings {
       this.saver.saveToFile();
     } else if (saveType == 'folder') {
       this.saver.saveToFolder();
+    } else if (saveType == 'window') {
+      this.saver.saveToNewWindow();
     } else if (saveType == 'base64') {
       this.saver.saveAsBase64();
     }

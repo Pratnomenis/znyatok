@@ -56,8 +56,8 @@ const tray = new class {
   }
 
   actionMakeScreenshot() {
-    if (!win.isShown()) {
-      win.startScreenshot();
+    if (!mainWindow.isShown()) {
+      mainWindow.startScreenshot();
     }
   }
 
@@ -74,25 +74,28 @@ const shortcuts = new class {
   registerAll() {
     if (!this.keysRegistred) {
       globalShortcut.register('Escape', () => {
-        win.send('keyboard-escape');
+        mainWindow.send('keyboard-escape');
       });
       globalShortcut.register('CommandOrControl+Z', () => {
-        win.send('keyboard-control-z');
+        mainWindow.send('keyboard-control-z');
       });
       globalShortcut.register('CommandOrControl+Shift+Z', () => {
-        win.send('keyboard-control-shift-z');
+        mainWindow.send('keyboard-control-shift-z');
       });
       globalShortcut.register('CommandOrControl+C', () => {
-        win.send('keyboard-control-c');
+        mainWindow.send('keyboard-control-c');
       });
       globalShortcut.register('CommandOrControl+S', () => {
-        win.send('keyboard-control-s');
+        mainWindow.send('keyboard-control-s');
       });
       globalShortcut.register('CommandOrControl+Shift+S', () => {
-        win.send('keyboard-control-shift-s');
+        mainWindow.send('keyboard-control-shift-s');
+      });
+      globalShortcut.register('CommandOrControl+W', () => {
+        mainWindow.send('keyboard-control-w');
       });
       globalShortcut.register('CommandOrControl+Shift+B', () => {
-        win.send('keyboard-control-shift-b');
+        mainWindow.send('keyboard-control-shift-b');
       });
       this.keysRegistred = true;
     }
@@ -106,6 +109,7 @@ const shortcuts = new class {
       globalShortcut.unregister('CommandOrControl+C');
       globalShortcut.unregister('CommandOrControl+S');
       globalShortcut.unregister('CommandOrControl+Shift+S');
+      globalShortcut.unregister('CommandOrControl+W');
       globalShortcut.unregister('CommandOrControl+Shift+B');
       this.keysRegistred = false;
     }
@@ -113,7 +117,7 @@ const shortcuts = new class {
 
 }
 
-const win = new class {
+const mainWindow = new class {
   constructor() {
     this.browserWindow = null;
     this.windowShown = false;
@@ -176,8 +180,7 @@ const win = new class {
       this.hide();
       this.isVisible = false;
 
-      // Magic! Do not tuch!
-      // Or image doesn't reset 
+      // magic! do not touch or image doesn't reset 
     }, 65);
   }
 
@@ -199,7 +202,7 @@ const win = new class {
     if (!this.isVisible) {
       this.isVisible = true;
       const activeScreenSize = this.getScaledScreenSize();
-      win.send('action-load-screen-to-image', activeScreenSize);
+      mainWindow.send('action-load-screen-to-image', activeScreenSize);
     }
   }
 
@@ -208,27 +211,66 @@ const win = new class {
   }
 };
 
+const previewWindow = new class {
+  create(options) {
+    const {
+      top,
+      left,
+      width,
+      height,
+      imageBase64,
+      imageName,
+    } = options;
+
+    const newWindow = new BrowserWindow({
+      show: false,
+      fullscreenable: false,
+      resizable: false,
+      maximizable: false,
+      title: imageName,
+      webPreferences: {
+        nodeIntegration: true,
+      },
+      worldSafeExecuteJavaScript: true,
+    });
+
+    newWindow.setContentBounds({
+      x: left,
+      y: top,
+      width,
+      height
+    });
+
+    newWindow.loadFile(path.join(__dirname, 'window-for-picture', 'index.html'));
+    newWindow.removeMenu();
+    newWindow.once('ready-to-show', () => {
+      newWindow.send('load-image', imageBase64);
+      setTimeout(() => newWindow.show());
+    });
+  }
+}
+
 app.commandLine.appendSwitch('high-dpi-support', 1);
 app.commandLine.appendSwitch('force-device-scale-factor', 1);
 
 app.whenReady().then(() => {
-  win.create();
+  mainWindow.create();
   tray.create();
-  // win.show();
+  // mainWindow.show();
 });
 
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
-    win.create();
+    mainWindow.create();
   }
 });
 
 ipcMain.on('screenshot-created', () => {
-  win.show();
+  mainWindow.show();
 });
 
 ipcMain.on('action-quit', () => {
-  win.destroy();
+  mainWindow.destroy();
 });
 
 ipcMain.on('get-desktop-folder', event => {
@@ -236,7 +278,7 @@ ipcMain.on('get-desktop-folder', event => {
 });
 
 ipcMain.on('get-select-path', async (event) => {
-  win.hide();
+  mainWindow.hide();
   const saveDialogResult = await dialog.showSaveDialog({
     defaultPath: path.join(app.getPath('desktop'), 'znyatok.png'),
     filters: [{
@@ -248,4 +290,9 @@ ipcMain.on('get-select-path', async (event) => {
     }]
   });
   event.sender.send('get-select-path-reply', saveDialogResult);
+});
+
+ipcMain.on('picture-to-new-window', (event, data) => {
+  previewWindow.create(data);
+  event.sender.send('picture-to-new-window-reply');
 });

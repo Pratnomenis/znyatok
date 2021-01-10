@@ -65,6 +65,21 @@ export class Saver {
     });
   }
 
+  async saveToNewWindow() {
+    const imageBase64 = await this.shot.getLastBase64();
+    const shotParams = this.shot.getParams();
+    const imageName = this.getImageName();
+
+    ipcRenderer.send('picture-to-new-window', {
+      imageBase64,
+      imageName,
+      ...shotParams
+    });
+    ipcRenderer.once('picture-to-new-window-reply', () => {
+      this.closeApp();
+    });
+  }
+
   async saveAsBase64() {
     await this.shot.paper.deactivateLastState();
     const imageBase64 = this.shot.getLastBase64();
