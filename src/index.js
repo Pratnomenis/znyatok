@@ -170,9 +170,15 @@ const win = new class {
 
   destroy() {
     shortcuts.unregisterAll();
-    this.hide();
-    this.isVisible = false;
     this.send('reset-all');
+
+    setTimeout(() => {
+      this.hide();
+      this.isVisible = false;
+
+      // Magic! Do not tuch!
+      // Or image doesn't reset 
+    }, 65);
   }
 
   send(...args) {
@@ -186,8 +192,10 @@ const win = new class {
   }
 
   hide() {
-    this.browserWindow.setFullScreen(false);
     this.browserWindow.hide();
+    this.browserWindow.setFullScreen(false);
+    // this.browserWindow.reload();
+    // this.browserWindow.hide();
   }
 
   startScreenshot() {
@@ -209,7 +217,7 @@ app.commandLine.appendSwitch('force-device-scale-factor', 1);
 app.whenReady().then(() => {
   win.create();
   tray.create();
-  win.show();
+  // win.show();
 });
 
 app.on('activate', () => {

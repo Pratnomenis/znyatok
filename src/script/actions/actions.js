@@ -51,6 +51,18 @@ export class Actions {
     this.paper.reset();
     this.tools.reset();
     MarkCounterSingletone.getInstance().reset();
+
+    document.querySelector('.js-img-screenshot').removeAttribute('src');
+    document.querySelector('.js-img-last-shot').removeAttribute('src');
+    document.querySelector('.js-paper-holder').removeAttribute('style');
+    document.querySelector('.js-cursor-coords').removeAttribute('style');
+    document.querySelector('.js-textreader-wrapper').removeAttribute('style');
+
+    const cnvPaper = document.querySelector('.js-cnv-paper');
+    const context = cnvPaper.getContext('2d');
+    context.clearRect(0, 0, cnvPaper.width, cnvPaper.height);
+    cnvPaper.removeAttribute('width');
+    cnvPaper.removeAttribute('height');
   }
 
   closeApp() {
