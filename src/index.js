@@ -7,7 +7,8 @@ const {
   globalShortcut,
   dialog,
   screen,
-  shell
+  shell,
+  nativeImage
 } = require('electron');
 
 const path = require('path');
@@ -223,6 +224,7 @@ const previewWindow = new class {
     } = options;
 
     const newWindow = new BrowserWindow({
+      icon: nativeImage.createFromPath(path.join(__dirname, 'icons', 'png', '64x64.png')),
       show: false,
       fullscreenable: false,
       resizable: false,
