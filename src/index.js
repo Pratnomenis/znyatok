@@ -140,6 +140,7 @@ const mainWindow = new class {
     this.windowShown = false;
 
     this.isVisible = false;
+    this.destroyOnBlur = true;
   }
 
   create() {
@@ -168,7 +169,9 @@ const mainWindow = new class {
     this.browserWindow.removeMenu();
 
     this.browserWindow.on('blur', () => {
-      this.destroy();
+      if (this.destroyOnBlur) {
+        this.destroy();
+      }
     });
     //this.browserWindow.webContents.openDevTools();
   }
@@ -201,7 +204,7 @@ const mainWindow = new class {
     setTimeout(() => {
       this.hide();
       this.isVisible = false;
-
+      this.destroyOnBlur = true;
       // magic! do not touch or image doesn't reset 
     }, 65);
   }
@@ -301,6 +304,7 @@ ipcMain.on('get-desktop-folder', event => {
 });
 
 ipcMain.on('get-select-path', async (event) => {
+  mainWindow.destroyOnBlur = false;
   mainWindow.hide();
   const saveDialogResult = await dialog.showSaveDialog({
     defaultPath: path.join(app.getPath('desktop'), 'znyatok.png'),
