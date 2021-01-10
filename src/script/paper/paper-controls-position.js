@@ -7,7 +7,7 @@ export class PaperControlsPosition {
     }
 
     this.controlOffset = {
-      width: 310,
+      width: 335,
       height: 60
     }
   }
