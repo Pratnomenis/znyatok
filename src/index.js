@@ -193,9 +193,6 @@ const win = new class {
 
   hide() {
     this.browserWindow.hide();
-    this.browserWindow.setFullScreen(false);
-    // this.browserWindow.reload();
-    // this.browserWindow.hide();
   }
 
   startScreenshot() {
