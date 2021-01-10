@@ -7,7 +7,7 @@
   "license": "MIT",
   "main": "./src/index.js",
   "scripts": {
-    "start": "APP_DEV=true electron .",
+    "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },

@@ -16,8 +16,8 @@ const path = require('path');
 
 // Execute on startup
 (() => {
-  const isDev = process.env.APP_DEV ? (process.env.APP_DEV.trim() == "true") : false;
-  console.log(os.platform());
+  const isDev = !app.isPackaged;
+
   if (!isDev && os.platform() === 'win32') {
     const loginOptions = app.getLoginItemSettings();
     if (!loginOptions.openAtLogin) {
