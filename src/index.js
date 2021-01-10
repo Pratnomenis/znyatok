@@ -14,20 +14,24 @@ const {
 const os = require('os');
 const path = require('path');
 
-// Execute on startup
-(() => {
-  const isDev = !app.isPackaged;
+// Lock single instance
+const gotTheLock = app.requestSingleInstanceLock()
+if (!gotTheLock) {
+  app.quit();
+}
 
-  if (!isDev && os.platform() === 'win32') {
-    const loginOptions = app.getLoginItemSettings();
-    if (!loginOptions.openAtLogin) {
-      app.setLoginItemSettings({
-        openAtLogin: true,
-        path: app.getPath("exe")
-      });
-    }
+// Execute on startup
+const isDev = !app.isPackaged;
+
+if (!isDev && os.platform() === 'win32') {
+  const loginOptions = app.getLoginItemSettings();
+  if (!loginOptions.openAtLogin) {
+    app.setLoginItemSettings({
+      openAtLogin: true,
+      path: app.getPath("exe")
+    });
   }
-})();
+}
 
 const tray = new class {
   constructor() {
@@ -285,6 +289,12 @@ app.whenReady().then(() => {
   mainWindow.create();
   tray.create();
   // mainWindow.show();
+});
+
+app.on('second-instance', () => {
+  if (!mainWindow.isShown()) {
+    mainWindow.startScreenshot();
+  }
 });
 
 ipcMain.on('screenshot-created', () => {
