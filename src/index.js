@@ -159,13 +159,14 @@ const mainWindow = new class {
       skipTaskbar: true,
       webPreferences: {
         nodeIntegration: true,
+        enableRemoteModule: true
       },
       worldSafeExecuteJavaScript: true,
     });
 
     this.browserWindow.loadFile(path.join(__dirname, 'index.html'));
     this.browserWindow.removeMenu();
-    this.browserWindow.webContents.openDevTools();
+    //this.browserWindow.webContents.openDevTools();
   }
 
   getScaledScreenSize() {
