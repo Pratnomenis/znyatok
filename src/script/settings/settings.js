@@ -1,13 +1,11 @@
 const fs = require('fs');
 const path = require('path');
-const app = require('electron').remote.app;
 
 export class Settings {
   constructor() {
     this.list = null;
-    const appPath = app.getPath('userData');
-
-    this.settingsFilePath = path.join(appPath, 'settings.json');
+    const paramSettingsPath = process.argv.find(arg => arg.startsWith('--settingsPath='));
+    this.settingsFilePath = paramSettingsPath.split('=').pop();
     this.loadSettings();
   }
 

@@ -149,6 +149,8 @@ const mainWindow = new class {
       height
     } = this.getScaledScreenSize();
 
+    const settingsPath = path.join(app.getPath('userData'), 'settings.json');
+
     this.browserWindow = new BrowserWindow({
       width,
       height,
@@ -160,7 +162,7 @@ const mainWindow = new class {
       skipTaskbar: true,
       webPreferences: {
         nodeIntegration: true,
-        enableRemoteModule: true
+        additionalArguments: [`--settingsPath=${settingsPath}`]
       },
       worldSafeExecuteJavaScript: true,
     });
@@ -173,7 +175,7 @@ const mainWindow = new class {
         this.destroy();
       }
     });
-    //this.browserWindow.webContents.openDevTools();
+    // this.browserWindow.webContents.openDevTools();
   }
 
   getScaledScreenSize() {
@@ -283,12 +285,6 @@ app.whenReady().then(() => {
   mainWindow.create();
   tray.create();
   // mainWindow.show();
-});
-
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    mainWindow.create();
-  }
 });
 
 ipcMain.on('screenshot-created', () => {
