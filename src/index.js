@@ -22,7 +22,8 @@ const path = require('path');
     const loginOptions = app.getLoginItemSettings();
     if (!loginOptions.openAtLogin) {
       app.setLoginItemSettings({
-        openAtLogin: true
+        openAtLogin: true,
+        path: app.getPath("exe")
       });
     }
   }
