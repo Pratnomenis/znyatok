@@ -15,10 +15,12 @@ const os = require('os');
 const path = require('path');
 
 // Lock single instance
-const gotTheLock = app.requestSingleInstanceLock()
+const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {
   app.quit();
 }
+
+const appVersion = app.getVersion();
 
 // Execute on startup
 const isDev = !app.isPackaged;
@@ -41,7 +43,7 @@ const tray = new class {
 
   create() {
     this.tray = new Tray(path.join(__dirname, 'icons', 'png', '128x128.png'));
-    this.tray.setToolTip('Znyatok v1.2.2');
+    this.tray.setToolTip(`Znyatok v${appVersion}`);
     this.contextMenu = Menu.buildFromTemplate([{
         type: 'normal',
         label: 'Make screenshot',
@@ -83,7 +85,7 @@ const tray = new class {
   }
 
   actionCheckForUpdates() {
-    shell.openExternal('https://znyatok.com/?update_since=122');
+    shell.openExternal(`https://znyatok.com/?update_since=${appVersion}`);
   }
 }
 
