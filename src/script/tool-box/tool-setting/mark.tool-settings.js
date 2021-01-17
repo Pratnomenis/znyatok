@@ -59,7 +59,7 @@ export class MarkToolSettings extends ToolSetings {
       if (typeId === markType.numbersIncrese) {
         listener = () => {
           this.mark.setType(markType.numbers);
-          this.mark.decrease();
+          this.mark.increse();
         };
       } else if (typeId === markType.numbers) {
         listener = () => {
@@ -68,7 +68,7 @@ export class MarkToolSettings extends ToolSetings {
       } else if (typeId === markType.numbersDecrese) {
         listener = () => {
           this.mark.setType(markType.numbers);
-          this.mark.increse();
+          this.mark.decrease();
         };
       } else if (typeId === markType.lettersDecrese) {
         listener = () => {
