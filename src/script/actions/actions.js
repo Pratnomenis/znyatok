@@ -10,6 +10,10 @@ import {
   MarkCounterSingletone
 } from "../mark-counter/mark-counter.js";
 
+import {
+  CursorCords
+} from "../cursor-cords/cursor-cords.js";
+
 export class Actions {
   constructor(shot, paper, tools) {
     this.shot = shot;
@@ -56,8 +60,9 @@ export class Actions {
     document.querySelector('.js-img-screenshot').removeAttribute('src');
     document.querySelector('.js-img-last-shot').removeAttribute('src');
     document.querySelector('.js-paper-holder').removeAttribute('style');
-    document.querySelector('.js-cursor-coords').removeAttribute('style');
     document.querySelector('.js-textreader-wrapper').removeAttribute('style');
+
+    CursorCords.getInstance().show();
 
     const cnvPaper = document.querySelector('.js-cnv-paper');
     const context = cnvPaper.getContext('2d');

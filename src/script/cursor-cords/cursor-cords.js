@@ -40,6 +40,8 @@ export class CursorCords {
 
   show() {
     this.domWrapper.style.display = 'flex';
+    this.domWrapper.style.left = `200vw`;
+    this.domWrapper.style.top = `200vh`;
     this.shown = true;
   }
 
