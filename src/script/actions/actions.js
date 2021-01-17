@@ -41,14 +41,14 @@ export class Actions {
     ipcRenderer.on('keyboard-control-w', () => this.saver.saveToNewWindow());
     ipcRenderer.on('keyboard-control-shift-b', () => this.saver.saveAsBase64());
 
-    ipcRenderer.on('action-load-screen-to-image', (_, screenOptions) => {
-      this.loadScreenToImage(screenOptions);
+    ipcRenderer.on('action-load-screen-to-image', (_, screen) => {
+      this.loadScreenToImage(screen);
     });
     ipcRenderer.on('reset-all', () => this.resetAll());
   }
 
-  loadScreenToImage(screenOptions) {
-    this.shot.screenToImage(screenOptions);
+  loadScreenToImage(screen) {
+    this.shot.screenToImage(screen);
   }
 
   resetAll() {

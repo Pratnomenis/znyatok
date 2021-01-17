@@ -150,16 +150,9 @@ const mainWindow = new class {
   }
 
   create() {
-    const {
-      width,
-      height
-    } = this.getScaledScreenSize();
-
     const settingsPath = path.join(app.getPath('userData'), 'settings.json');
 
     this.browserWindow = new BrowserWindow({
-      width,
-      height,
       show: false,
       hasShadow: false,
       frame: false,
@@ -184,25 +177,39 @@ const mainWindow = new class {
     // this.browserWindow.webContents.openDevTools();
   }
 
-  getScaledScreenSize() {
-    // TODO: change window size to active screen,
-    // When support more than 1 display added
+  getScaledScreen() {
+    const cursor = screen.getCursorScreenPoint();
+    const displays = screen.getAllDisplays();
+
+    const displayUnderCursor = displays.find((display) => {
+      const {
+        bounds
+      } = display;
+      const waMinX = bounds.x;
+      const waMaxX = bounds.x + bounds.width;
+      const waMinY = bounds.y;
+      const waMaxY = bounds.y + bounds.height;
+      return cursor.x <= waMaxX && cursor.x >= waMinX && cursor.y <= waMaxY && cursor.y >= waMinY;
+    }) || displays[0];
+
     const {
-      scaleFactor,
-      size
-    } = screen.getPrimaryDisplay();
-    let {
-      width,
-      height
-    } = size;
+      bounds,
+      scaleFactor
+    } = displayUnderCursor;
+    displayUnderCursor.scaledSize = {
+      width: bounds.width * scaleFactor,
+      height: bounds.height * scaleFactor
+    };
 
-    width *= scaleFactor;
-    height *= scaleFactor;
+    return displayUnderCursor;
+  }
 
-    return {
-      width,
-      height
-    }
+  setPosition(x, y) {
+    this.browserWindow.setPosition(x, y, false);
+  }
+
+  getPosition() {
+    return this.browserWindow.getPosition();
   }
 
   destroy() {
@@ -234,8 +241,13 @@ const mainWindow = new class {
   startScreenshot() {
     if (!this.isVisible) {
       this.isVisible = true;
-      const activeScreenSize = this.getScaledScreenSize();
-      mainWindow.send('action-load-screen-to-image', activeScreenSize);
+      const activeScreen = this.getScaledScreen();
+      const {
+        x,
+        y
+      } = activeScreen.bounds;
+      this.setPosition(x, y);
+      mainWindow.send('action-load-screen-to-image', activeScreen);
     }
   }
 
@@ -255,6 +267,8 @@ const previewWindow = new class {
       imageName,
     } = options;
 
+    const [offsetX, offsetY] = mainWindow.getPosition();
+
     const newWindow = new BrowserWindow({
       icon: nativeImage.createFromPath(path.join(__dirname, 'icons', 'png', '64x64.png')),
       show: false,
@@ -269,8 +283,8 @@ const previewWindow = new class {
     });
 
     newWindow.setContentBounds({
-      x: left,
-      y: top,
+      x: offsetX + left,
+      y: offsetY + top,
       width,
       height
     });

@@ -25,12 +25,12 @@ export class Shot {
     this.screenWidth = 0;
   }
 
-  async screenToImage({
-    width,
-    height,
-    screen = 0
-  }) {
-    // FIXME: This thing is very slow
+  async screenToImage(screen) {
+    const {
+      width,
+      height
+    } = screen.scaledSize;
+    const screenId = String(screen.id);
     const sources = await desktopCapturer.getSources({
       types: ['screen'],
       thumbnailSize: {
@@ -42,7 +42,7 @@ export class Shot {
     this.screenHeight = height;
     this.screenWidth = width;
 
-    const source = sources[screen];
+    const source = sources.find(screen => String(screen.display_id) === screenId) || sources[0];
     const thumbnail = source.thumbnail;
     const thumbnailDataUrl = thumbnail.toDataURL();
     const image = document.querySelector('.js-img-screenshot');
