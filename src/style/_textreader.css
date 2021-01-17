@@ -14,7 +14,6 @@
   background: transparent;
   border: none !important;
   border-radius: 0;
-  /* outline: 1px solid yellow; */
   outline: none !important;
   width: 100%;
   height: inherit;
@@ -22,7 +21,7 @@
   font-size: inherit;
   color: inherit;
   text-shadow: 2px 2px 2px #000000;
-  padding: 0;
-  margin: 0;
+  padding: 0.5em 0;
+  margin: -0.5em 0;
   font-family: sans-serif;
 }

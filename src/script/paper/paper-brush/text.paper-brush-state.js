@@ -147,14 +147,32 @@ export class TextPaperBrushState extends PaperBrushState {
     textInputDOM.placeCaretAtEnd();
   }
 
-  processMouseDown(_) {
-    this.drawText();
+  async processMouseDown(data) {
+    await this.drawText();
     textInputDOM.visible = false;
     textInputDOM.clear();
     this.shot.resetUndo();
+
+    const {
+      startCanvasX,
+      startCanvasY,
+      distanceX,
+      distanceY,
+    } = data;
+
+    this.drawKaret(startCanvasX + distanceX, startCanvasY + distanceY);
   }
 
-  processMouseMove(_) {}
+  processMouseMove(data) {
+    const {
+      startCanvasX,
+      startCanvasY,
+      distanceX,
+      distanceY,
+    } = data;
+
+    this.drawKaret(startCanvasX + distanceX, startCanvasY + distanceY);
+  }
 
   processMouseUp(data) {
     const {
@@ -165,6 +183,7 @@ export class TextPaperBrushState extends PaperBrushState {
       canvasWidth
     } = data;
 
+    this.paper.clearCtx();
     textInputDOM.visible = true;
     textInputDOM.setPosition(startCanvasX + distanceX, startCanvasY + distanceY, canvasWidth);
     this.shot.setUndoTo(this.ctrlZ.bind(this));
@@ -179,23 +198,38 @@ export class TextPaperBrushState extends PaperBrushState {
         width
       } = textInputDOM.getPosition();
       const ctx = this.paper.canvasContext;
-      const fontSize = textType[this.type];
-      const realY = y + fontSize.offsetY;
+      const font = textType[this.type];
+      const realY = y + font.offsetY;
       this.paper.clearCtx();
       ctx.save();
 
-      ctx.shadowBlur = fontSize.shadowBlur;
-      ctx.shadowOffsetX = fontSize.shadowOffset;
-      ctx.shadowOffsetY = fontSize.shadowOffset;
+      ctx.shadowBlur = font.shadowBlur;
+      ctx.shadowOffsetX = font.shadowOffset;
+      ctx.shadowOffsetY = font.shadowOffset;
       ctx.shadowColor = textInputDOM.shadowColor;
 
       ctx.fillStyle = this.color;
-      ctx.font = `${fontSize.size}px sans-serif`;
+      ctx.font = `${font.size}px sans-serif`;
       ctx.fillText(value, x, realY, width);
       await this.shot.takeShot();
       this.paper.clearCtx();
       ctx.restore();
     }
+  }
+
+  drawKaret(x, y) {
+    const ctx = this.paper.canvasContext;
+    const font = textType[this.type];
+    const halfLineWidth = font.size / 2;
+    this.paper.clearCtx();
+    ctx.save();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = this.color;
+    ctx.beginPath();
+    ctx.moveTo(x, y - halfLineWidth);
+    ctx.lineTo(x, y + halfLineWidth);
+    ctx.stroke();
+    ctx.restore();
   }
 
   ctrlZ() {
