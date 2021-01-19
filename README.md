@@ -5,4 +5,15 @@
 
 More information on [znyatok.com](https://znyatok.com/).
 
-Contact with author on [linkedin.com](https://www.linkedin.com/in/boris-savenko/).
+## Build instruction
+```
+git clone https://github.com/Pratnomenis/znyatok.git
+cd znyatok
+npm install
+npm run dist
+```
+You will find app in `dist` folder.
+## Author
+__Boris Chekanovskiy__ <br>
+[pratnomenis@gmail.com](mailto:pratnomenis+znyatok@gmail.com) <br>
+[linkedin.com](https://www.linkedin.com/in/boris-savenko/)

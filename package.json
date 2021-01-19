@@ -3,7 +3,7 @@
   "version": "1.5.5",
   "homepage": "https://znyatok.com/",
   "description": "Secure screenshot application",
-  "author": "Pratnomenis <pratnomenis+znyatok@gmail.com>",
+  "author": "Boris Chekanovskiy <pratnomenis@gmail.com>",
   "license": "MIT",
   "main": "./src/index.js",
   "scripts": {
