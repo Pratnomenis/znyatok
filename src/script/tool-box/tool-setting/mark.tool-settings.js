@@ -84,6 +84,20 @@ export class MarkToolSettings extends ToolSetings {
           this.mark.setType(markType.letters);
           this.mark.increse();
         };
+      } else if (typeId === markType.emojiDecrese) {
+        listener = () => {
+          this.mark.setType(markType.emoji);
+          this.mark.decrease();
+        };
+      } else if (typeId === markType.emoji) {
+        listener = () => {
+          this.mark.setType(markType.emoji);
+        };
+      } else if (typeId === markType.emojiIncrese) {
+        listener = () => {
+          this.mark.setType(markType.emoji);
+          this.mark.increse();
+        };
       }
 
       this.listeners[listenerName] = listener;
