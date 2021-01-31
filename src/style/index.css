@@ -5,6 +5,7 @@
 @import "_tool-box.css";
 @import "_textreader.css";
 @import "_palete.css";
+@import "_type-icon.css";
 
 .paper-wrapper {
   left: 0;
@@ -26,6 +27,7 @@
 
 .settings-list {
   display: none;
+  border-top: 1px solid var(--panel-devider);
 }
 
 .settings-list__shown {

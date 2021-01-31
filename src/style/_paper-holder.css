@@ -6,6 +6,7 @@
   height: 0;
   box-shadow: 0 0 300vw 300vh rgba(0, 0, 0, 0.4);
   cursor: grab;
+  outline: 2px dashed #cccccccc;
 }
 
 .paper-holder:active {

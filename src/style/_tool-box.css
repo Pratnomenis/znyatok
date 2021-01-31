@@ -112,6 +112,12 @@
   display: flex;
 }
 
+.list-group-devider {
+  background: var(--panel-devider);
+  height: 100%;
+  width: 1px;
+}
+
 .settings-list--list-item {
   margin: 0;
   padding: 0;

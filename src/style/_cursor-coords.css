@@ -11,8 +11,8 @@
   font-family: sans-serif;
   padding: 2px 4px;
   border-radius: 2px;
-  background-color: #fff;
-  color: #111111;
+  background-color: #ccc;
+  color: #111;
   border: 1px solid;
   z-index: 999;
 }
@@ -26,7 +26,7 @@
   display: block;
   position: absolute;
   font-size: 12px;
-  background: #fff;
+  background: #ccc;
   color: #111;
   font-size: 12px;
   font-family: sans-serif;
@@ -48,7 +48,7 @@
   display: block;
   position: absolute;
   font-size: 12px;
-  background: #fff;
+  background: #ccc;
   color: #111;
   font-size: 12px;
   font-family: sans-serif;

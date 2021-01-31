@@ -1,5 +1,6 @@
 .resize-box {
   --indent: -5px;
+  background: #ccc;
 
   width: 10px;
   height: 10px;
@@ -12,6 +13,7 @@
   outline: none;
 
   z-index: 9998;
+
 }
 
 .no-resize .resize-box {
@@ -19,15 +21,15 @@
 }
 
 .resize-box__top-left {
-  top: var(--indent);
-  left: var(--indent);
+  top: calc(var(--indent) - 1px);
+  left: calc(var(--indent) - 1px);
   bottom: auto;
   right: auto;
   cursor: nwse-resize;
 }
 
 .resize-box__top-middle {
-  top: var(--indent);
+  top: calc(var(--indent) - 1px);
   left: calc(50% + var(--indent));
   bottom: auto;
   right: auto;
@@ -35,10 +37,10 @@
 }
 
 .resize-box__top-right {
-  top: var(--indent);
+  top: calc(var(--indent) - 1px);
   left: auto;
   bottom: auto;
-  right: var(--indent);
+  right: calc(var(--indent) - 1px);
   cursor: nesw-resize;
 }
 
@@ -46,37 +48,37 @@
   top: calc(50% + var(--indent));
   left: auto;
   bottom: auto;
-  right: var(--indent);
+  right: calc(var(--indent) - 1px);
   cursor: ew-resize;
 }
 
 .resize-box__bottom-right {
   top: auto;
   left: auto;
-  bottom: var(--indent);
-  right: var(--indent);
+  bottom: calc(var(--indent) - 1px);
+  right: calc(var(--indent) - 1px);
   cursor: nwse-resize;
 }
 
 .resize-box__bottom-middle {
   top: auto;
-  left: calc(50% + var(--indent));
-  bottom: var(--indent);
+  left: calc(50% + var(--indent) + 1px);
+  bottom: calc(var(--indent) - 1px);
   right: auto;
   cursor: ns-resize;
 }
 
 .resize-box__bottom-left {
   top: auto;
-  left: var(--indent);
-  bottom: var(--indent);
+  left: calc(var(--indent) - 1px);
+  bottom: calc(var(--indent) - 1px);
   right: auto;
   cursor: nesw-resize;
 }
 
 .resize-box__middle-left {
   top: calc(50% + var(--indent));
-  left: var(--indent);
+  left: calc(var(--indent) - 1px);
   bottom: auto;
   right: auto;
   cursor: ew-resize;

@@ -17,6 +17,7 @@ body {
 
 :root {
   --panel-bg-color: #282c34;
+  --panel-devider: #d7dae01a;
   --panel-icon-color: #696c74;
   --panel-icon-active-color: #d7dae0;
 

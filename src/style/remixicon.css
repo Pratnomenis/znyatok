@@ -7,7 +7,7 @@
 
 @font-face {
     font-family: "remixicon";
-    src: url("../font/remixicon.woff?t=1610036363513") format("woff");
+    src: url("../font/remixicon.woff2?t=1612060355804") format("woff2");
     font-display: swap;
 }
 
@@ -116,22 +116,6 @@
     content: "\eb7c";
 }
 
-.ri-arrow-right-up-line:before {
-    content: "\ea70";
-}
-
-.ri-arrow-left-right-line:before {
-    content: "\ea62";
-}
-
-.ri-share-forward-fill:before {
-    content: "\f0fc";
-}
-
-.ri-subtract-fill:before {
-    content: "\f1ae";
-}
-
 .ri-pencil-line:before {
     content: "\efe0";
 }
@@ -160,24 +144,8 @@
     content: "\ec69";
 }
 
-.ri-node-tree:before {
-    content: "\ef90";
-}
-
 .ri-picture-in-picture-line:before {
     content: "\eff4";
-}
-
-.ri-picture-in-picture-2-line:before {
-    content: "\eff0";
-}
-
-.ri-picture-in-picture-exit-line:before {
-    content: "\eff2";
-}
-
-.ri-information-line:before {
-    content: "\ee59";
 }
 
 .ri-error-warning-line:before {
