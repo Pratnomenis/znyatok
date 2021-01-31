@@ -34,6 +34,10 @@ import {
   SaveToolSettings
 } from "./tool-setting/save.tool-settings.js";
 
+import {
+  ToolSwitcher
+} from './tool-switcher.js';
+
 export class ToolBox {
   constructor(paper, shot, palette, settings) {
     this.activeTool = null;
@@ -62,6 +66,13 @@ export class ToolBox {
 
     const save = new Tool('.js-tool-box__save', this);
     save.addToolSettings(new SaveToolSettings('.js-settings-list__save', text, paper, shot, palette, this.settings));
+
+    this.toolSwitcher = new ToolSwitcher('.js-list-item-switcher', this.settings, {
+      'js-tool-box__square': square,
+      'js-tool-box__circle': circle,
+      'js-tool-box__arrow': arrow,
+      'js-tool-box__line': line
+    })
   }
 
   reset() {

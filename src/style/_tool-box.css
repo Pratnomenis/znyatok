@@ -107,6 +107,10 @@
   color: var(--panel-icon-active-color);
 }
 
+.tool-box--list-item__hidden {
+  display: none;
+}
+
 /* ----------- */
 .settings-list--group {
   display: flex;

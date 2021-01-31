@@ -23,6 +23,7 @@ export class Tool {
 
   activate() {
     this.toolBox.activeTool = this;
+    this.show();
     this.button.classList.add('tool-box--list-item__active');
     this.toolSettings.activate();
   }
@@ -30,6 +31,14 @@ export class Tool {
   deactivate() {
     this.button.classList.remove('tool-box--list-item__active');
     this.toolSettings.deactivate();
+  }
+
+  hide() {
+    this.button.classList.add('tool-box--list-item__hidden');
+  }
+
+  show() {
+    this.button.classList.remove('tool-box--list-item__hidden');
   }
 
   typeIncrese() {

@@ -19,21 +19,31 @@ export class Settings {
   }
 
   saveSettings() {
-    const data = JSON.stringify(this.list, null, 2);
-    fs.writeFile(this.settingsFilePath, data, (err) => {
-      if (err) throw err;
-    });
+    try {
+      const data = JSON.stringify(this.list, null, 2);
+      fs.writeFile(this.settingsFilePath, data, (err) => {
+        if (err) throw err;
+      });
+    } catch (error) {}
   }
 
   loadSettings() {
     this.loadDefaultSettings();
-    if (fs.existsSync(this.settingsFilePath)) {
-      const rawData = fs.readFileSync(this.settingsFilePath, 'utf8');
-      this.list = {
-        ...this.list,
-        ...JSON.parse(rawData)
-      };
-    }
+    try {
+      if (fs.existsSync(this.settingsFilePath)) {
+        let rawData = fs.readFileSync(this.settingsFilePath, 'utf8');
+        // FIXME: I don't know why, but saving settings with 'arrow-or-line': 'line'
+        // makes double '}' in the end of file
+        rawData = rawData.replace(/\{+/g, '{')
+          .replace(/\}+/g, '}')
+          .replace(/\,+/g, ',');
+
+        this.list = {
+          ...this.list,
+          ...JSON.parse(rawData)
+        };
+      }
+    } catch (error) {}
     this.saveSettings();
   }
 
@@ -47,6 +57,8 @@ export class Settings {
       'brush-text': 2,
       'brush-mark': 1,
       'save-type': 2,
+      'square-or-circle': 'square',
+      'arrow-or-line': 'arrow',
       'palette-color': '#17a2b8'
     }
   }
