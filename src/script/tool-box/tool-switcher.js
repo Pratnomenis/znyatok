@@ -33,7 +33,6 @@ export class ToolSwitcher {
   }
 
   init() {
-    // TODO: hide hidden by settings
     this.refreshUiBySettings();
     this.switchButtons.forEach(el => {
       const switchType = el.dataset.switchType;
@@ -45,12 +44,11 @@ export class ToolSwitcher {
       } = switcherAttrList[switchType];
       const toolFrom = this.toolsList[cssClassFrom];
       const toolTo = this.toolsList[cssClassTo];
-
+      el.addEventListener('mousedown', e => e.stopPropagation());
       el.addEventListener('click', () => {
         toolFrom.deactivate();
         toolFrom.hide();
         toolTo.activate();
-        console.log(settingName, settingValueToShow);
         this.settings.setSetting(settingName, settingValueToShow);
       });
     });

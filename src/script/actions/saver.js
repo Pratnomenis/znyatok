@@ -97,4 +97,18 @@ export class Saver {
     const s = date.getSeconds();
     return `znyatok_${y}${m}${d}${h}${mi}${s}`;
   }
+
+  saveByType(saveType) {
+    if (saveType == 'clipboard') {
+      this.saveToClipboard();
+    } else if (saveType == 'desktop') {
+      this.saveToFile();
+    } else if (saveType == 'folder') {
+      this.saveToFolder();
+    } else if (saveType == 'window') {
+      this.saveToNewWindow();
+    } else if (saveType == 'base64') {
+      this.saveAsBase64();
+    }
+  }
 }

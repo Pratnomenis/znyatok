@@ -57,6 +57,7 @@ export class Settings {
       'brush-text': 2,
       'brush-mark': 1,
       'save-type': 2,
+      'save-type-history': ['clipboard', 'desktop'],
       'square-or-circle': 'square',
       'arrow-or-line': 'arrow',
       'palette-color': '#17a2b8'

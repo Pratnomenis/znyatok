@@ -53,10 +53,23 @@
           </button>
         </div>
         <div class="list-group-devider"></div>
-        <div class="tool-box--group">
-          <button class="tool-box--list-item js-tool-save" title="Save to desktop [Ctrl+S]">
+        <div class="tool-box--group tool-box--group__save">
+          <button class="settings-list--list-item js-tool-save" data-type="clipboard" title="Copy to clipboard [Ctrl+C]">
+            <i class="ri-clipboard-line"></i>
+          </button>
+          <button class="settings-list--list-item js-tool-save" data-type="desktop" title="Save to desktop [Ctrl+S]">
             <i class="ri-save-3-line"></i>
           </button>
+          <button class="settings-list--list-item js-tool-save" data-type="folder" title="Save to selected folder [Ctrl+Shift+S]">
+            <i class="ri-folder-line"></i>
+          </button>
+          <button class="settings-list--list-item js-tool-save" data-type="window" title="Open in new window [Ctrl+W]">
+            <i class="ri-picture-in-picture-line"></i>
+          </button>
+          <button class="settings-list--list-item js-tool-save" data-type="base64" title="Copy Base64 to clipboard [Ctrl+Shift+B]">
+            <i class="ri-code-box-line"></i>
+          </button>
+
           <button class="tool-box--list-item tool-box--list-item__thin js-tool-box__save"
             title="Other save options">
             <i class="ri-more-2-line"></i>

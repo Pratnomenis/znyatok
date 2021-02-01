@@ -13,6 +13,7 @@ export class SaveToolSettings extends ToolSetings {
     super(hldrSelector, tool, paper, shot, palette, settings, 'save-type');
     this.listeners = {};
     this.saver = new Saver(shot);
+    this.initHistory();
   }
 
   activate() {
@@ -24,6 +25,15 @@ export class SaveToolSettings extends ToolSetings {
       const typeId = element.dataset.type;
       element.addEventListener('mousedown', this.getMouseDownListener(typeId))
       element.addEventListener('click', this.getClickListener(typeId))
+    });
+  }
+
+  initHistory() {
+    const savedHistory = this.settings.getSetting('save-type-history');
+    const topSateButtons = document.querySelectorAll('.js-tool-save');
+    topSateButtons.forEach(el => {
+      const elType = el.dataset.type;
+      el.classList.toggle('tool-box--list-item__hidden', savedHistory.indexOf(elType) === -1);
     });
   }
 
@@ -55,16 +65,12 @@ export class SaveToolSettings extends ToolSetings {
   }
 
   customSave(saveType) {
-    if (saveType == 'clipboard') {
-      this.saver.saveToClipboard();
-    } else if (saveType == 'desktop') {
-      this.saver.saveToFile();
-    } else if (saveType == 'folder') {
-      this.saver.saveToFolder();
-    } else if (saveType == 'window') {
-      this.saver.saveToNewWindow();
-    } else if (saveType == 'base64') {
-      this.saver.saveAsBase64();
+    const savedHistory = this.settings.getSetting('save-type-history');
+    if (savedHistory.indexOf(saveType) === -1) {
+      this.settings.setSetting('save-type-history', [savedHistory[1], saveType]);
+      this.initHistory();
     }
+
+    this.saver.saveByType(saveType);
   }
 }

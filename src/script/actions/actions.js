@@ -23,9 +23,12 @@ export class Actions {
 
     document.addEventListener('wheel', this.onMouseWheel.bind(this));
 
-    const btnSave = document.querySelector('.js-tool-save');
-    btnSave.addEventListener('mousedown', e => e.stopPropagation());
-    btnSave.addEventListener('click', () => this.saver.saveToFile());
+    const btnListSave = document.querySelectorAll('.js-tool-save');
+    btnListSave.forEach(el => el.addEventListener('mousedown', e => e.stopPropagation()));
+    btnListSave.forEach(el => el.addEventListener('click', () => {
+      const saveType = el.dataset.type;
+      this.saver.saveByType(saveType);
+    }));
 
     const btnQuit = document.querySelector('.js-tool-exit');
     btnQuit.addEventListener('mousedown', e => e.stopPropagation());

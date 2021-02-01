@@ -57,6 +57,11 @@
   display: flex;
 }
 
+.tool-box--group__save {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .tool-box--list {
   display: flex;
   justify-content: space-between;
@@ -108,7 +113,7 @@
 }
 
 .tool-box--list-item__hidden {
-  display: none;
+  display: none !important;
 }
 
 /* ----------- */
@@ -120,6 +125,8 @@
   background: var(--panel-devider);
   height: 100%;
   width: 1px;
+  border-left: 6px solid var(--panel-bg-color);
+  border-right: 6px solid var(--panel-bg-color);
 }
 
 .settings-list--list-item {
