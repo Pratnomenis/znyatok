@@ -37,26 +37,30 @@ export class Saver {
 
   }
 
-  saveToFolder() {
-    ipcRenderer.send('get-select-path');
-    ipcRenderer.once('get-select-path-reply', async (event, saveDialogResult) => {
-      const {
-        canceled,
-        filePath
-      } = saveDialogResult;
-      if (!canceled && filePath) {
-        await this.saveImageAs(filePath);
-      } else {
-        this.closeApp();
-      }
+  async saveToFolder() {
+    const imageBase64 = await this.shot.getLastBase64();
+    const imageCode = imageBase64.split(';base64,').pop();
+    ipcRenderer.send('action-quit', true);
+    ipcRenderer.once('action-quit-reply', () => {
+      ipcRenderer.send('get-select-path');
+      ipcRenderer.once('get-select-path-reply', async (event, saveDialogResult) => {
+        const {
+          canceled,
+          filePath
+        } = saveDialogResult;
+        if (!canceled && filePath) {
+          await this.saveImageAs(filePath, imageCode);
+        }
+      });
     });
   }
 
-  async saveImageAs(filePath) {
+  async saveImageAs(filePath, imageCode) {
     await this.shot.paper.deactivateLastState();
-
-    const imageBase64 = await this.shot.getLastBase64();
-    const imageCode = imageBase64.split(';base64,').pop();
+    if (!imageCode) {
+      const imageBase64 = await this.shot.getLastBase64();
+      imageCode = imageBase64.split(';base64,').pop();
+    }
 
     fs.writeFile(filePath, imageCode, {
       encoding: 'base64'

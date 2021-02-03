@@ -213,15 +213,17 @@ const mainWindow = new class {
   }
 
   destroy() {
-    shortcuts.unregisterAll();
-    this.send('reset-all');
+    return new Promise(destroyedSucc => {
+      shortcuts.unregisterAll();
+      this.send('reset-all');
 
-    setTimeout(() => {
-      this.hide();
-      this.isVisible = false;
-      this.destroyOnBlur = true;
-      // magic! do not touch or image doesn't reset 
-    }, 65);
+      setTimeout(() => {
+        this.hide();
+        this.isVisible = false;
+        this.destroyOnBlur = true;
+        destroyedSucc(true);
+      }, 65);
+    })
   }
 
   send(...args) {
@@ -317,8 +319,12 @@ ipcMain.on('screenshot-created', () => {
   mainWindow.show();
 });
 
-ipcMain.on('action-quit', () => {
-  mainWindow.destroy();
+ipcMain.on('action-quit', (event, sendReplay) => {
+  mainWindow.destroy().then(e => {
+    if (sendReplay) {
+      event.sender.send('action-quit-reply', app.getPath('desktop'));
+    }
+  });
 });
 
 ipcMain.on('get-desktop-folder', event => {
