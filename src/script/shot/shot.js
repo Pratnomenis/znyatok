@@ -42,7 +42,14 @@ export class Shot {
     this.screenHeight = height;
     this.screenWidth = width;
 
-    const source = sources.find(screen => String(screen.display_id) === screenId) || sources[0];
+    const source = sources.find((screen, index) => {
+      let curScreenId = screen.display_id;
+      if (!curScreenId) {
+        curScreenId = index + 1;
+      }
+      return String(curScreenId) === screenId;
+    }) || sources[0];
+
     const thumbnail = source.thumbnail;
     const thumbnailDataUrl = thumbnail.toDataURL();
     const image = document.querySelector('.js-img-screenshot');

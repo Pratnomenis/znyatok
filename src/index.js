@@ -180,7 +180,6 @@ const mainWindow = new class {
   getScaledScreen() {
     const cursor = screen.getCursorScreenPoint();
     const displays = screen.getAllDisplays();
-
     const displayUnderCursor = displays.find((display) => {
       const {
         bounds
@@ -200,12 +199,16 @@ const mainWindow = new class {
       width: bounds.width * scaleFactor,
       height: bounds.height * scaleFactor
     };
-
     return displayUnderCursor;
   }
 
   setPosition(x, y) {
-    this.browserWindow.setPosition(x, y, false);
+    this.browserWindow.setBounds({
+      width: 0,
+      height: 0,
+      x,
+      y
+    })
   }
 
   getPosition() {
