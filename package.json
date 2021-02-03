@@ -35,7 +35,7 @@
     "Screen shot"
   ],
   "devDependencies": {
-    "electron-builder": "^22.9.1",
-    "electron": "^11.0.3"
+    "electron": "^11.2.2",
+    "electron-builder": "^22.9.1"
   }
 }
