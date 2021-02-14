@@ -30,6 +30,12 @@
   border-top: 1px solid var(--panel-devider);
 }
 
+.controls-top-right .settings-list,
+.controls-top-left .settings-list {
+  border-top: none;
+  border-bottom: 1px solid var(--panel-devider);
+}
+
 .settings-list__shown {
   display: flex;
 }

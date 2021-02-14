@@ -112,6 +112,12 @@
   color: var(--panel-icon-active-color);
 }
 
+.controls-top-right .tool-box--list-item__active,
+.controls-top-left .tool-box--list-item__active {
+  border-bottom: none;
+  border-top: 3px solid var(--panel-icon-active-color);
+}
+
 .tool-box--list-item__hidden {
   display: none !important;
 }
