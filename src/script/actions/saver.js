@@ -70,9 +70,12 @@ export class Saver {
   }
 
   async saveToNewWindow() {
-    const imageBase64 = await this.shot.getLastBase64();
     const shotParams = this.shot.getParams();
+    if (shotParams.width < 3 && shotParams.height < 3) {
+      return false;
+    }
     const imageName = this.getImageName();
+    const imageBase64 = await this.shot.getLastBase64();
 
     ipcRenderer.send('picture-to-new-window', {
       imageBase64,
