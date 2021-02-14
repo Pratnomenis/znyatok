@@ -75,6 +75,7 @@ export class Saver {
       return false;
     }
     const imageName = this.getImageName();
+    await this.shot.paper.deactivateLastState();
     const imageBase64 = await this.shot.getLastBase64();
 
     ipcRenderer.send('picture-to-new-window', {
