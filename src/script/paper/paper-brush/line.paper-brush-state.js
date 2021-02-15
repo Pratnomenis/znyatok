@@ -66,7 +66,7 @@ export class LinePaperBrushState extends PaperBrushState {
     ctx.save();
     ctx.filter = 'blur(0.5px)';
     ctx.lineWidth = size;
-    ctx.lineCap = 'round';
+    ctx.lineCap = 'butt';
     ctx.strokeStyle = this.color;
     ctx.beginPath();
     ctx.moveTo(x, y);

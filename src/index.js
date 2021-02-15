@@ -174,7 +174,7 @@ const mainWindow = new class {
         this.destroy();
       }
     });
-    this.browserWindow.webContents.openDevTools();
+    // this.browserWindow.webContents.openDevTools();
   }
 
   getScaledScreen() {

@@ -42,13 +42,18 @@ export class PancilPaperBrushState extends PaperBrushState {
       currentX,
       currentY
     } = data;
+    const x = currentX - canvasLeft;
+    const y = currentY - canvasTop;
     this.path.push({
-      x: currentX - canvasLeft,
-      y: currentY - canvasTop
+      x,
+      y
     });
     this.startDrawing();
     this.ctx.moveTo(this.path[0].x, this.path[0].y);
-    this.path.forEach((crd) => this.ctx.lineTo(crd.x, crd.y));
+    this.path.forEach((crd) => {
+      this.ctx.lineTo(crd.x, crd.y);
+      this.ctx.moveTo(crd.x, crd.y);
+    });
     this.endDrawing();
   }
 
