@@ -60,6 +60,7 @@
 .tool-box--group__save {
   margin-left: auto;
   margin-right: auto;
+  flex-direction: row-reverse;
 }
 
 .tool-box--list {
@@ -103,17 +104,22 @@
   color: var(--panel-icon-active-color);
 }
 
-.tool-box--list-item__active {
+.tool-box--list-item__active,
+.tool-box--group__save .tool-box--list-item__active~.settings-list--list-item {
   color: var(--panel-icon-active-color);
   border-bottom: 3px solid var(--panel-icon-active-color);
 }
 
-.tool-box--list-item__active:hover {
+
+.tool-box--list-item__active:hover,
+.tool-box--group__save .tool-box--list-item__active~.settings-list--list-item:hover {
   color: var(--panel-icon-active-color);
 }
 
 .controls-top-right .tool-box--list-item__active,
-.controls-top-left .tool-box--list-item__active {
+.controls-top-left .tool-box--list-item__active,
+.controls-top-right .tool-box--group__save .tool-box--list-item__active~.settings-list--list-item,
+.controls-top-left .tool-box--group__save .tool-box--list-item__active~.settings-list--list-item {
   border-bottom: none;
   border-top: 3px solid var(--panel-icon-active-color);
 }
