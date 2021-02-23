@@ -1,7 +1,8 @@
-# znyatok
+# znyatok v1.6.3
+Available for Linux and Windows
 ## Free screenshot application developed with electron.
 
-![Znyatok in action](https://znyatok.com/znyatok.png)
+![Znyatok in action](https://znyatok.com/znyatok160.png)
 
 More information on [znyatok.com](https://znyatok.com/).
 
