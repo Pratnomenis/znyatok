@@ -25,3 +25,22 @@
   margin: -0.5em 0;
   font-family: sans-serif;
 }
+
+.textreader-view {
+  position: absolute;
+  display: inline-block;
+  width: auto;
+  color: transparent;
+  outline: 3px dotted #aaaaaaaa;
+  left: -5px;
+  top: 0;
+  padding: 0 10px;
+  height: inherit;
+  line-height: inherit;
+  font-size: inherit;
+  font-family: sans-serif;
+  max-width: calc(100% - 16px);
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+}

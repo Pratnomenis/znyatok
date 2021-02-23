@@ -63,6 +63,21 @@ const textInputDOM = new class {
   constructor() {
     this.wrapper = document.querySelector('.js-textreader-wrapper');
     this.input = this.wrapper.querySelector('.js-textreader-input');
+    this.view = this.wrapper.querySelector('.js-textreader-view');
+    this.movingInProgress = false;
+    this.movingOffset = {};
+
+    this.input.addEventListener('input', (e) => {
+      this.view.innerHTML = this.input.value.replace(/ /g, '&nbsp;').replace(/\</g, '>');
+    });
+
+    this.view.addEventListener('mousedown', (e) => {
+      this.movingInProgress = true;
+      this.movingOffset = {
+        x: e.offsetX,
+        y: e.offsetY
+      }
+    });
   }
 
   get visible() {
@@ -83,6 +98,7 @@ const textInputDOM = new class {
 
   clear() {
     this.input.value = '';
+    this.view.innerText = '';
   }
 
   focus() {
@@ -101,9 +117,31 @@ const textInputDOM = new class {
       `${newFontSize.shadowBlur}px`,
       this.shadowColor
     ].join(' ');
+
+    if (this.visible) {
+      this.refreshPosition();
+    }
   }
 
-  setPosition(x, y, paperWidth) {
+  setPosition(x, y, paperWidth, canvasHeight) {
+    const fs = parseInt(this.wrapper.style.fontSize);
+    if (this.movingInProgress) {
+      x -= this.movingOffset.x - 6;
+      y -= this.movingOffset.y - fs / 2;
+    }
+    if (x <= 5) {
+      x = 5;
+    }
+    if (x >= paperWidth - 16) {
+      x = paperWidth - 16;
+    }
+    if (y <= fs / 2) {
+      y = fs / 2;
+    }
+    if (y >= canvasHeight - fs / 2) {
+      y = canvasHeight - fs / 2;
+    }
+
     this.wrapper.style.left = `${x}px`;
     this.wrapper.style.top = `${y}px`;
     this.wrapper.style.width = `${paperWidth - x}px`;
@@ -116,6 +154,22 @@ const textInputDOM = new class {
       y: parseInt(this.wrapper.style.top),
       width: parseInt(this.wrapper.style.width)
     }
+  }
+
+  refreshPosition() {
+    const {
+      x,
+      y
+    } = this.getPosition();
+    const cnvPaper = document.querySelector('.js-cnv-paper');
+    const width = cnvPaper.offsetWidth;
+    const height = cnvPaper.offsetHeight;
+    this.setPosition(x, y, width, height);
+  }
+
+  stopMoving() {
+    this.movingInProgress = false;
+    this.movingOffset = {};
   }
 
   placeCaretAtEnd() {
@@ -148,19 +202,26 @@ export class TextPaperBrushState extends PaperBrushState {
   }
 
   async processMouseDown(data) {
-    await this.drawText();
-    textInputDOM.visible = false;
-    textInputDOM.clear();
-    this.shot.resetUndo();
+    if (!textInputDOM.movingInProgress) {
+      const {
+        startCanvasX,
+        startCanvasY,
+        canvasWidth,
+        canvasHeight
+      } = data;
 
-    const {
-      startCanvasX,
-      startCanvasY,
-      distanceX,
-      distanceY,
-    } = data;
+      await this.drawText();
+      textInputDOM.visible = false;
+      textInputDOM.clear();
+      this.shot.resetUndo();
 
-    this.drawKaret(startCanvasX + distanceX, startCanvasY + distanceY);
+      if (startCanvasX > 0 && startCanvasX < canvasWidth && startCanvasY > 0 && startCanvasY < canvasHeight) {
+        this.paper.clearCtx();
+        textInputDOM.visible = true;
+        textInputDOM.setPosition(startCanvasX, startCanvasY, canvasWidth, canvasHeight);
+        this.shot.setUndoTo(this.ctrlZ.bind(this));
+      }
+    }
   }
 
   processMouseMove(data) {
@@ -169,24 +230,15 @@ export class TextPaperBrushState extends PaperBrushState {
       startCanvasY,
       distanceX,
       distanceY,
+      canvasWidth,
+      canvasHeight
     } = data;
-
-    this.drawKaret(startCanvasX + distanceX, startCanvasY + distanceY);
+    textInputDOM.setPosition(startCanvasX + distanceX, startCanvasY + distanceY, canvasWidth, canvasHeight);
   }
 
-  processMouseUp(data) {
-    const {
-      startCanvasX,
-      startCanvasY,
-      distanceX,
-      distanceY,
-      canvasWidth
-    } = data;
-
-    this.paper.clearCtx();
-    textInputDOM.visible = true;
-    textInputDOM.setPosition(startCanvasX + distanceX, startCanvasY + distanceY, canvasWidth);
-    this.shot.setUndoTo(this.ctrlZ.bind(this));
+  processMouseUp(_) {
+    textInputDOM.stopMoving();
+    textInputDOM.placeCaretAtEnd();
   }
 
   async drawText() {
@@ -202,34 +254,19 @@ export class TextPaperBrushState extends PaperBrushState {
       const realY = y + font.offsetY;
       this.paper.clearCtx();
       ctx.save();
+      ctx.fillStyle = this.color;
+      ctx.font = `${font.size}px sans-serif`;
 
       ctx.shadowBlur = font.shadowBlur;
       ctx.shadowOffsetX = font.shadowOffset;
       ctx.shadowOffsetY = font.shadowOffset;
       ctx.shadowColor = textInputDOM.shadowColor;
 
-      ctx.fillStyle = this.color;
-      ctx.font = `${font.size}px sans-serif`;
       ctx.fillText(value, x, realY, width);
       await this.shot.takeShot();
       this.paper.clearCtx();
       ctx.restore();
     }
-  }
-
-  drawKaret(x, y) {
-    const ctx = this.paper.canvasContext;
-    const font = textType[this.type];
-    const halfLineWidth = font.size / 2;
-    this.paper.clearCtx();
-    ctx.save();
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = this.color;
-    ctx.beginPath();
-    ctx.moveTo(x, y - halfLineWidth);
-    ctx.lineTo(x, y + halfLineWidth);
-    ctx.stroke();
-    ctx.restore();
   }
 
   ctrlZ() {
@@ -242,6 +279,7 @@ export class TextPaperBrushState extends PaperBrushState {
     await this.drawText();
     textInputDOM.clear();
     textInputDOM.visible = false;
+    textInputDOM.stopMoving();
     this.shot.resetUndo();
   }
 }

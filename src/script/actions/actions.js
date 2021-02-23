@@ -59,12 +59,10 @@ export class Actions {
     this.paper.reset();
     this.tools.reset();
     MarkCounterSingletone.getInstance().reset();
-
     document.querySelector('.js-img-screenshot').removeAttribute('src');
     document.querySelector('.js-img-last-shot').removeAttribute('src');
     document.querySelector('.js-paper-holder').removeAttribute('style');
     document.querySelector('.js-textreader-wrapper').removeAttribute('style');
-
     CursorCords.getInstance().show();
 
     const cnvPaper = document.querySelector('.js-cnv-paper');
@@ -74,7 +72,8 @@ export class Actions {
     cnvPaper.removeAttribute('height');
   }
 
-  closeApp() {
+  async closeApp() {
+    await this.shot.paper.deactivateLastState();
     ipcRenderer.send('action-quit');
   }
 
