@@ -35,6 +35,8 @@ if (!isDev && os.platform() === 'win32') {
   }
 }
 
+app.dock.hide();
+
 const tray = new class {
   constructor() {
     this.tray = null;
@@ -137,7 +139,6 @@ const shortcuts = new class {
       this.keysRegistred = false;
     }
   }
-
 }
 
 const mainWindow = new class {
@@ -159,6 +160,10 @@ const mainWindow = new class {
       fullscreenable: true,
       alwaysOnTop: true,
       skipTaskbar: true,
+      transparent:true,
+      opacity: 1,
+      // simpleFullscreen: true, //sceen not full, suddenly hides
+      thickFrame: false,
       webPreferences: {
         nodeIntegration: true,
         additionalArguments: [`--settingsPath=${settingsPath}`]
@@ -174,7 +179,11 @@ const mainWindow = new class {
         this.destroy();
       }
     });
-    // this.browserWindow.webContents.openDevTools();
+    this.browserWindow.on('leave-full-screen', () => {
+      this.browserWindow.hide();
+    });
+
+    this.browserWindow.webContents.openDevTools();
   }
 
   getScaledScreen() {
@@ -202,13 +211,8 @@ const mainWindow = new class {
     return displayUnderCursor;
   }
 
-  setPosition(x, y) {
-    this.browserWindow.setBounds({
-      width: 0,
-      height: 0,
-      x,
-      y
-    })
+  setPosition(bounds) {
+    this.browserWindow.setBounds(bounds)
   }
 
   getPosition() {
@@ -237,21 +241,30 @@ const mainWindow = new class {
     shortcuts.registerAll();
     this.browserWindow.show();
     this.browserWindow.setFullScreen(true);
+    this.browserWindow.setOpacity(1);
   }
 
   hide() {
-    this.browserWindow.hide();
+    // this.browserWindow.setBounds({
+    //   width: 0,
+    //   height: 0,
+    //   x: 0,
+    //   y: 0
+    // });
+    this.browserWindow.setOpacity(0);
+    this.browserWindow.setFullScreen(false);
+    // setTimeout(()=>{
+      // this.browserWindow.hide();
+    // }, 3000);
+    // this.browserWindow.hide(); // It doesn't hide; second shoot shows whitescreen.
+    // this.browserWindow.close();
   }
 
   startScreenshot() {
     if (!this.isVisible) {
       this.isVisible = true;
       const activeScreen = this.getScaledScreen();
-      const {
-        x,
-        y
-      } = activeScreen.bounds;
-      this.setPosition(x, y);
+      this.setPosition(activeScreen.bounds);
       mainWindow.send('action-load-screen-to-image', activeScreen);
     }
   }
