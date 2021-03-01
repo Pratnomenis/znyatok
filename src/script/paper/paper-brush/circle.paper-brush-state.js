@@ -2,6 +2,9 @@ import {
   PaperBrushState
 } from "./paper-brush-state.js";
 
+import {
+  ScaledCanvas
+} from "../../helpers/scaled-canvas.js";
 
 export const circleType = {
   border1: 1,
@@ -119,18 +122,16 @@ export class CirclePaperBrushState extends PaperBrushState {
   setBluredCancas(canvasLeft, canvasTop) {
     const lastShotImage = this.shot.getLastImage();
     const originalImage = this.paper.imageFullScreen;
-    const tCanvas = document.createElement('canvas');
     const {
       width,
       height
     } = originalImage;
-    tCanvas.width = width;
-    tCanvas.height = height;
+    const tCanvas = new ScaledCanvas(width, height);
     const tCtx = tCanvas.getContext('2d');
     tCtx.filter = 'blur(5px)';
     tCtx.drawImage(originalImage, 0, 0, width, height, -5, -5, width + 10, height + 10);
     tCtx.drawImage(lastShotImage, canvasLeft, canvasTop);
     tCtx.filter = 'none';
-    this.bluredCanvas = tCanvas;
+    this.bluredCanvas = tCanvas.getDomElement();
   }
 }

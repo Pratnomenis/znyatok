@@ -108,8 +108,8 @@ export class Paper {
 
   turnOffResize() {
     this.canvasHolderElement.classList.add('no-resize');
-    this.canvasElement.width = this.canvasHolderElement.offsetWidth;
-    this.canvasElement.height = this.canvasHolderElement.offsetHeight;
+    this.canvasElement.width = this.canvasHolderElement.offsetWidth * window.devicePixelRatio;
+    this.canvasElement.height = this.canvasHolderElement.offsetHeight * window.devicePixelRatio;
     this.canvasContext = this.canvasElement.getContext('2d');
   }
 

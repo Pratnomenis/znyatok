@@ -2,6 +2,10 @@ import {
   ShotHistory
 } from './shot-history.js';
 
+import {
+  ScaledCanvas
+} from '../helpers/scaled-canvas.js';
+
 const {
   desktopCapturer,
   ipcRenderer
@@ -71,10 +75,40 @@ export class Shot {
     if (canvasWidth <= 0 || canvasHeight <= 0) {
       this.shotListHistory.add(fullScreenShot.src);
     } else {
-      const tCanvas = document.createElement('canvas');
-      tCanvas.width = canvasWidth;
-      tCanvas.height = canvasHeight;
+      // const tCanvas = new ScaledCanvas(canvasWidth, canvasHeight);
+      // const scaledCanvasWidth = canvasWidth * this.screenScale;
+      // const scaledCanvasHeight = canvasHeight * this.screenScale;
+
+      // const tCtx = tCanvas.getContext('2d');
+
+      // const sL = canvasLeft;
+      // const sT = canvasTop;
+      // const sW = canvasWidth;
+      // const sH = canvasHeight;
+      // // const sW = scaledCanvasWidth;
+      // const sH = scaledCanvasHeight;
+
+      // const sL = canvasLeft * this.screenScale;
+      // const sT = canvasTop * this.screenScale;
+      // const sW = canvasWidth * this.screenScale;
+      // const sH = canvasHeight * this.screenScale;
+      // const sW = scaledCanvasWidth;
+      // const sH = scaledCanvasHeight;
+
+      // const sL = canvasLeft / this.screenScale;
+      // const sT = canvasTop / this.screenScale;
+      // const sW = canvasWidth / this.screenScale;
+      // const sH = canvasHeight / this.screenScale;
+      
+      // tCtx.scale( this.screenScale, this.screenScale);
+      // tCtx.drawImage(fullScreenShot, sL, sT, sW, sH, 0, 0, canvasWidth, canvasHeight);
+      // // tCtx.scale(this.screenScale, this.screenScale);
+      // // tCtx.drawImage(fullScreenShot, sL, sT, sW, sH, 0, 0, scaledCanvasWidth, scaledCanvasHeight);
+      // const imgBase64 = tCanvas.toDataURL();
+      // this.shotListHistory.add(imgBase64);
+      const tCanvas = new ScaledCanvas(canvasWidth, canvasHeight);
       const tCtx = tCanvas.getContext('2d');
+
       tCtx.drawImage(fullScreenShot, canvasLeft, canvasTop, canvasWidth, canvasHeight, 0, 0, canvasWidth, canvasHeight);
       const imgBase64 = tCanvas.toDataURL();
       this.shotListHistory.add(imgBase64);
@@ -97,12 +131,10 @@ export class Shot {
           canvasHeight
         } = this.paper.startParams;
 
-        const tCanvas = document.createElement('canvas');
-        tCanvas.width = canvasWidth;
-        tCanvas.height = canvasHeight;
+        const tCanvas = new ScaledCanvas(canvasWidth, canvasHeight);
         const tCtx = tCanvas.getContext('2d');
         tCtx.drawImage(tImg, 0, 0);
-        tCtx.drawImage(this.cnvPaper, 0, 0);
+        tCtx.drawImage(this.cnvPaper.getDomElement(), 0, 0);
 
         const imgBase64 = tCanvas.toDataURL();
         this.shotListHistory.add(imgBase64);

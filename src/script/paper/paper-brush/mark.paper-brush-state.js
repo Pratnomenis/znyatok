@@ -31,7 +31,6 @@ export class MarkPaperBrushState extends PaperBrushState {
     }
   }
 
-
   draw(data) {
     let {
       startCanvasX,

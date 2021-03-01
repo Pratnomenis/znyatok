@@ -39,7 +39,7 @@ body {
   left: 0;
   right: 0;
   width: auto;
-  height: auto;
+  max-height: 100%;
   -webkit-user-drag: none;
   cursor: crosshair;
 }

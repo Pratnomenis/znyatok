@@ -166,6 +166,7 @@ const mainWindow = new class {
       thickFrame: false,
       webPreferences: {
         nodeIntegration: true,
+        contextIsolation: false,
         additionalArguments: [`--settingsPath=${settingsPath}`]
       },
       worldSafeExecuteJavaScript: true,
@@ -183,7 +184,7 @@ const mainWindow = new class {
       this.browserWindow.hide();
     });
 
-    this.browserWindow.webContents.openDevTools();
+    // this.browserWindow.webContents.openDevTools();
   }
 
   getScaledScreen() {
@@ -296,6 +297,7 @@ const previewWindow = new class {
       title: imageName,
       webPreferences: {
         nodeIntegration: true,
+        contextIsolation: false
       },
       worldSafeExecuteJavaScript: true,
     });
@@ -316,8 +318,7 @@ const previewWindow = new class {
   }
 }
 
-app.commandLine.appendSwitch('high-dpi-support', 1);
-app.commandLine.appendSwitch('force-device-scale-factor', 1);
+app.commandLine.appendSwitch('high-dpi-support', '1');
 
 app.whenReady().then(() => {
   mainWindow.create();

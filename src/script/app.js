@@ -22,11 +22,15 @@ import {
   Actions
 } from './actions/actions.js';
 
+import {
+  ScaledCanvas
+} from './helpers/scaled-canvas.js';
+
 export default class App {
   constructor() {
     this.imgFullScreen = document.querySelector('.js-img-screenshot');
     this.divPaperHolder = document.querySelector('.js-paper-holder');
-    this.cnvPaper = document.querySelector('.js-cnv-paper');
+    this.cnvPaper = new ScaledCanvas(0, 0, '.js-cnv-paper');
     this.imgLastShot = document.querySelector('.js-img-last-shot');
 
     this.settings = new Settings();
