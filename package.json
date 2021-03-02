@@ -18,7 +18,7 @@
       "**/*"
     ],
     "linux": {
-      "icon": "./src/icons/png/",
+      "icon": "./src/icons/app/png/",
       "target": [
         "AppImage",
         "deb"
@@ -26,7 +26,7 @@
     },
     "win": {
       "target": "nsis",
-      "icon": "./src/icons/ico/icon.ico"
+      "icon": "./src/icons/app/ico/icon.ico"
     }
   },
   "keywords": [

@@ -44,7 +44,11 @@ const tray = new class {
   }
 
   create() {
-    this.tray = new Tray(path.join(__dirname, 'icons', 'png', '128x128.png'));
+    if (os.platform() === 'darwin') {
+      this.tray = new Tray(path.join(__dirname, 'icons', 'tray', 'color_small.png'));
+    } else {
+      this.tray = new Tray(path.join(__dirname, 'icons', 'tray', 'color_medium.png'));
+    }
     this.tray.setToolTip(`Znyatok v${appVersion}`);
     this.contextMenu = Menu.buildFromTemplate([{
         type: 'normal',
