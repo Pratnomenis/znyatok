@@ -162,8 +162,8 @@ const textInputDOM = new class {
       y
     } = this.getPosition();
     const cnvPaper = document.querySelector('.js-cnv-paper');
-    const width = cnvPaper.offsetWidth;
-    const height = cnvPaper.offsetHeight;
+    const width = cnvPaper.offsetWidth / window.devicePixelRatio;
+    const height = cnvPaper.offsetHeight / window.devicePixelRatio;
     this.setPosition(x, y, width, height);
   }
 
