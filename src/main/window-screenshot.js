@@ -6,6 +6,8 @@ const {
 
 const path = require('path');
 
+const os = require('os');
+
 class WindowScreenshot {
   constructor() {
     this.browserWindow = null;
@@ -13,30 +15,57 @@ class WindowScreenshot {
 
     this.isVisible = false;
     this.destroyOnBlur = true;
+
+    this.isMac = os.platform() === 'darwin';
+
+    this.lastScreen = null;
   }
 
   create() {
-    const settingsPath = path.join('..', app.getPath('userData'), 'settings.json');
+    const settingsPath = path.join(app.getPath('userData'), 'settings.json');
 
-    this.browserWindow = new BrowserWindow({
-      show: false,
-      hasShadow: false,
-      frame: false,
-      fullscreenable: true,
-      alwaysOnTop: true,
-      skipTaskbar: true,
-      transparent: true,
-      opacity: 1,
-      thickFrame: false,
-      webPreferences: {
-        nodeIntegration: true,
-        contextIsolation: false,
-        additionalArguments: [`--settingsPath=${settingsPath}`]
-      },
-      worldSafeExecuteJavaScript: true,
-    });
+    if (this.isMac) {
+      this.browserWindow = new BrowserWindow({
+        show: false,
+        transparent: true,
+        enableLargerThanScreen: true,
+        frame: false,
+        x: 0,
+        y: 0,
+        opacity: 0,
+        minimizable: false,
+        movable: false,
+        // webPreferences: {
+        //     contextIsolation: true,
+        //     preload: path.join(__dirname, "preload.js"),
+        // },
+        webPreferences: {
+          nodeIntegration: true,
+          contextIsolation: false,
+          additionalArguments: [`--settingsPath=${settingsPath}`]
+        },
+      });
+    } else {
+      this.browserWindow = new BrowserWindow({
+        show: false,
+        hasShadow: false,
+        frame: false,
+        fullscreenable: true,
+        alwaysOnTop: true,
+        skipTaskbar: true,
+        transparent: true,
+        opacity: 1,
+        thickFrame: false,
+        webPreferences: {
+          nodeIntegration: true,
+          contextIsolation: false,
+          additionalArguments: [`--settingsPath=${settingsPath}`]
+        },
+        worldSafeExecuteJavaScript: true,
+      });
+    }
 
-    this.browserWindow.loadFile(path.join(__dirname, '..' , 'index.html'));
+    this.browserWindow.loadFile(path.join(__dirname, '..', 'index.html'));
     this.browserWindow.removeMenu();
 
     this.browserWindow.on('blur', () => {
@@ -102,22 +131,51 @@ class WindowScreenshot {
   }
 
   show() {
-    this.browserWindow.show();
-    this.browserWindow.setFullScreen(true);
-    this.browserWindow.setOpacity(1);
+    if (this.isMac) {
+      this.browserWindow.setVisibleOnAllWorkspaces(true, {
+        visibleOnFullScreen: true
+      });
+      this.browserWindow.setResizable(true);
+      this.browserWindow.setSize(this.lastScreen.size.width, this.lastScreen.size.height);
+      this.browserWindow.setResizable(false);
+      this.browserWindow.setPosition(this.lastScreen.bounds.x, this.lastScreen.bounds.y);
+      this.browserWindow.setAlwaysOnTop(true, 'main-menu', 1);
+      this.browserWindow.show();
+      setTimeout(() => {
+        this.browserWindow.setOpacity(1);
+      })
+    } else {
+      this.browserWindow.show();
+      this.browserWindow.setFullScreen(true);
+      this.browserWindow.setOpacity(1);
+    }
   }
 
   hide() {
-    this.browserWindow.setOpacity(0);
-    this.browserWindow.setFullScreen(false);
+    if (this.isMac) {
+      this.browserWindow.setOpacity(0);
+      this.browserWindow.setResizable(true);
+      this.browserWindow.setPosition(0, 0);
+      this.browserWindow.setSize(0, 0);
+      this.browserWindow.setResizable(false);
+      this.browserWindow.setAlwaysOnTop(false);
+      this.browserWindow.hide();
+    } else {
+      this.browserWindow.setOpacity(0);
+      this.browserWindow.setFullScreen(false);
+    }
   }
 
   startScreenshot() {
     if (!this.isVisible) {
       this.isVisible = true;
-      const activeScreen = this.getScaledScreen();
-      this.setPosition(activeScreen.bounds);
-      this.send('action-load-screen-to-image', activeScreen);
+      this.lastScreen = this.getScaledScreen();
+      if (this.isMac) {
+        this.send('action-load-screen-to-image', this.lastScreen);
+      } else {
+        this.setPosition(activeScreen.bounds);
+        this.send('action-load-screen-to-image', this.lastScreen);
+      }
     }
   }
 

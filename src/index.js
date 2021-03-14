@@ -38,8 +38,10 @@ app.commandLine.appendSwitch('high-dpi-support', '1');
 app.whenReady().then(() => {
   winScreenshot.create();
   tray.create();
-  // winScreenshot.show();
-  // hotkey.registerAll();
+  // setTimeout(()=> {
+  //   winScreenshot.show();
+  //   hotkey.registerAll();
+  // })
 });
 
 app.on('second-instance', () => {
