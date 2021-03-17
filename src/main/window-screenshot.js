@@ -35,6 +35,7 @@ class WindowScreenshot {
         opacity: 0,
         minimizable: false,
         movable: false,
+        // titleBarStyle: 'hidden',
         // webPreferences: {
         //     contextIsolation: true,
         //     preload: path.join(__dirname, "preload.js"),
@@ -68,14 +69,16 @@ class WindowScreenshot {
     this.browserWindow.loadFile(path.join(__dirname, '..', 'index.html'));
     this.browserWindow.removeMenu();
 
-    this.browserWindow.on('blur', () => {
-      if (this.destroyOnBlur) {
-        this.destroy();
-      }
-    });
-    this.browserWindow.on('leave-full-screen', () => {
-      this.browserWindow.hide();
-    });
+    if (!this.isMac) {
+      this.browserWindow.on('blur', () => {
+        if (this.destroyOnBlur) {
+          this.destroy();
+        }
+      });
+      this.browserWindow.on('leave-full-screen', () => {
+        this.browserWindow.hide();
+      });
+    }
 
     // this.browserWindow.webContents.openDevTools();
   }
@@ -139,7 +142,7 @@ class WindowScreenshot {
       this.browserWindow.setSize(this.lastScreen.size.width, this.lastScreen.size.height);
       this.browserWindow.setResizable(false);
       this.browserWindow.setPosition(this.lastScreen.bounds.x, this.lastScreen.bounds.y);
-      this.browserWindow.setAlwaysOnTop(true, 'main-menu', 1);
+      this.browserWindow.setAlwaysOnTop(true, 'screen-saver', 1);
       this.browserWindow.show();
       setTimeout(() => {
         this.browserWindow.setOpacity(1);
