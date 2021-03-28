@@ -80,7 +80,7 @@ class WindowScreenshot {
       });
     }
 
-    // this.browserWindow.webContents.openDevTools();
+    this.browserWindow.webContents.openDevTools();
   }
 
   getScaledScreen() {

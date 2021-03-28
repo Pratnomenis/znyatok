@@ -51,7 +51,7 @@ export class Settings {
       'brush-arrow': 2,
       'brush-circle': 2,
       'brush-line': 2,
-      'brush-pancil': 2,
+      'brush-pencil': 2,
       'brush-square': 2,
       'brush-text': 2,
       'brush-mark': '1',

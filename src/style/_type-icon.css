@@ -238,45 +238,45 @@
   left: -4.5px;
 }
 
-/* Size pancil */
-[class^="type-icon_pancil-"],
-[class*="type-icon_pancil-"] {
+/* Size pencil */
+[class^="type-icon_pencil-"],
+[class*="type-icon_pencil-"] {
   display: block;
   background-color: currentColor;
   border-radius: 50%;
 }
 
-.type-icon_pancil-1 {
+.type-icon_pencil-1 {
   width: .2em;
   height: .2em;
 }
 
-.type-icon_pancil-2 {
+.type-icon_pencil-2 {
   width: .35em;
   height: .35em;
 }
 
-.type-icon_pancil-3 {
+.type-icon_pencil-3 {
   width: .5em;
   height: .5em;
 }
 
-.type-icon_pancil-4 {
+.type-icon_pencil-4 {
   width: .65em;
   height: .65em;
 }
 
-.type-icon_pancil-5 {
+.type-icon_pencil-5 {
   width: .8em;
   height: .8em;
 }
 
-.type-icon_pancil-6 {
+.type-icon_pencil-6 {
   width: 1em;
   height: 1em;
 }
 
-.type-icon_pancil-7 {
+.type-icon_pencil-7 {
   width: 1.1em;
   height: 1.1em;
 }

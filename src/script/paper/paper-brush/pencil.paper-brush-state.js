@@ -2,7 +2,7 @@ import {
   PaperBrushState
 } from "./paper-brush-state.js";
 
-export const pancilType = {
+export const pencilType = {
   1: 2,
   2: 6,
   3: 12,
@@ -11,9 +11,9 @@ export const pancilType = {
   6: 48
 }
 
-export class PancilPaperBrushState extends PaperBrushState {
+export class PencilPaperBrushState extends PaperBrushState {
   constructor(paper, shot, palette) {
-    super(paper, shot, palette, Object.keys(pancilType));
+    super(paper, shot, palette, Object.keys(pencilType));
     this.ctx = null;
     this.path = [];
   }
@@ -66,7 +66,7 @@ export class PancilPaperBrushState extends PaperBrushState {
     this.paper.clearCtx();
     this.ctx.save();
     this.ctx.filter = 'blur(0.5px)';
-    this.ctx.lineWidth = pancilType[this.type];
+    this.ctx.lineWidth = pencilType[this.type];
     this.ctx.lineCap = 'round';
     this.ctx.strokeStyle = this.color;
     this.ctx.beginPath();

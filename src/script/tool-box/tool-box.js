@@ -19,8 +19,8 @@ import {
 } from "./tool-setting/arrow.tool-settings.js";
 
 import {
-  PancilToolSettings
-} from "./tool-setting/pancil.tool-settings.js";
+  PencilToolSettings
+} from "./tool-setting/pencil.tool-settings.js";
 
 import {
   TextToolSettings
@@ -55,8 +55,8 @@ export class ToolBox {
     const arrow = new Tool('.js-tool-box__arrow', this);
     arrow.addToolSettings(new ArrowToolSettings('.js-settings-list__arrow', arrow, paper, shot, palette, this.settings));
 
-    const pancil = new Tool('.js-tool-box__pancil', this);
-    pancil.addToolSettings(new PancilToolSettings('.js-settings-list__pancil', pancil, paper, shot, palette, this.settings));
+    const pencil = new Tool('.js-tool-box__pencil', this);
+    pencil.addToolSettings(new PencilToolSettings('.js-settings-list__pencil', pencil, paper, shot, palette, this.settings));
 
     const text = new Tool('.js-tool-box__text', this);
     text.addToolSettings(new TextToolSettings('.js-settings-list__text', text, paper, shot, palette, this.settings));
