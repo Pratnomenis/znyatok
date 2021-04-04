@@ -5,7 +5,7 @@
   "description": "Secure screenshot application",
   "author": "Boris Chekanovskiy <pratnomenis@gmail.com>",
   "license": "MIT",
-  "main": "./src/index.js",
+  "main": "./src/main.js",
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
