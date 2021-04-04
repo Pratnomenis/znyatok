@@ -67,7 +67,7 @@ class WindowScreenshot {
       });
     }
 
-    this.browserWindow.loadFile(path.join(__dirname, '..', 'index.html'));
+    this.browserWindow.loadFile(path.join(__dirname, '..', 'window-screenshot', 'index.html'));
     this.browserWindow.removeMenu();
 
     if (!this.isMac) {
@@ -81,7 +81,7 @@ class WindowScreenshot {
       });
     }
 
-    //DEBUG ONLY [
+    // DEBUG ONLY [
     //  this.browserWindow.webContents.openDevTools();
     //  setTimeout(()=>{
     //     this.debugShow();
