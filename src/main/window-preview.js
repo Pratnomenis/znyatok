@@ -20,7 +20,7 @@ class WindowPreview {
     const [offsetX, offsetY] = winScreenshot.getPosition();
 
     const newWindow = new BrowserWindow({
-      icon: nativeImage.createFromPath(path.join(__dirname, '..' , 'icons', 'png', '64x64.png')),
+      icon: nativeImage.createFromPath(path.join(__dirname, '..', 'icons', 'app', 'png', 'color_medium.png')),
       show: false,
       fullscreenable: false,
       resizable: false,
@@ -40,7 +40,7 @@ class WindowPreview {
       height
     });
 
-    newWindow.loadFile(path.join(__dirname, '..' , 'window-for-picture', 'index.html'));
+    newWindow.loadFile(path.join(__dirname, '..', 'window-preview', 'index.html'));
     newWindow.removeMenu();
     newWindow.once('ready-to-show', () => {
       newWindow.send('load-image', imageBase64);
