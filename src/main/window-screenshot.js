@@ -3,6 +3,7 @@ const {
   BrowserWindow,
   screen,
 } = require('electron');
+const settings = require('./settings');
 
 const path = require('path');
 
@@ -43,7 +44,7 @@ class WindowScreenshot {
         webPreferences: {
           nodeIntegration: true,
           contextIsolation: false,
-          additionalArguments: [`--settingsPath=${settingsPath}`]
+          additionalArguments: [`--settings=${settings.getJSON()}`]
         },
       });
     } else {
@@ -60,7 +61,7 @@ class WindowScreenshot {
         webPreferences: {
           nodeIntegration: true,
           contextIsolation: false,
-          additionalArguments: [`--settingsPath=${settingsPath}`]
+          additionalArguments: [`--settings=${settings.getJSON()}`]
         },
         worldSafeExecuteJavaScript: true,
       });
@@ -80,7 +81,12 @@ class WindowScreenshot {
       });
     }
 
-    this.browserWindow.webContents.openDevTools();
+    //DEBUG ONLY [
+    //  this.browserWindow.webContents.openDevTools();
+    //  setTimeout(()=>{
+    //     this.debugShow();
+    //  })
+    // ]
   }
 
   getScaledScreen() {
@@ -131,6 +137,19 @@ class WindowScreenshot {
 
   send(...args) {
     this.browserWindow.send(...args);
+  }
+
+  debugShow() {
+    this.lastScreen = this.getScaledScreen();
+    this.browserWindow.setResizable(true);
+    this.browserWindow.setSize(this.lastScreen.size.width, this.lastScreen.size.height);
+    this.browserWindow.setResizable(false);
+    this.browserWindow.setPosition(this.lastScreen.bounds.x, this.lastScreen.bounds.y);
+    this.browserWindow.setAlwaysOnTop(true, 'screen-saver', 1);
+    this.browserWindow.show();
+    setTimeout(() => {
+      this.browserWindow.setOpacity(1);
+    })
   }
 
   show() {

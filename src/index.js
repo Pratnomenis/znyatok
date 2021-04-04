@@ -28,6 +28,7 @@ if (!isDev && os.platform() === 'win32') {
 
 const tray = require('./main/tray');
 const hotkey = require('./main/hotkey');
+const settings = require('./main/settings');
 const winScreenshot = require('./main/window-screenshot');
 const winPreview = require('./main/window-preview');
 
@@ -87,4 +88,12 @@ ipcMain.on('get-select-path', async (event) => {
 ipcMain.on('picture-to-new-window', (event, data) => {
   winPreview.create(data);
   event.sender.send('picture-to-new-window-reply');
+});
+
+ipcMain.on('setting-updated', (event, data) => {
+  const {
+    settingName,
+    settingValue
+  } = data;
+  settings.setSetting(settingName, settingValue);
 });
