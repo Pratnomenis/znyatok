@@ -27,10 +27,9 @@ class WindowPreview {
       maximizable: false,
       title: imageName,
       webPreferences: {
-        nodeIntegration: true,
-        contextIsolation: false
+        contextIsolation: true,
+        preload: path.join(__dirname, '..', 'window-preview', 'preload.js'),
       },
-      worldSafeExecuteJavaScript: true,
     });
 
     newWindow.setContentBounds({
@@ -42,6 +41,7 @@ class WindowPreview {
 
     newWindow.loadFile(path.join(__dirname, '..', 'window-preview', 'index.html'));
     newWindow.removeMenu();
+    // newWindow.webContents.openDevTools();
     newWindow.once('ready-to-show', () => {
       newWindow.send('load-image', imageBase64);
       setTimeout(() => newWindow.show());

@@ -1,36 +1,28 @@
-const {
-  ipcRenderer,
-  nativeImage,
-  clipboard
-} = require('electron');
-const fs = require('fs');
-const path = require('path');
-
 export class Saver {
   constructor(shot) {
     this.shot = shot;
   }
 
   closeApp() {
-    ipcRenderer.send('action-quit');
+    window.api.send('action-quit');
   }
 
   async saveToClipboard() {
     await this.shot.paper.deactivateLastState();
-    const imageBase64 = this.shot.getLastBase64();
-    clipboard.writeImage(nativeImage.createFromDataURL(imageBase64));
+    const imgBase64 = this.shot.getLastBase64();
+    window.api.clipboard.writeImageFromBase64(imgBase64);
     this.closeApp();
   }
 
   saveToFile() {
-    ipcRenderer.send('get-desktop-folder');
-    ipcRenderer.once('get-desktop-folder-reply', async (event, homePath) => {
+    window.api.send('get-desktop-folder');
+    window.api.once('get-desktop-folder-reply', async (homePath) => {
       const fileExt = '.png';
       const imageName = this.getImageName();
-      let filePath = path.join(homePath, `${imageName}${fileExt}`);
+      let filePath = window.api.pathJoin(homePath, `${imageName}${fileExt}`);
       let iterator = 0;
-      while (fs.existsSync(filePath)) {
-        filePath = path.join(homePath, `${imageName}_${iterator++}${fileExt}`);
+      while (window.api.fs.existsSync(filePath)) {
+        filePath = window.api.pathJoin(homePath, `${imageName}_${iterator++}${fileExt}`);
       }
       await this.saveImageAs(filePath);
     });
@@ -38,12 +30,12 @@ export class Saver {
   }
 
   async saveToFolder() {
-    const imageBase64 = await this.shot.getLastBase64();
-    const imageCode = imageBase64.split(';base64,').pop();
-    ipcRenderer.send('action-quit', true);
-    ipcRenderer.once('action-quit-reply', () => {
-      ipcRenderer.send('get-select-path');
-      ipcRenderer.once('get-select-path-reply', async (event, saveDialogResult) => {
+    const imgBase64 = await this.shot.getLastBase64();
+    const imageCode = imgBase64.split(';base64,').pop();
+    window.api.send('action-quit', true);
+    window.api.once('action-quit-reply', () => {
+      window.api.send('get-select-path');
+      window.api.once('get-select-path-reply', async (saveDialogResult) => {
         const {
           canceled,
           filePath
@@ -58,13 +50,11 @@ export class Saver {
   async saveImageAs(filePath, imageCode) {
     await this.shot.paper.deactivateLastState();
     if (!imageCode) {
-      const imageBase64 = await this.shot.getLastBase64();
-      imageCode = imageBase64.split(';base64,').pop();
+      const imgBase64 = await this.shot.getLastBase64();
+      imageCode = imgBase64.split(';base64,').pop();
     }
 
-    fs.writeFile(filePath, imageCode, {
-      encoding: 'base64'
-    }, (err) => {
+    window.api.fs.writeImage(filePath, imageCode, (_) => {
       this.closeApp();
     });
   }
@@ -76,22 +66,22 @@ export class Saver {
     }
     const imageName = this.getImageName();
     await this.shot.paper.deactivateLastState();
-    const imageBase64 = await this.shot.getLastBase64();
+    const imgBase64 = await this.shot.getLastBase64();
 
-    ipcRenderer.send('picture-to-new-window', {
-      imageBase64,
+    window.api.send('picture-to-new-window', {
+      imgBase64,
       imageName,
       ...shotParams
     });
-    ipcRenderer.once('picture-to-new-window-reply', () => {
+    window.api.once('picture-to-new-window-reply', () => {
       this.closeApp();
     });
   }
 
   async saveAsBase64() {
     await this.shot.paper.deactivateLastState();
-    const imageBase64 = this.shot.getLastBase64();
-    clipboard.writeText(imageBase64);
+    const imgBase64 = this.shot.getLastBase64();
+    window.api.clipboard.writeText(imgBase64);
     this.closeApp();
   }
 

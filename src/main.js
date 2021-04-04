@@ -51,7 +51,7 @@ app.on('second-instance', () => {
   }
 });
 
-ipcMain.on('screenshot-created', () => {
+ipcMain.on('screenshot-is-ready-to-show', () => {
   winScreenshot.show();
   hotkey.registerAll();
 });

@@ -1,7 +1,3 @@
-const {
-  ipcRenderer,
-} = require('electron');
-
 import {
   Saver
 } from './saver.js'
@@ -33,21 +29,21 @@ export class Actions {
     const btnQuit = document.querySelector('.js-tool-exit');
     btnQuit.addEventListener('mousedown', e => e.stopPropagation());
     btnQuit.addEventListener('click', () => this.closeApp());
+    
+    window.api.on('keyboard-escape', () => this.closeApp());
+    window.api.on('keyboard-control-z', () => this.historyUndo());
+    window.api.on('keyboard-control-shift-z', () => this.historyRedo());
 
-    ipcRenderer.on('keyboard-escape', () => this.closeApp());
-    ipcRenderer.on('keyboard-control-z', () => this.historyUndo());
-    ipcRenderer.on('keyboard-control-shift-z', () => this.historyRedo());
+    window.api.on('keyboard-control-c', () => this.saver.saveToClipboard());
+    window.api.on('keyboard-control-s', () => this.saver.saveToFile());
+    window.api.on('keyboard-control-shift-s', () => this.saver.saveToFolder());
+    window.api.on('keyboard-control-w', () => this.saver.saveToNewWindow());
+    window.api.on('keyboard-control-shift-b', () => this.saver.saveAsBase64());
 
-    ipcRenderer.on('keyboard-control-c', () => this.saver.saveToClipboard());
-    ipcRenderer.on('keyboard-control-s', () => this.saver.saveToFile());
-    ipcRenderer.on('keyboard-control-shift-s', () => this.saver.saveToFolder());
-    ipcRenderer.on('keyboard-control-w', () => this.saver.saveToNewWindow());
-    ipcRenderer.on('keyboard-control-shift-b', () => this.saver.saveAsBase64());
-
-    ipcRenderer.on('action-load-screen-to-image', (_, screen) => {
+    window.api.on('action-load-screen-to-image', screen => {
       this.loadScreenToImage(screen);
     });
-    ipcRenderer.on('reset-all', () => this.resetAll());
+    window.api.on('reset-all', () => this.resetAll());
   }
 
   loadScreenToImage(screen) {
@@ -74,7 +70,7 @@ export class Actions {
 
   async closeApp() {
     await this.shot.paper.deactivateLastState();
-    ipcRenderer.send('action-quit');
+    window.api.send('action-quit');
   }
 
   historyUndo() {

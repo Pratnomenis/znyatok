@@ -42,8 +42,8 @@ class WindowScreenshot {
         //     preload: path.join(__dirname, "preload.js"),
         // },
         webPreferences: {
-          nodeIntegration: true,
-          contextIsolation: false,
+          contextIsolation: true,
+          preload: path.join(__dirname, '..', 'window-screenshot', 'preload.js'),
           additionalArguments: [`--settings=${settings.getJSON()}`]
         },
       });
@@ -59,11 +59,10 @@ class WindowScreenshot {
         opacity: 1,
         thickFrame: false,
         webPreferences: {
-          nodeIntegration: true,
-          contextIsolation: false,
+          contextIsolation: true,
+          preload: path.join(__dirname, '..', 'window-screenshot', 'preload.js'),
           additionalArguments: [`--settings=${settings.getJSON()}`]
-        },
-        worldSafeExecuteJavaScript: true,
+        }
       });
     }
 

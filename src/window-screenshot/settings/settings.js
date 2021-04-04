@@ -1,13 +1,6 @@
-const {
-  ipcRenderer,
-} = require('electron');
-
 export class Settings {
   constructor() {
-    this.list = null;
-    const paramSettingsPath = process.argv.find(arg => arg.startsWith('--settings='));
-    const settingsRaw = paramSettingsPath.split('=', 2).pop();
-    this.list = JSON.parse(settingsRaw);
+    this.list = window.api.getSettings();
   }
 
   getSetting(settingName) {
@@ -16,7 +9,7 @@ export class Settings {
 
   setSetting(settingName, settingValue) {
     this.list[settingName] = settingValue;
-    ipcRenderer.send('setting-updated', {
+    window.api.send('setting-updated', {
       settingName,
       settingValue
     });

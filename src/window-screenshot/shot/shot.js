@@ -6,11 +6,6 @@ import {
   ScaledCanvas
 } from '../helpers/scaled-canvas.js';
 
-const {
-  desktopCapturer,
-  ipcRenderer
-} = require('electron');
-
 export class Shot {
   constructor(paper, cnvPaper, imgLastShot) {
     this.paper = paper;
@@ -35,32 +30,18 @@ export class Shot {
       height
     } = screen.scaledSize;
     const screenId = String(screen.id);
-    const sources = await desktopCapturer.getSources({
-      types: ['screen'],
-      thumbnailSize: {
-        width,
-        height
-      }
-    });
-
     this.screenHeight = height;
     this.screenWidth = width;
 
-    const source = sources.find((screen, index) => {
-      let curScreenId = screen.display_id;
-      if (!curScreenId) {
-        curScreenId = index + 1;
-      }
-      return String(curScreenId) === screenId;
-    }) || sources[0];
-
-    const thumbnail = source.thumbnail;
-    const thumbnailDataUrl = thumbnail.toDataURL();
+    const thumbnailDataUrl = await window.api.getDesktopImageDataURL({
+      width,
+      height,
+      screenId
+    });
     const image = document.querySelector('.js-img-screenshot');
     image.addEventListener('load', () => {
-      ipcRenderer.send('screenshot-created');
+      window.api.send('screenshot-is-ready-to-show');
     })
-
     image.src = thumbnailDataUrl;
   }
 
