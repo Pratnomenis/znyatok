@@ -5,7 +5,7 @@ import {
   MarkPaperBrushState
 } from "../../paper/paper-brush/mark.paper-brush-state.js";
 import {
-  MarkCounterSingletone,
+  markCounter,
   markType
 } from "../../mark-counter/mark-counter.js";
 
@@ -13,8 +13,7 @@ export class MarkToolSettings extends ToolSetings {
   constructor(hldrSelector, tool, paper, shot, palette, settings) {
     super(hldrSelector, tool, paper, shot, palette, settings, 'brush-mark');
     this.listeners = {};
-    this.mark = MarkCounterSingletone.getInstance();
-    this.mark.init(this.settings.getSetting('brush-mark'), this);
+    markCounter.init(this.settings.getSetting('brush-mark'), this);
   }
 
   activate() {
@@ -28,8 +27,8 @@ export class MarkToolSettings extends ToolSetings {
       element.addEventListener('click', this.getClickListener(typeId))
     });
 
-    this.mark.activate();
-    this.setType(this.mark.getSelectedType());
+    markCounter.activate();
+    this.setType(markCounter.getSelectedType());
     this.refreshButtons();
   }
 
@@ -40,7 +39,7 @@ export class MarkToolSettings extends ToolSetings {
       element.removeEventListener('click', this.getClickListener(typeId))
     });
     this.hide();
-    this.mark.deactivate();
+    markCounter.deactivate();
   }
 
   getMouseDownListener(typeId) {
@@ -58,45 +57,45 @@ export class MarkToolSettings extends ToolSetings {
       let listener = null;
       if (typeId === markType.numbersIncrese) {
         listener = () => {
-          this.mark.setType(markType.numbers);
-          this.mark.increse();
+          markCounter.setType(markType.numbers);
+          markCounter.increse();
         };
       } else if (typeId === markType.numbers) {
         listener = () => {
-          this.mark.setType(markType.numbers);
+          markCounter.setType(markType.numbers);
         };
       } else if (typeId === markType.numbersDecrese) {
         listener = () => {
-          this.mark.setType(markType.numbers);
-          this.mark.decrease();
+          markCounter.setType(markType.numbers);
+          markCounter.decrease();
         };
       } else if (typeId === markType.lettersDecrese) {
         listener = () => {
-          this.mark.setType(markType.letters);
-          this.mark.decrease();
+          markCounter.setType(markType.letters);
+          markCounter.decrease();
         };
       } else if (typeId === markType.letters) {
         listener = () => {
-          this.mark.setType(markType.letters);
+          markCounter.setType(markType.letters);
         };
       } else if (typeId === markType.lettersIncrese) {
         listener = () => {
-          this.mark.setType(markType.letters);
-          this.mark.increse();
+          markCounter.setType(markType.letters);
+          markCounter.increse();
         };
       } else if (typeId === markType.emojiDecrese) {
         listener = () => {
-          this.mark.setType(markType.emoji);
-          this.mark.decrease();
+          markCounter.setType(markType.emoji);
+          markCounter.decrease();
         };
       } else if (typeId === markType.emoji) {
         listener = () => {
-          this.mark.setType(markType.emoji);
+          markCounter.setType(markType.emoji);
         };
       } else if (typeId === markType.emojiIncrese) {
         listener = () => {
-          this.mark.setType(markType.emoji);
-          this.mark.increse();
+          markCounter.setType(markType.emoji);
+          markCounter.increse();
         };
       }
 
@@ -106,7 +105,7 @@ export class MarkToolSettings extends ToolSetings {
   }
 
   refreshButtons() {
-    const valuesList = this.mark.getValuesList();
+    const valuesList = markCounter.getValuesList();
     this.holder.querySelectorAll('.js-settings-type').forEach(element => {
       const typeId = element.dataset.type;
       element.innerText = valuesList[typeId];
@@ -115,10 +114,10 @@ export class MarkToolSettings extends ToolSetings {
 
   /* Override of Tool */
   typeIncrese() {
-    this.mark.increse();
+    markCounter.increse();
   }
 
   typeDecrese() {
-    this.mark.decrease();
+    markCounter.decrease();
   }
 }

@@ -1,5 +1,5 @@
 import {
-  MarkCounterSingletone
+  markCounter
 } from "../mark-counter/mark-counter.js";
 
 export class ShotHistory {
@@ -9,8 +9,6 @@ export class ShotHistory {
     this.imgLastShot = imgLastShot;
 
     this.imgLastShot.src = '';
-
-    this.mark = MarkCounterSingletone.getInstance();
   }
 
   add(imgBase64) {
@@ -32,7 +30,7 @@ export class ShotHistory {
     // First is image itself
     if (this.currentId >= 1) {
       if (this.list[this.currentId].mark) {
-        this.mark.undo(this.list[this.currentId].mark);
+        markCounter.undo(this.list[this.currentId].mark);
       }
       this.currentId--;
       this.refreshLastShot();
@@ -42,7 +40,7 @@ export class ShotHistory {
   redo() {
     if (this.currentId < this.list.length - 1) {
       if (this.list[this.currentId].mark) {
-        this.mark.redo(this.list[this.currentId].mark);
+        markCounter.redo(this.list[this.currentId].mark);
       }
       this.currentId++;
       this.refreshLastShot();

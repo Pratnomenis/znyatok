@@ -4,13 +4,12 @@ import {
 
 import {
   markType,
-  MarkCounterSingletone
+  markCounter
 } from "../../mark-counter/mark-counter.js";
 
 export class MarkPaperBrushState extends PaperBrushState {
   constructor(paper, shot, palette) {
     super(paper, shot, palette, Object.values(markType));
-    this.mark = MarkCounterSingletone.getInstance();
   }
 
   processMouseDown(data) {
@@ -24,10 +23,10 @@ export class MarkPaperBrushState extends PaperBrushState {
   async processMouseUp(data) {
     if (this.draw(data)) {
       await this.shot.takeShot();
-      const markValue = this.mark.getCurrentValue();
+      const markValue = markCounter.getCurrentValue();
       this.shot.setMarkToLastImage(markValue);
       this.paper.clearCtx();
-      this.mark.setNextValue();
+      markCounter.setNextValue();
     }
   }
 
@@ -46,7 +45,7 @@ export class MarkPaperBrushState extends PaperBrushState {
     startCanvasY = startCanvasY < 15 ? 15 : startCanvasY;
     startCanvasY = startCanvasY > canvasHeight - 15 ? canvasHeight - 15 : startCanvasY;
 
-    const markValue = this.mark.getCurrentValue();
+    const markValue = markCounter.getCurrentValue();
     const fontSize = 24;
     const x = startCanvasX;
     const y = startCanvasY;

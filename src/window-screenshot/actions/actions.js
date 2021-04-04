@@ -7,7 +7,7 @@ import {
 } from './saver.js'
 
 import {
-  MarkCounterSingletone
+  markCounter
 } from "../mark-counter/mark-counter.js";
 
 import {
@@ -58,7 +58,7 @@ export class Actions {
     this.shot.reset();
     this.paper.reset();
     this.tools.reset();
-    MarkCounterSingletone.getInstance().reset();
+    markCounter.reset();
     document.querySelector('.js-img-screenshot').removeAttribute('src');
     document.querySelector('.js-img-last-shot').removeAttribute('src');
     document.querySelector('.js-paper-holder').removeAttribute('style');

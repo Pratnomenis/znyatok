@@ -177,15 +177,4 @@ class MarkCounter {
   }
 }
 
-// Singletone
-export class MarkCounterSingletone {
-  static instance = null;
-
-  static getInstance() {
-    if (!MarkCounterSingletone.instance) {
-      MarkCounterSingletone.instance = new MarkCounter();
-    }
-
-    return MarkCounterSingletone.instance;
-  }
-}
+export const markCounter = new MarkCounter();
