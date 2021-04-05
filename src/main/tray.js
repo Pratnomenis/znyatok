@@ -16,16 +16,8 @@ class AppTray {
   constructor() {
     this.tray = null;
     this.contextMenu = null;
-  }
 
-  create() {
-    if (os.platform() === 'darwin') {
-      this.tray = new Tray(path.join(__dirname, '..', 'icons', 'tray', 'color_small.png'));
-    } else {
-      this.tray = new Tray(path.join(__dirname, '..', 'icons', 'tray', 'color_medium.png'));
-    }
-    this.tray.setToolTip(`Znyatok v${appVersion}`);
-    this.contextMenu = Menu.buildFromTemplate([{
+    this.contextMenuTemplate = [{
         type: 'normal',
         label: 'Make screenshot',
         click: this.actionMakeScreenshot
@@ -46,17 +38,13 @@ class AppTray {
         label: 'Exit',
         role: 'quit'
       },
-    ])
+    ];
 
-    this.tray.setContextMenu(this.contextMenu);
-    this.tray.setIgnoreDoubleClickEvents(true);
-    this.tray.on('click', event => {
-      this.actionMakeScreenshot();
-    });
+    this.toolTipText = `Znyatok v${appVersion}`;
+  }
 
-    globalShortcut.registerAll(['PrintScreen', 'Control+Alt+S', 'Option+Shift+s'], (err) => {
-      this.actionMakeScreenshot();
-    });
+  getIconPath(color, size) {
+    return path.join(__dirname, '..', 'icons', 'tray', `${color}_${size}.png`)
   }
 
   actionMakeScreenshot() {
@@ -70,4 +58,79 @@ class AppTray {
   }
 }
 
-module.exports = new AppTray();
+
+class AppTrayMacOs extends AppTray {
+  constructor() {
+    super();
+  }
+
+  create() {
+    this.tray = new Tray(this.getIconPath('color', 'small'));
+    this.tray.setToolTip(this.toolTipText);
+    this.contextMenu = Menu.buildFromTemplate(this.contextMenuTemplate)
+
+    this.tray.setContextMenu(this.contextMenu);
+    this.tray.setIgnoreDoubleClickEvents(true);
+
+    globalShortcut.registerAll(['PrintScreen', 'Option+Shift+S'], (_) => {
+      this.actionMakeScreenshot();
+    });
+  }
+}
+
+class AppTrayLinux extends AppTray {
+  constructor() {
+    super();
+  }
+
+  create() {
+    this.tray = new Tray(his.getIconPath('color', 'medium'));
+    this.tray.setToolTip(this.toolTipText);
+    this.contextMenu = Menu.buildFromTemplate(this.contextMenuTemplate)
+
+    this.tray.setContextMenu(this.contextMenu);
+    this.tray.setIgnoreDoubleClickEvents(true);
+    this.tray.on('click', event => {
+      this.actionMakeScreenshot();
+    });
+
+    globalShortcut.registerAll(['Control+Alt+S'], (_) => {
+      this.actionMakeScreenshot();
+    });
+  }
+}
+
+class AppTrayWindows extends AppTray {
+  constructor() {
+    super();
+  }
+
+  create() {
+    this.tray = new Tray(his.getIconPath('color', 'medium'));
+    this.tray.setToolTip(this.toolTipText);
+    this.contextMenu = Menu.buildFromTemplate(this.contextMenuTemplate)
+
+    this.tray.setContextMenu(this.contextMenu);
+    this.tray.setIgnoreDoubleClickEvents(true);
+    this.tray.on('click', event => {
+      this.actionMakeScreenshot();
+    });
+
+    globalShortcut.registerAll(['PrintScreen', 'Control+Alt+S'], (_) => {
+      this.actionMakeScreenshot();
+    });
+  }
+}
+
+switch (os.platform()) {
+  case 'darwin':
+    module.exports = new AppTrayMacOs();
+    break;
+
+  case 'win32':
+    module.exports = new AppTrayWindows();
+    break;
+
+  default:
+    module.exports = new AppTrayLinux();
+}
