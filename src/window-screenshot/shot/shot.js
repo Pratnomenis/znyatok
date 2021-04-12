@@ -22,16 +22,20 @@ export class Shot {
 
     this.screenHeight = 0;
     this.screenWidth = 0;
+    this.scaleFactor = 1.0;
   }
 
   async screenToImage(screen) {
     const {
       width,
-      height
+      height,
+      scaleFactor
     } = screen.scaledSize;
+    
     const screenId = String(screen.id);
     this.screenHeight = height;
     this.screenWidth = width;
+    this.scaleFactor = scaleFactor;
 
     const thumbnailDataUrl = await window.api.getDesktopImageDataURL({
       width,
@@ -56,37 +60,6 @@ export class Shot {
     if (canvasWidth <= 0 || canvasHeight <= 0) {
       this.shotListHistory.add(fullScreenShot.src);
     } else {
-      // const tCanvas = new ScaledCanvas(canvasWidth, canvasHeight);
-      // const scaledCanvasWidth = canvasWidth * this.screenScale;
-      // const scaledCanvasHeight = canvasHeight * this.screenScale;
-
-      // const tCtx = tCanvas.getContext('2d');
-
-      // const sL = canvasLeft;
-      // const sT = canvasTop;
-      // const sW = canvasWidth;
-      // const sH = canvasHeight;
-      // // const sW = scaledCanvasWidth;
-      // const sH = scaledCanvasHeight;
-
-      // const sL = canvasLeft * this.screenScale;
-      // const sT = canvasTop * this.screenScale;
-      // const sW = canvasWidth * this.screenScale;
-      // const sH = canvasHeight * this.screenScale;
-      // const sW = scaledCanvasWidth;
-      // const sH = scaledCanvasHeight;
-
-      // const sL = canvasLeft / this.screenScale;
-      // const sT = canvasTop / this.screenScale;
-      // const sW = canvasWidth / this.screenScale;
-      // const sH = canvasHeight / this.screenScale;
-      
-      // tCtx.scale( this.screenScale, this.screenScale);
-      // tCtx.drawImage(fullScreenShot, sL, sT, sW, sH, 0, 0, canvasWidth, canvasHeight);
-      // // tCtx.scale(this.screenScale, this.screenScale);
-      // // tCtx.drawImage(fullScreenShot, sL, sT, sW, sH, 0, 0, scaledCanvasWidth, scaledCanvasHeight);
-      // const imgBase64 = tCanvas.toDataURL();
-      // this.shotListHistory.add(imgBase64);
       const tCanvas = new ScaledCanvas(canvasWidth, canvasHeight);
       const tCtx = tCanvas.getContext('2d');
 

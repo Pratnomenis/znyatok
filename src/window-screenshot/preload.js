@@ -11,6 +11,8 @@ const fs = require('fs');
 
 const validRenderActions = ['keyboard-escape', 'keyboard-control-z', 'keyboard-control-shift-z', 'keyboard-control-c', 'keyboard-control-s', 'keyboard-control-shift-s', 'keyboard-control-w', 'keyboard-control-shift-b', 'action-load-screen-to-image', 'reset-all', 'action-quit', 'get-desktop-folder', 'get-desktop-folder-reply', 'action-quit-reply', 'get-select-path', 'get-select-path-reply', 'picture-to-new-window', 'picture-to-new-window-reply', 'setting-updated', 'screenshot-is-ready-to-show'];
 
+console.log(clipboard.availableFormats());
+
 contextBridge.exposeInMainWorld(
   "api", {
 
@@ -47,8 +49,24 @@ contextBridge.exposeInMainWorld(
 
     clipboard: {
 
-      writeImageFromBase64(imgBase64) {
-        const img = nativeImage.createFromDataURL(imgBase64);
+      writeImageFromBase64(imgBase64, screenWidth, screenHeight, scaleFactor) {
+        // TODO: find a better solution and fix me.
+        let img = nativeImage.createFromDataURL(imgBase64);
+        const imageSize = img.getSize();
+        let jpegQuality = 95;
+        const isLargeScreenshot = (screenWidth * screenHeight - imageSize.width * imageSize.height) <= (20 * 20 / scaleFactor);
+        if (isLargeScreenshot) {
+          const cropSize = Math.round(10 * scaleFactor);
+          img = img.crop({
+            x: cropSize,
+            y: cropSize,
+            width: imageSize.width - cropSize * 2,
+            height: imageSize.height - cropSize * 2
+          });
+          jpegQuality = 80;
+        }
+        img = nativeImage.createFromBuffer(img.toJPEG(jpegQuality))
+        clipboard.clear();
         clipboard.writeImage(img);
       },
 
@@ -98,7 +116,6 @@ contextBridge.exposeInMainWorld(
       }) || sources[0];
 
       const thumbnail = source.thumbnail;
-
       return thumbnail.toDataURL();
     },
 

@@ -108,7 +108,8 @@ class WindowScreenshot {
     } = displayUnderCursor;
     displayUnderCursor.scaledSize = {
       width: bounds.width * scaleFactor,
-      height: bounds.height * scaleFactor
+      height: bounds.height * scaleFactor,
+      scaleFactor
     };
     return displayUnderCursor;
   }

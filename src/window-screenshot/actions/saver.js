@@ -10,7 +10,14 @@ export class Saver {
   async saveToClipboard() {
     await this.shot.paper.deactivateLastState();
     const imgBase64 = this.shot.getLastBase64();
-    window.api.clipboard.writeImageFromBase64(imgBase64);
+
+    const {
+      screenHeight,
+      screenWidth,
+      scaleFactor
+    } = this.shot;
+
+    window.api.clipboard.writeImageFromBase64(imgBase64, screenWidth, screenHeight, scaleFactor);
     this.closeApp();
   }
 
