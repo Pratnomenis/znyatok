@@ -98,25 +98,55 @@ contextBridge.exposeInMainWorld(
     async getDesktopImageDataURL({
       width,
       height,
+      scaleFactor,
       screenId
     }) {
-      const sources = await desktopCapturer.getSources({
-        types: ['screen'],
-        thumbnailSize: {
-          width,
-          height
-        }
-      });
-      const source = sources.find((screen, index) => {
-        let curScreenId = screen.display_id;
-        if (!curScreenId) {
-          curScreenId = index + 1;
-        }
-        return String(curScreenId) === screenId;
-      }) || sources[0];
+      return new Promise(async (resolveGetDataImage) => {
+        const sources = await desktopCapturer.getSources({
+          types: ['screen'],
+          thumbnailSize: {
+            width: 0,
+            height: 0
+          }
+        });
+        const source = sources.find((screen, index) => {
+          let curScreenId = screen.display_id;
+          if (!curScreenId) {
+            curScreenId = index + 1;
+          }
+          return String(curScreenId) === screenId;
+        }) || sources[0];
 
-      const thumbnail = source.thumbnail;
-      return thumbnail.toDataURL();
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: false,
+          video: {
+            mandatory: {
+              chromeMediaSource: 'desktop',
+              chromeMediaSourceId: source.id,
+              minWidth: width,
+              maxWidth: width,
+              minHeight: height,
+              maxHeight: height
+            }
+          }
+        });
+
+        const video = document.createElement('video')
+        video.srcObject = stream;
+        video.onloadedmetadata = (e) => {
+          video.play();
+          const tCnv = document.createElement('canvas');
+          tCnv.width = width;
+          tCnv.height = height;
+          const ctx = tCnv.getContext('2d');
+          ctx.drawImage(video, 0, 0, width, height);
+          resolveGetDataImage(tCnv.toDataURL());
+          setTimeout(()=>{
+            video.pause();
+            delete video;
+          })
+        };
+      })
     },
 
     pathJoin(...args) {

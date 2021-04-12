@@ -31,7 +31,7 @@ export class Shot {
       height,
       scaleFactor
     } = screen.scaledSize;
-    
+
     const screenId = String(screen.id);
     this.screenHeight = height;
     this.screenWidth = width;
@@ -40,6 +40,7 @@ export class Shot {
     const thumbnailDataUrl = await window.api.getDesktopImageDataURL({
       width,
       height,
+      scaleFactor,
       screenId
     });
     const image = document.querySelector('.js-img-screenshot');
