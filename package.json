@@ -14,6 +14,7 @@
   "build": {
     "appId": "com.electron.znyatok",
     "productName": "Znyatok",
+    "copyright": "Copyright © 2021 Boris Chekanovskiy",
     "files": [
       "**/*"
     ],
@@ -27,6 +28,13 @@
     "win": {
       "target": "nsis",
       "icon": "./src/icons/app/ico/icon.ico"
+    },
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": [
+        "default"
+      ],
+      "icon": "./src/icons/app/icon.icns"
     }
   },
   "keywords": [
