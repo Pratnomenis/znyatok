@@ -49,25 +49,42 @@ contextBridge.exposeInMainWorld(
 
     clipboard: {
 
-      writeImageFromBase64(imgBase64, screenWidth, screenHeight, scaleFactor) {
-        // TODO: find a better solution and fix me.
-        let img = nativeImage.createFromDataURL(imgBase64);
-        const imageSize = img.getSize();
-        let jpegQuality = 95;
-        const isLargeScreenshot = (screenWidth * screenHeight - imageSize.width * imageSize.height) <= (20 * 20 / scaleFactor);
-        if (isLargeScreenshot) {
-          const cropSize = Math.round(10 * scaleFactor);
-          img = img.crop({
-            x: cropSize,
-            y: cropSize,
-            width: imageSize.width - cropSize * 2,
-            height: imageSize.height - cropSize * 2
+      writeImageFromBase64(imgBase64, scaleFactor) {
+        const oriImg = nativeImage.createFromDataURL(imgBase64);
+        let {
+          width,
+          height
+        } = oriImg.getSize();
+        const clipImg = nativeImage.createEmpty();
+        
+        if (scaleFactor === 1) {
+          
+          clipImg.addRepresentation({
+            scaleFactor: 1,
+            width,
+            height,
+            buffer: oriImg.toPNG({scaleFactor: 1.0})
           });
-          jpegQuality = 80;
+
+        } else {
+          
+          width /= scaleFactor;
+          height /= scaleFactor;
+          
+          clipImg.addRepresentation({
+            scaleFactor: 1,
+            width,
+            height,
+            buffer: oriImg.resize({
+              width,
+              height,
+              quality: 'best'
+            }).toPNG({scaleFactor: 1.0})
+          });
+        
         }
-        img = nativeImage.createFromBuffer(img.toJPEG(jpegQuality))
-        clipboard.clear();
-        clipboard.writeImage(img);
+          
+        clipboard.writeImage(clipImg);
       },
 
       writeText(text) {
@@ -141,7 +158,7 @@ contextBridge.exposeInMainWorld(
           const ctx = tCnv.getContext('2d');
           ctx.drawImage(video, 0, 0, width, height);
           resolveGetDataImage(tCnv.toDataURL());
-          setTimeout(()=>{
+          setTimeout(() => {
             video.pause();
             delete video;
           })

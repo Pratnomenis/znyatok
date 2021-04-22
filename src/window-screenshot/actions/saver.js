@@ -12,12 +12,10 @@ export class Saver {
     const imgBase64 = this.shot.getLastBase64();
 
     const {
-      screenHeight,
-      screenWidth,
       scaleFactor
     } = this.shot;
 
-    window.api.clipboard.writeImageFromBase64(imgBase64, screenWidth, screenHeight, scaleFactor);
+    window.api.clipboard.writeImageFromBase64(imgBase64, scaleFactor);
     this.closeApp();
   }
 
