@@ -44,7 +44,7 @@ class AppTray {
   }
 
   getIconPath(color, size) {
-    return path.join(__dirname, '..', 'icons', 'tray', `${color}_${size}.png`)
+    return path.join(__dirname, '..', 'icons', 'tray', `${color}_${size}_Template.png`)
   }
 
   actionMakeScreenshot() {
