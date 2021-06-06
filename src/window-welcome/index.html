@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <form action="javascript:void(0);" class="js-wel-form wel-form">
+    <div class="wel-form--wrapper">
+      <div class="logo--wrapper">
+        <img srcset="../icons/tray/color_medium_Template@2x.png 2x, ../icons/tray/color_medium_Template@4x.png 4x"
+          src="../icons/tray/color_medium_Template.png" alt="Znyatok" class="logo--img">
+      </div>
+      <div class="wel-form--div hide-on-linux">
+        <!-- • Choose autoload [MacOS\Windows only] -->
+        <input type="checkbox" name="chbAutoload" id="chbAutoload" class="checkbox--input">
+        <label for="chbAutoload" class="checkbox--label">Start with system</label>
+      </div>
+      <hr style="display: none">
+      <div class="wel-form--div" style="display: none">
+        <!-- • Choose if printscreen button react [MacOS\Windows only] -->
+        <input type="checkbox" name="chbShotOnPS" id="chbShotOnPS" class="checkbox--input">
+        <label for="chbShotOnPS" class="checkbox--label">Make screenshot on <var>PrntScr</var></label>
+      </div>
+      <div class="wel-form--div" style="display: none">
+        <!-- • Choose screenshot hotkey -->
+        <label class="hotkey--label">Alternative hotkey<br />
+          <input type="hidden" name="hkMakeShot" id="hkMakeShot">
+          <input type="text" name="hkvMakeShot" id="hkvMakeShot" class="hotkey--input">
+      </div>
+
+      <div class="wel-form--div hide-on-macos">
+        <!-- • Tray icon [Linux\windows only] -->
+
+        <div class="tray-icon-type">
+          <div class="tray-icon-type--title">Tray icon type:</div>
+          <div class="tray-icon-type--label-list">
+            <label class="tray-icon-type--label">
+              <input type="radio" name="trayIconType" value="black" class="tray-icon-type--radio">
+              <img srcset="../icons/tray/black_small_Template@2x.png 2x, ../icons/tray/black_small_Template@4x.png 4x"
+                src="../icons/tray/black_small_Template.png" alt="black" class="tray-icon-type--image">
+            </label>
+            <label class="tray-icon-type--label">
+              <input type="radio" name="trayIconType" value="color" class="tray-icon-type--radio">
+              <img srcset="../icons/tray/color_small_Template@2x.png 2x, ../icons/tray/color_small_Template@4x.png 4x"
+                src="../icons/tray/color_small_Template.png" alt="color" class="tray-icon-type--image">
+            </label>
+            <label class="tray-icon-type--label">
+              <input type="radio" name="trayIconType" value="white" class="tray-icon-type--radio">
+              <img srcset="../icons/tray/white_small_Template@2x.png 2x, ../icons/tray/white_small_Template@4x.png 4x"
+                src="../icons/tray/white_small_Template.png" alt="white" class="tray-icon-type--image">
+            </label>
+          </div>
+          <!-- TODO: Auto -->
+        </div>
+      </div>
+
+      <div class="wel-form--btn-set">
+        <button type="submit" class="wel-form--btn wel-form--btn__confirm">Confirm</button>
+      </div>
+    </div>
+  </form>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

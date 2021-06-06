@@ -23,8 +23,6 @@ class WindowScreenshot {
   }
 
   create() {
-    const settingsPath = path.join(app.getPath('userData'), 'settings.json');
-
     if (this.isMac) {
       this.browserWindow = new BrowserWindow({
         show: false,
@@ -36,11 +34,6 @@ class WindowScreenshot {
         opacity: 0,
         minimizable: false,
         movable: false,
-        // titleBarStyle: 'hidden',
-        // webPreferences: {
-        //     contextIsolation: true,
-        //     preload: path.join(__dirname, "preload.js"),
-        // },
         webPreferences: {
           contextIsolation: true,
           preload: path.join(__dirname, '..', 'window-screenshot', 'preload.js'),

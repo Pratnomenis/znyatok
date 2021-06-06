@@ -10,6 +10,7 @@ const path = require('path');
 const os = require('os');
 const appVersion = app.getVersion();
 
+const settings = require('./settings');
 const winScreenshot = require('./window-screenshot');
 
 class AppTray {
@@ -65,14 +66,22 @@ class AppTrayMacOs extends AppTray {
   }
 
   create() {
-    this.tray = new Tray(this.getIconPath('color', 'small'));
+    const stgTrayIconColor = settings.getSetting('tray-icon-type');
+    const stgShotOnPrntScr = settings.getSetting('shot-on-prnt-scr');
+    const stgHotkeyShot = settings.getSetting('hotkey-screenshot');
+
+    this.tray = new Tray(this.getIconPath(stgTrayIconColor, 'small'));
     this.tray.setToolTip(this.toolTipText);
     this.contextMenu = Menu.buildFromTemplate(this.contextMenuTemplate)
 
     this.tray.setContextMenu(this.contextMenu);
     this.tray.setIgnoreDoubleClickEvents(true);
 
-    globalShortcut.registerAll(['PrintScreen', 'Option+Shift+S'], (_) => {
+    const arrShortcut = [stgHotkeyShot];
+    if (stgShotOnPrntScr) {
+      arrShortcut.push('PrintScreen');
+    }
+    globalShortcut.registerAll(arrShortcut, (_) => {
       this.actionMakeScreenshot();
     });
   }
@@ -84,7 +93,11 @@ class AppTrayLinux extends AppTray {
   }
 
   create() {
-    this.tray = new Tray(his.getIconPath('color', 'medium'));
+    const stgTrayIconColor = settings.getSetting('tray-icon-type');
+    const stgShotOnPrntScr = settings.getSetting('shot-on-prnt-scr');
+    const stgHotkeyShot = settings.getSetting('hotkey-screenshot');
+
+    this.tray = new Tray(his.getIconPath(stgTrayIconColor, 'medium'));
     this.tray.setToolTip(this.toolTipText);
     this.contextMenu = Menu.buildFromTemplate(this.contextMenuTemplate)
 
@@ -94,7 +107,11 @@ class AppTrayLinux extends AppTray {
       this.actionMakeScreenshot();
     });
 
-    globalShortcut.registerAll(['Control+Alt+S'], (_) => {
+    const arrShortcut = [stgHotkeyShot];
+    if (stgShotOnPrntScr) {
+      arrShortcut.push('PrintScreen');
+    }
+    globalShortcut.registerAll(arrShortcut, (_) => {
       this.actionMakeScreenshot();
     });
   }
@@ -106,7 +123,11 @@ class AppTrayWindows extends AppTray {
   }
 
   create() {
-    this.tray = new Tray(his.getIconPath('color', 'medium'));
+    const stgTrayIconColor = settings.getSetting('tray-icon-type');
+    const stgShotOnPrntScr = settings.getSetting('shot-on-prnt-scr');
+    const stgHotkeyShot = settings.getSetting('hotkey-screenshot');
+
+    this.tray = new Tray(his.getIconPath(stgTrayIconColor, 'medium'));
     this.tray.setToolTip(this.toolTipText);
     this.contextMenu = Menu.buildFromTemplate(this.contextMenuTemplate)
 
@@ -116,7 +137,11 @@ class AppTrayWindows extends AppTray {
       this.actionMakeScreenshot();
     });
 
-    globalShortcut.registerAll(['PrintScreen', 'Control+Alt+S'], (_) => {
+    const arrShortcut = [stgHotkeyShot];
+    if (stgShotOnPrntScr) {
+      arrShortcut.push('PrintScreen');
+    }
+    globalShortcut.registerAll(arrShortcut, (_) => {
       this.actionMakeScreenshot();
     });
   }

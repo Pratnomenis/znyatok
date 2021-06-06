@@ -3,6 +3,7 @@ const {
 } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 
 class Settings {
     constructor() {
@@ -52,7 +53,15 @@ class Settings {
     }
 
     loadDefaultSettings() {
+        const isMacOs = os.platform() === 'darwin';
+        const isWindows = os.platform() === 'win32';
+
         this.list = {
+            'welcome-setted-170': false,
+            'start-with-system': isMacOs || isWindows,
+            'shot-on-prnt-scr': isMacOs || isWindows,
+            'hotkey-screenshot': isMacOs ? 'Option+Shift+S' : 'Control+Alt+S',
+            'tray-icon-type': 'color',
             'brush-arrow': 2,
             'brush-circle': 2,
             'brush-line': 2,

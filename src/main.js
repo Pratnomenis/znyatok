@@ -4,7 +4,6 @@ const {
   dialog,
 } = require('electron');
 
-const os = require('os');
 const path = require('path');
 
 // Lock single instance
@@ -13,36 +12,64 @@ if (!gotTheLock) {
   app.quit();
 }
 
-// Execute on startup
-const isDev = !app.isPackaged;
-
-if (!isDev && os.platform() === 'win32') {
-  const loginOptions = app.getLoginItemSettings();
-  if (!loginOptions.openAtLogin) {
-    app.setLoginItemSettings({
-      openAtLogin: true,
-      path: app.getPath("exe")
-    });
-  }
-}
-
 const tray = require('./main/tray');
 const hotkey = require('./main/hotkey');
 const settings = require('./main/settings');
 const winScreenshot = require('./main/window-screenshot');
 const winPreview = require('./main/window-preview');
+const winWelcome = require('./main/window-welcome');
 
-app.dock.hide();
-
-app.commandLine.appendSwitch('high-dpi-support', '1');
-
-app.whenReady().then(() => {
+const startApp = () => {
+  app.dock.hide();
   winScreenshot.create();
   tray.create();
   // setTimeout(()=> {
   //   winScreenshot.show();
   //   hotkey.registerAll();
   // })
+}
+
+const autoloadApp = () => {
+  const isDev = !app.isPackaged;
+
+  if (!isDev && os.platform() in ['win32', 'darwin']) {
+    const loginOptions = app.getLoginItemSettings();
+    if (!loginOptions.openAtLogin) {
+      app.setLoginItemSettings({
+        openAtLogin: true,
+        path: app.getPath("exe")
+      });
+    }
+  }
+}
+
+const winWelcomeConfirm = (frmData) => {
+  if (frmData != null) {
+    setTimeout(() => {
+      winWelcome.destroy();
+    })
+    settings.setSetting('welcome-setted-170', true);
+    settings.setSetting('start-with-system', frmData.chbAutoload);
+    settings.setSetting('shot-on-prnt-scr', frmData.chbShotOnPS);
+    settings.setSetting('hotkey-screenshot', frmData.hkMakeShot);
+    settings.setSetting('tray-icon-type', frmData.trayIconType); 
+
+    if (frmData.chbAutoload) {
+      autoloadApp();
+    }
+  }
+  startApp();
+}
+
+app.commandLine.appendSwitch('high-dpi-support', '1');
+
+app.whenReady().then(() => {
+  if (settings.getSetting('welcome-setted-170')) {
+    startApp();
+  } else {
+    winWelcome.create();
+    winWelcome.setOnCloseClb(winWelcomeConfirm);
+  }
 });
 
 app.on('second-instance', () => {
@@ -96,4 +123,8 @@ ipcMain.on('setting-updated', (event, data) => {
     settingValue
   } = data;
   settings.setSetting(settingName, settingValue);
+});
+
+ipcMain.on('window-welcome-confirm', (event, frmData) => {
+  winWelcomeConfirm(frmData)
 });
