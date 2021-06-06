@@ -13,7 +13,7 @@ class WindowPreview {
       left,
       width,
       height,
-      imageBase64,
+      imgBase64,
       imageName,
     } = options;
 
@@ -43,7 +43,7 @@ class WindowPreview {
     newWindow.removeMenu();
     // newWindow.webContents.openDevTools();
     newWindow.once('ready-to-show', () => {
-      newWindow.send('load-image', imageBase64);
+      newWindow.send('load-image', imgBase64);
       setTimeout(() => newWindow.show());
     });
   }
