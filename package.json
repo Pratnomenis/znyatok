@@ -1,6 +1,6 @@
 {
   "name": "znyatok",
-  "version": "1.6.3",
+  "version": "1.7.0 RC",
   "homepage": "https://znyatok.com/",
   "description": "Secure screenshot application",
   "author": "Boris Chekanovskiy <pratnomenis@gmail.com>",
@@ -43,7 +43,7 @@
     "Screen shot"
   ],
   "devDependencies": {
-    "electron": "^12.0.2",
-    "electron-builder": "^22.9.1"
+    "electron": "^13.1.0",
+    "electron-builder": "^22.10.5"
   }
 }
