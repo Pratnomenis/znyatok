@@ -5,6 +5,7 @@ const {
 } = require('electron');
 
 const path = require('path');
+const os = require('os');
 
 // Lock single instance
 const gotTheLock = app.requestSingleInstanceLock();
@@ -20,7 +21,9 @@ const winPreview = require('./main/window-preview');
 const winWelcome = require('./main/window-welcome');
 
 const startApp = () => {
-  app.dock.hide();
+  if (os.platform() == 'darwin') {
+    app.dock.hide();
+  }
   winScreenshot.create();
   tray.create();
   // setTimeout(()=> {
@@ -52,7 +55,7 @@ const winWelcomeConfirm = (frmData) => {
     settings.setSetting('start-with-system', frmData.chbAutoload);
     settings.setSetting('shot-on-prnt-scr', frmData.chbShotOnPS);
     settings.setSetting('hotkey-screenshot', frmData.hkMakeShot);
-    settings.setSetting('tray-icon-type', frmData.trayIconType); 
+    settings.setSetting('tray-icon-type', frmData.trayIconType);
 
     if (frmData.chbAutoload) {
       autoloadApp();

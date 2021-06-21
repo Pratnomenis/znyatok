@@ -97,7 +97,7 @@ class AppTrayLinux extends AppTray {
     const stgShotOnPrntScr = settings.getSetting('shot-on-prnt-scr');
     const stgHotkeyShot = settings.getSetting('hotkey-screenshot');
 
-    this.tray = new Tray(his.getIconPath(stgTrayIconColor, 'medium'));
+    this.tray = new Tray(this.getIconPath(stgTrayIconColor, 'medium'));
     this.tray.setToolTip(this.toolTipText);
     this.contextMenu = Menu.buildFromTemplate(this.contextMenuTemplate)
 
@@ -127,7 +127,7 @@ class AppTrayWindows extends AppTray {
     const stgShotOnPrntScr = settings.getSetting('shot-on-prnt-scr');
     const stgHotkeyShot = settings.getSetting('hotkey-screenshot');
 
-    this.tray = new Tray(his.getIconPath(stgTrayIconColor, 'medium'));
+    this.tray = new Tray(this.getIconPath(stgTrayIconColor, 'medium'));
     this.tray.setToolTip(this.toolTipText);
     this.contextMenu = Menu.buildFromTemplate(this.contextMenuTemplate)
 

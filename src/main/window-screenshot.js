@@ -1,13 +1,42 @@
 const {
-  app,
   BrowserWindow,
   screen,
 } = require('electron');
+
 const settings = require('./settings');
-
 const path = require('path');
-
 const os = require('os');
+
+const broWinOptMain = {
+  show: false,
+  transparent: true,
+  frame: false,
+  opacity: 0,
+  webPreferences: {
+    contextIsolation: true,
+    preload: path.join(__dirname, '..', 'window-screenshot', 'preload.js'),
+    additionalArguments: [`--settings=${settings.getJSON()}`]
+  }
+}
+
+const broWinOptionsDefault = {
+  ...broWinOptMain,
+  hasShadow: false,
+  fullscreenable: true,
+  alwaysOnTop: true,
+  skipTaskbar: true,
+  thickFrame: false
+};
+
+const broWinOptionsMac = {
+  ...broWinOptMain,
+  enableLargerThanScreen: true,
+  x: 0,
+  y: 0,
+  minimizable: false,
+  movable: false,
+};
+
 
 class WindowScreenshot {
   constructor() {
@@ -23,58 +52,28 @@ class WindowScreenshot {
   }
 
   create() {
-    if (this.isMac) {
-      this.browserWindow = new BrowserWindow({
-        show: false,
-        transparent: true,
-        enableLargerThanScreen: true,
-        frame: false,
-        x: 0,
-        y: 0,
-        opacity: 0,
-        minimizable: false,
-        movable: false,
-        webPreferences: {
-          contextIsolation: true,
-          preload: path.join(__dirname, '..', 'window-screenshot', 'preload.js'),
-          additionalArguments: [`--settings=${settings.getJSON()}`]
-        },
-      });
-    } else {
-      this.browserWindow = new BrowserWindow({
-        show: false,
-        hasShadow: false,
-        frame: false,
-        fullscreenable: true,
-        alwaysOnTop: true,
-        skipTaskbar: true,
-        transparent: true,
-        opacity: 1,
-        thickFrame: false,
-        webPreferences: {
-          contextIsolation: true,
-          preload: path.join(__dirname, '..', 'window-screenshot', 'preload.js'),
-          additionalArguments: [`--settings=${settings.getJSON()}`]
-        }
-      });
-    }
+
+    const broWinOptions = this.isMac ? broWinOptionsMac : broWinOptionsDefault;
+    this.browserWindow = new BrowserWindow(broWinOptions);
+
 
     this.browserWindow.loadFile(path.join(__dirname, '..', 'window-screenshot', 'index.html'));
     this.browserWindow.removeMenu();
 
-    if (!this.isMac) {
-      this.browserWindow.on('blur', () => {
-        if (this.destroyOnBlur) {
-          this.destroy();
-        }
-      });
-      this.browserWindow.on('leave-full-screen', () => {
-        this.browserWindow.hide();
-      });
-    }
+    //  FIXME: Causes an issues
+    // if (!this.isMac) {
+    //   this.browserWindow.on('blur', () => {
+    //     if (this.destroyOnBlur) {
+    //       this.destroy();
+    //     }
+    //   });
+    //   this.browserWindow.on('leave-full-screen', () => {
+    //     this.hide();
+    //   });
+    // }
 
     // DEBUG ONLY [
-    //  this.browserWindow.webContents.openDevTools();
+    // this.browserWindow.webContents.openDevTools();
     //  setTimeout(()=>{
     //     this.debugShow();
     //  })
@@ -162,7 +161,9 @@ class WindowScreenshot {
     } else {
       this.browserWindow.show();
       this.browserWindow.setFullScreen(true);
-      this.browserWindow.setOpacity(1);
+      setTimeout(() => {
+        this.browserWindow.setOpacity(1);
+      })
     }
   }
 
@@ -178,6 +179,8 @@ class WindowScreenshot {
     } else {
       this.browserWindow.setOpacity(0);
       this.browserWindow.setFullScreen(false);
+      this.browserWindow.setSize(0, 0);
+      this.browserWindow.hide();
     }
   }
 
@@ -188,7 +191,7 @@ class WindowScreenshot {
       if (this.isMac) {
         this.send('action-load-screen-to-image', this.lastScreen);
       } else {
-        this.setPosition(activeScreen.bounds);
+        this.setPosition(this.lastScreen.bounds);
         this.send('action-load-screen-to-image', this.lastScreen);
       }
     }
