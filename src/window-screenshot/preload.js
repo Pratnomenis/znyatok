@@ -54,21 +54,23 @@ contextBridge.exposeInMainWorld(
           height
         } = oriImg.getSize();
         const clipImg = nativeImage.createEmpty();
-        
+
         if (scaleFactor === 1) {
-          
+
           clipImg.addRepresentation({
             scaleFactor: 1,
             width,
             height,
-            buffer: oriImg.toPNG({scaleFactor: 1.0})
+            buffer: oriImg.toPNG({
+              scaleFactor: 1.0
+            })
           });
 
         } else {
-          
+
           width /= scaleFactor;
           height /= scaleFactor;
-          
+
           clipImg.addRepresentation({
             scaleFactor: 1,
             width,
@@ -77,11 +79,13 @@ contextBridge.exposeInMainWorld(
               width,
               height,
               quality: 'best'
-            }).toPNG({scaleFactor: 1.0})
+            }).toPNG({
+              scaleFactor: 1.0
+            })
           });
-        
+
         }
-          
+
         clipboard.writeImage(clipImg);
       },
 
@@ -110,10 +114,9 @@ contextBridge.exposeInMainWorld(
       return JSON.parse(settingsRaw);
     },
 
-    async getDesktopImageDataURL({
+    async getDesktopImageLowQualityDataURL({
       width,
       height,
-      scaleFactor,
       screenId
     }) {
       return new Promise(async (resolveGetDataImage) => {
@@ -138,15 +141,15 @@ contextBridge.exposeInMainWorld(
             mandatory: {
               chromeMediaSource: 'desktop',
               chromeMediaSourceId: source.id,
-              minWidth: width,
-              maxWidth: width,
-              minHeight: height,
-              maxHeight: height
+              minWidth: Math.ceil(width / 1.5),
+              maxWidth: Math.ceil(width * 1.5),
+              minHeight: Math.ceil(height / 1.5),
+              maxHeight: Math.ceil(height * 1.5)
             }
           }
         });
 
-        const video = document.createElement('video')
+        const video = document.createElement('video');
         video.srcObject = stream;
         video.onloadedmetadata = (e) => {
           video.play();
@@ -162,6 +165,30 @@ contextBridge.exposeInMainWorld(
           })
         };
       })
+    },
+
+    async getDesktopImageHightQualityDataURL({
+      width,
+      height,
+      screenId
+    }) {
+      const sources = await desktopCapturer.getSources({
+        types: ['screen'],
+        thumbnailSize: {
+          width: width,
+          height: height
+        }
+      });
+
+      const source = sources.find((screen, index) => {
+        let curScreenId = screen.display_id;
+        if (!curScreenId) {
+          curScreenId = index + 1;
+        }
+        return String(curScreenId) === screenId;
+      }) || sources[0];
+
+      return source.thumbnail.toDataURL();
     },
 
     pathJoin(...args) {

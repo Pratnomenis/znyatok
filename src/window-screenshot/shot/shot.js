@@ -37,17 +37,24 @@ export class Shot {
     this.screenWidth = width;
     this.scaleFactor = scaleFactor;
 
-    const thumbnailDataUrl = await window.api.getDesktopImageDataURL({
+    const dataUrlLQImg = await window.api.getDesktopImageLowQualityDataURL({
       width,
       height,
-      scaleFactor,
       screenId
     });
     const image = document.querySelector('.js-img-screenshot');
     image.addEventListener('load', () => {
       window.api.send('screenshot-is-ready-to-show');
     })
-    image.src = thumbnailDataUrl;
+    image.src = dataUrlLQImg;
+
+    window.api.getDesktopImageHightQualityDataURL({
+      width,
+      height,
+      screenId
+    }).then(dataUrlHQImg => {
+      image.src = dataUrlHQImg;
+    });
   }
 
   takeFirstShot() {
