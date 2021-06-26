@@ -60,17 +60,13 @@ class WindowScreenshot {
     this.browserWindow.loadFile(path.join(__dirname, '..', 'window-screenshot', 'index.html'));
     this.browserWindow.removeMenu();
 
-    //  FIXME: Causes an issues
-    // if (!this.isMac) {
-    //   this.browserWindow.on('blur', () => {
-    //     if (this.destroyOnBlur) {
-    //       this.destroy();
-    //     }
-    //   });
-    //   this.browserWindow.on('leave-full-screen', () => {
-    //     this.hide();
-    //   });
-    // }
+    if (!this.isMac) {
+      this.browserWindow.on('blur', () => {
+        if (this.destroyOnBlur) {
+          this.destroy();
+        }
+      });
+    }
 
     // DEBUG ONLY [
     // this.browserWindow.webContents.openDevTools();
