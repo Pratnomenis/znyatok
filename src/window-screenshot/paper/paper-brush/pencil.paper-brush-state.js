@@ -21,9 +21,7 @@ export class PencilPaperBrushState extends PaperBrushState {
   processMouseDown(data) {
     const {
       startCanvasX,
-      startCanvasY,
-      canvasHeight,
-      canvasWidth
+      startCanvasY
     } = data;
 
     this.path = [{
@@ -32,7 +30,7 @@ export class PencilPaperBrushState extends PaperBrushState {
     }];
 
     this.ctx = this.paper.canvasContext;
-    this.drawDot(canvasWidth, canvasHeight);
+    this.drawDot();
   }
 
   processMouseMove(data) {
@@ -77,8 +75,8 @@ export class PencilPaperBrushState extends PaperBrushState {
     this.ctx.restore();
   }
 
-  drawDot(canvasWidth, canvasHeight) {
-    this.startDrawing(canvasWidth, canvasHeight);
+  drawDot() {
+    this.startDrawing();
     const {
       x,
       y
