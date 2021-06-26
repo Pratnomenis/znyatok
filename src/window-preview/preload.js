@@ -5,9 +5,10 @@ const {
 
 contextBridge.exposeInMainWorld(
   "api", {
+
     onLoadImage(callback) {
       ipcRenderer.on('load-image', (_, data) => callback(data));
-
     }
+
   }
 );

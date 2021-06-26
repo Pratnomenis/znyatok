@@ -91,14 +91,18 @@ export class Saver {
   }
 
   getImageName() {
+    const twoDigNum = (number) => number <= 9 ? `0${number}` : String(number);
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
     const date = new Date();
     const y = date.getFullYear();
-    const m = date.getMonth();
-    const d = date.getDate();
-    const h = date.getHours();
-    const mi = date.getMinutes();
-    const s = date.getSeconds();
-    return `znyatok_${y}${m}${d}${h}${mi}${s}`;
+    const mmm = monthNames[date.getMonth()];
+    const d = twoDigNum(date.getDate());
+    const h = twoDigNum(date.getHours());
+    const min = twoDigNum(date.getMinutes());
+    const s = twoDigNum(date.getSeconds());
+
+    return `znyatok_${y}_${mmm}_${d}_${h}_${min}_${s}`;
   }
 
   saveByType(saveType) {
