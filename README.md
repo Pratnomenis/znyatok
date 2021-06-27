@@ -1,12 +1,19 @@
-# znyatok v1.6.3
-Available for Linux and Windows
-## Free screenshot application developed with electron.
+# Znyatok v1.7.0
+
+> Open-source screenshot application developed with electron.
 
 ![Znyatok in action](https://znyatok.com/znyatok160.png)
 
+Available for [Linux](https://github.com/Pratnomenis/znyatok/releases/download/1.7.0/znyatok_1.7.0_amd64.deb) and [Windows](https://github.com/Pratnomenis/znyatok/releases/download/1.7.0/Znyatok.Setup.1.7.0.exe)
+
+MacOS version will be available soon. Or you can manually build it from source on MacOS device.
+
+
+
 More information on [znyatok.com](https://znyatok.com/).
 
-## Build instruction
+## Build from source instruction
+You will need [node.js](https://nodejs.org/) and [git](https://git-scm.com/).
 ```
 git clone https://github.com/Pratnomenis/znyatok.git
 cd znyatok
