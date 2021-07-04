@@ -82,7 +82,7 @@ export class SquarePaperBrushState extends PaperBrushState {
 
   setBluredCancas(canvasLeft, canvasTop) {
     const lastShotImage = this.shot.getLastImage();
-    const originalImage = fullScreenImgElement.getDomElement();
+    const originalImage = fullScreenImgElement.getHtmlElement();
     const {
       width,
       height
