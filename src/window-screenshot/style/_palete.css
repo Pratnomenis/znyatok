@@ -24,7 +24,6 @@
 }
 
 .palete path {
-  /* shape-rendering: geometricPrecision; */
   stroke-linejoin: round;
   stroke-linecap: round;
 }

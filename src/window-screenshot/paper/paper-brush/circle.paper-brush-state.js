@@ -6,6 +6,10 @@ import {
   ScaledCanvas
 } from "../../helpers/scaled-canvas.js";
 
+import {
+  fullScreenImgElement
+} from '../../img-element/full-screen.img-element.js';
+
 export const circleType = {
   border1: 1,
   border2: 2,
@@ -121,7 +125,7 @@ export class CirclePaperBrushState extends PaperBrushState {
 
   setBluredCancas(canvasLeft, canvasTop) {
     const lastShotImage = this.shot.getLastImage();
-    const originalImage = this.paper.imageFullScreen;
+    const originalImage = fullScreenImgElement.getDomElement();
     const {
       width,
       height

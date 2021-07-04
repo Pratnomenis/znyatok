@@ -4,11 +4,15 @@ import {
 
 import {
   markCounter
-} from "../mark-counter/mark-counter.js";
+} from '../mark-counter/mark-counter.js';
 
 import {
   CursorCords
-} from "../cursor-cords/cursor-cords.js";
+} from '../cursor-cords/cursor-cords.js';
+
+import {
+  fullScreenImgElement
+} from '../img-element/full-screen.img-element.js';
 
 export class Actions {
   constructor(shot, paper, tools) {
@@ -29,7 +33,7 @@ export class Actions {
     const btnQuit = document.querySelector('.js-tool-exit');
     btnQuit.addEventListener('mousedown', e => e.stopPropagation());
     btnQuit.addEventListener('click', () => this.closeApp());
-    
+
     window.api.on('keyboard-escape', () => this.closeApp());
     window.api.on('keyboard-control-z', () => this.historyUndo());
     window.api.on('keyboard-control-shift-z', () => this.historyRedo());
@@ -41,13 +45,9 @@ export class Actions {
     window.api.on('keyboard-control-shift-b', () => this.saver.saveAsBase64());
 
     window.api.on('action-load-screen-to-image', screen => {
-      this.loadScreenToImage(screen);
+      this.shot.screenToImage(screen);
     });
     window.api.on('reset-all', () => this.resetAll());
-  }
-
-  loadScreenToImage(screen) {
-    this.shot.screenToImage(screen);
   }
 
   resetAll() {
@@ -55,7 +55,7 @@ export class Actions {
     this.paper.reset();
     this.tools.reset();
     markCounter.reset();
-    document.querySelector('.js-img-screenshot').removeAttribute('src');
+    fullScreenImgElement.destroy();
     document.querySelector('.js-img-last-shot').removeAttribute('src');
     document.querySelector('.js-paper-holder').removeAttribute('style');
     document.querySelector('.js-textreader-wrapper').removeAttribute('style');

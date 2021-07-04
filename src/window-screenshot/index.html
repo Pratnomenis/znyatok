@@ -8,11 +8,9 @@
   <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
   <link rel="stylesheet" href="style/index.css">
   <link rel="stylesheet" href="../fonts/remixicon.css">
+  <script type="module" src="./app.js" defer></script>
 </head>
-
-
 <body>
-  <img class="img-screenshot js-img-screenshot">
   <div class="cursor-coords js-cursor-coords">
     <div class="cursor-coords-x js-cursor-coords-x"></div>
     <div class="cursor-coords-y js-cursor-coords-y"></div>
@@ -349,11 +347,6 @@
     </svg>
     <div class="palete-value js-palete-value"></div>
   </div>
-
-  <script type="module" async>
-    import App from './app.js';
-    new App();
-  </script>
 </body>
 
 </html>

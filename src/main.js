@@ -99,6 +99,10 @@ ipcMain.on('get-desktop-folder', event => {
   event.sender.send('get-desktop-folder-reply', app.getPath('desktop'));
 });
 
+ipcMain.on('do-log', (event, data) => {
+  console.log(data);
+});
+
 ipcMain.on('get-select-path', async (event) => {
   winScreenshot.destroyOnBlur = false;
   winScreenshot.hide();
@@ -126,6 +130,10 @@ ipcMain.on('setting-updated', (event, data) => {
     settingValue
   } = data;
   settings.setSetting(settingName, settingValue);
+});
+
+ipcMain.on('window-screenshot-loaded', (event, frmData) => {
+  winScreenshot.windowLoaded();
 });
 
 ipcMain.on('window-welcome-confirm', (event, frmData) => {

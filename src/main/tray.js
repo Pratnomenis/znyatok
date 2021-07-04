@@ -49,9 +49,7 @@ class AppTray {
   }
 
   actionMakeScreenshot() {
-    if (!winScreenshot.isShown()) {
-      winScreenshot.startScreenshot();
-    }
+    winScreenshot.startScreenshot();
   }
 
   actionCheckForUpdates() {

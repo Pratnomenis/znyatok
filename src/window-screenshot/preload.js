@@ -9,7 +9,7 @@ const {
 const path = require('path');
 const fs = require('fs');
 
-const validRenderActions = ['keyboard-escape', 'keyboard-control-z', 'keyboard-control-shift-z', 'keyboard-control-c', 'keyboard-control-s', 'keyboard-control-shift-s', 'keyboard-control-w', 'keyboard-control-shift-b', 'action-load-screen-to-image', 'reset-all', 'action-quit', 'get-desktop-folder', 'get-desktop-folder-reply', 'action-quit-reply', 'get-select-path', 'get-select-path-reply', 'picture-to-new-window', 'picture-to-new-window-reply', 'setting-updated', 'screenshot-is-ready-to-show'];
+const validRenderActions = ['keyboard-escape', 'keyboard-control-z', 'keyboard-control-shift-z', 'keyboard-control-c', 'keyboard-control-s', 'keyboard-control-shift-s', 'keyboard-control-w', 'keyboard-control-shift-b', 'action-load-screen-to-image', 'reset-all', 'action-quit', 'get-desktop-folder', 'get-desktop-folder-reply', 'action-quit-reply', 'get-select-path', 'get-select-path-reply', 'picture-to-new-window', 'picture-to-new-window-reply', 'setting-updated', 'screenshot-is-ready-to-show', 'window-screenshot-loaded', 'do-log'];
 
 contextBridge.exposeInMainWorld(
   "api", {
@@ -17,12 +17,16 @@ contextBridge.exposeInMainWorld(
     send(action, data) {
       if (validRenderActions.includes(action)) {
         ipcRenderer.send(action, data);
+      } else {
+        console.error('send', action, data);
       }
     },
 
     on(action, callback) {
       if (validRenderActions.includes(action)) {
         ipcRenderer.on(action, (_, data) => callback(data));
+      } else {
+        console.error('on', action, data);
       }
     },
 
@@ -30,18 +34,24 @@ contextBridge.exposeInMainWorld(
       if (validRenderActions.includes(action)) {
         const newCallback = (_, data) => callback(data);
         ipcRenderer.once(action, newCallback);
+      } else {
+        console.error('once', action, data);
       }
     },
 
     removeListener(action, callback) {
       if (validRenderActions.includes(action)) {
         ipcRenderer.removeListener(action, callback);
+      } else {
+        console.error('removeListener', action, data);
       }
     },
 
     removeAllListeners(action) {
       if (validRenderActions.includes(action)) {
         ipcRenderer.removeAllListeners(action)
+      } else {
+        console.error('removeAllListeners', action, data);
       }
     },
 

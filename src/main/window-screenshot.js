@@ -44,6 +44,7 @@ class WindowScreenshot {
     this.windowShown = false;
 
     this.isVisible = false;
+    this.isLoaded = false;
     this.destroyOnBlur = true;
 
     this.isMac = os.platform() === 'darwin';
@@ -55,7 +56,6 @@ class WindowScreenshot {
 
     const broWinOptions = this.isMac ? broWinOptionsMac : broWinOptionsDefault;
     this.browserWindow = new BrowserWindow(broWinOptions);
-
 
     this.browserWindow.loadFile(path.join(__dirname, '..', 'window-screenshot', 'index.html'));
     this.browserWindow.removeMenu();
@@ -70,6 +70,7 @@ class WindowScreenshot {
 
     // DEBUG ONLY [
     // this.browserWindow.webContents.openDevTools();
+    // this.show();
     //  setTimeout(()=>{
     //     this.debugShow();
     //  })
@@ -141,11 +142,11 @@ class WindowScreenshot {
   }
 
   show() {
+    this.browserWindow.setResizable(true);
     if (this.isMac) {
       this.browserWindow.setVisibleOnAllWorkspaces(true, {
         visibleOnFullScreen: true
       });
-      this.browserWindow.setResizable(true);
       this.browserWindow.setSize(this.lastScreen.size.width, this.lastScreen.size.height);
       this.browserWindow.setResizable(false);
       this.browserWindow.setPosition(this.lastScreen.bounds.x, this.lastScreen.bounds.y);
@@ -159,14 +160,15 @@ class WindowScreenshot {
       this.browserWindow.setFullScreen(true);
       setTimeout(() => {
         this.browserWindow.setOpacity(1);
+        this.browserWindow.setResizable(false);
       })
     }
   }
 
   hide() {
+    this.browserWindow.setResizable(true);
     if (this.isMac) {
       this.browserWindow.setOpacity(0);
-      this.browserWindow.setResizable(true);
       this.browserWindow.setPosition(0, 0);
       this.browserWindow.setSize(0, 0);
       this.browserWindow.setResizable(false);
@@ -181,7 +183,7 @@ class WindowScreenshot {
   }
 
   startScreenshot() {
-    if (!this.isVisible) {
+    if (this.isLoaded && !this.isShown()) {
       this.isVisible = true;
       this.lastScreen = this.getScaledScreen();
       if (this.isMac) {
@@ -195,6 +197,10 @@ class WindowScreenshot {
 
   isShown() {
     return this.isVisible;
+  }
+
+  windowLoaded() {
+    this.isLoaded = true;
   }
 };
 

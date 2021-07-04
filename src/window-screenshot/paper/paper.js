@@ -1,31 +1,40 @@
 import {
   HiddenPaperWrapperState
 } from './paper-wrapper/hidden.paper-wrapper-state.js';
+
 import {
   ShownPaperWrapperState
 } from './paper-wrapper/shown.paper-wrapper-state.js';
+
 import {
   PaperWrapperState
 } from './paper-wrapper/paper-wrapper-state.js';
+
 import {
   PaperBrushState
 } from './paper-brush/paper-brush-state.js';
+
 import {
   TextPaperBrushState
 } from './paper-brush/text.paper-brush-state.js';
+
 import {
   SavePaperBrushState
 } from './paper-brush/save.paper-brush-state.js';
+
 import {
   CursorCords
 } from '../cursor-cords/cursor-cords.js';
 
+import {
+  fullScreenImgElement
+} from '../img-element/full-screen.img-element.js';
+
 export class Paper {
-  constructor(canvasHolderElement, canvasElement, imageFullScreen) {
+  constructor(canvasHolderElement, canvasElement) {
     this.canvasHolderElement = canvasHolderElement;
     this.canvasElement = canvasElement;
     this.canvasContext = this.canvasElement.getContext('2d');
-    this.imageFullScreen = imageFullScreen;
     this.palete = null;
 
     this.cursorCords = CursorCords.getInstance();
@@ -130,11 +139,11 @@ export class Paper {
   }
 
   turnOnAreaSelected() {
-    this.imageFullScreen.classList.add('area-selected');
+    fullScreenImgElement.addClass('area-selected');
   }
 
   turnOffAreaSelected() {
-    this.imageFullScreen.classList.remove('area-selected');
+    fullScreenImgElement.removeClass('area-selected');
   }
 
   saveCanvasSize() {

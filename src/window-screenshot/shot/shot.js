@@ -6,6 +6,10 @@ import {
   ScaledCanvas
 } from '../helpers/scaled-canvas.js';
 
+import {
+  fullScreenImgElement
+} from '../img-element/full-screen.img-element.js';
+
 export class Shot {
   constructor(paper, cnvPaper, imgLastShot) {
     this.paper = paper;
@@ -42,19 +46,19 @@ export class Shot {
       height,
       screenId
     });
-    const image = document.querySelector('.js-img-screenshot');
-    image.addEventListener('load', () => {
+
+    fullScreenImgElement.create(dataUrlLQImg).then(() => {
       window.api.send('screenshot-is-ready-to-show');
-    })
-    image.src = dataUrlLQImg;
+    });
 
     window.api.getDesktopImageHightQualityDataURL({
       width,
       height,
       screenId
     }).then(dataUrlHQImg => {
-      image.src = dataUrlHQImg;
+      fullScreenImgElement.src = dataUrlHQImg;
     });
+
   }
 
   takeFirstShot() {
@@ -64,6 +68,7 @@ export class Shot {
       canvasWidth,
       canvasHeight
     } = this.paper.startParams;
+
     const fullScreenShot = document.querySelector('.js-img-screenshot');
     if (canvasWidth <= 0 || canvasHeight <= 0) {
       this.shotListHistory.add(fullScreenShot.src);
@@ -71,7 +76,7 @@ export class Shot {
       const tCanvas = new ScaledCanvas(canvasWidth, canvasHeight);
       const tCtx = tCanvas.getContext('2d');
 
-      tCtx.drawImage(fullScreenShot, canvasLeft, canvasTop, canvasWidth, canvasHeight, 0, 0, canvasWidth, canvasHeight);
+      tCtx.drawImage(fullScreenImgElement.getHtmlElement(), canvasLeft, canvasTop, canvasWidth, canvasHeight, 0, 0, canvasWidth, canvasHeight);
       const imgBase64 = tCanvas.toDataURL();
       this.shotListHistory.add(imgBase64);
     }
