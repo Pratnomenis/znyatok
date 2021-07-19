@@ -1,10 +1,23 @@
 const {
   BrowserWindow,
-  nativeImage
+  nativeImage,
+  screen
 } = require('electron');
 
 const path = require('path');
 const winScreenshot = require('./window-screenshot');
+
+const broWinOptMain = {
+  icon: nativeImage.createFromPath(path.join(__dirname, '..', 'icons', 'app', 'png', 'color_medium.png')),
+  show: false,
+  fullscreenable: false,
+  resizable: false,
+  maximizable: false,
+  webPreferences: {
+    contextIsolation: true,
+    preload: path.join(__dirname, '..', 'window-preview', 'preload.js'),
+  },
+};
 
 class WindowPreview {
   create(options) {
@@ -18,19 +31,9 @@ class WindowPreview {
     } = options;
 
     const [offsetX, offsetY] = winScreenshot.getPosition();
+    const newWindow = new BrowserWindow(broWinOptMain);
 
-    const newWindow = new BrowserWindow({
-      icon: nativeImage.createFromPath(path.join(__dirname, '..', 'icons', 'app', 'png', 'color_medium.png')),
-      show: false,
-      fullscreenable: false,
-      resizable: false,
-      maximizable: false,
-      title: imageName,
-      webPreferences: {
-        contextIsolation: true,
-        preload: path.join(__dirname, '..', 'window-preview', 'preload.js'),
-      },
-    });
+    newWindow.setTitle(imageName);
 
     newWindow.setContentBounds({
       x: offsetX + left,
@@ -38,6 +41,18 @@ class WindowPreview {
       width,
       height
     });
+
+    // If scaleFactor isn't the same for all monitors - centerize preview image
+    const haveToBeCenterized = screen
+      .getAllDisplays()
+      .map(screen => screen.scaleFactor)
+      .filter((sf, i, arr) => {
+        return arr.indexOf(sf) === i;
+      }).length !== 1;
+
+    if (haveToBeCenterized) {
+      newWindow.center();
+    }
 
     newWindow.loadFile(path.join(__dirname, '..', 'window-preview', 'index.html'));
     newWindow.removeMenu();
