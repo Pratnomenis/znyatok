@@ -48,7 +48,9 @@ export class Shot {
     });
 
     fullScreenImgElement.create(dataUrlLQImg).then(() => {
-      window.api.send('screenshot-is-ready-to-show');
+      setTimeout(()=>{
+        window.api.send('screenshot-is-ready-to-show');
+      })
     });
 
     window.api.getDesktopImageHightQualityDataURL({
@@ -56,7 +58,7 @@ export class Shot {
       height,
       screenId
     }).then(dataUrlHQImg => {
-      fullScreenImgElement.src = dataUrlHQImg;
+      fullScreenImgElement.updateWithBetterQuality(dataUrlHQImg);
     });
 
   }
