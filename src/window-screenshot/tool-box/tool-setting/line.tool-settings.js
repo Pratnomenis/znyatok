@@ -6,15 +6,18 @@ import {
   LinePaperBrushState
 } from "../../paper/paper-brush/line.paper-brush-state.js";
 
+import {
+  paper
+} from '../../paper/paper.js';
 
 export class LineToolSettings extends ToolSetings {
-  constructor(hldrSelector, tool, paper, shot, palette, settings) {
-    super(hldrSelector, tool, paper, shot, palette, settings, 'brush-line');
+  constructor(hldrSelector, tool) {
+    super(hldrSelector, tool, 'brush-line');
     this.listeners = {};
   }
 
   activate() {
-    this.paper.setState(new LinePaperBrushState(this.paper, this.shot, this.palette));
+    paper.setState(new LinePaperBrushState());
     this.show();
     const list = this.holder.querySelectorAll('.js-settings-type');
 

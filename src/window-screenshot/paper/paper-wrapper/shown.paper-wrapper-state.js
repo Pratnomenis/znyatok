@@ -1,42 +1,50 @@
 import {
   PaperWrapperState
 } from "./paper-wrapper-state.js";
+
 import {
   HiddenPaperWrapperState
 } from "./hidden.paper-wrapper-state.js";
+
 import {
   MovePaperWrapperState
 } from "./move.paper-wrapper-state.js";
+
 import {
   ResizePaperWrapperState
 } from "./resize.paper-wrapper-state.js";
+
 import {
   PaperControlsPosition
 } from '../paper-controls-position.js';
+
 import {
-  CursorCords
-} from '../../cursor-cords/cursor-cords.js';
+  cursorCords
+} from '../../dom-mediator/cursor-cords.js';
+
+import {
+  paper
+} from '../../paper/paper.js';
 
 export class ShownPaperWrapperState extends PaperWrapperState {
-  constructor(paper, processMove = false) {
-    super(paper);
+  constructor(processMove = false) {
+    super();
     this.proceeseMove = processMove;
-    this.controlsPosition = new PaperControlsPosition(this.paper.canvasHolderElement);
-    this.cursorCords = CursorCords.getInstance();
-    this.cursorCords.hide();
+    this.controlsPosition = new PaperControlsPosition();
+    cursorCords.hide();
   }
 
   processMouseDown(data) {
-    const clickedOnPaper = data.path.includes(this.paper.canvasHolderElement);
+    const clickedOnPaper = data.path.includes(paper.canvasHolderElement);
     const clickOnResize = data.srcElement && data.srcElement.classList && data.srcElement.classList.contains('resize-box');
 
     if (clickOnResize) {
       const resizeName = [...data.srcElement.classList]
         .find(cls => cls.indexOf('resize-box__') > -1)
         .split('__')[1];
-      this.paper.setState(new ResizePaperWrapperState(this.paper, resizeName));
+      paper.setState(new ResizePaperWrapperState(resizeName));
     } else if (clickedOnPaper) {
-      this.paper.setState(new MovePaperWrapperState(this.paper));
+      paper.setState(new MovePaperWrapperState(paper));
     }
   }
 
@@ -62,12 +70,12 @@ export class ShownPaperWrapperState extends PaperWrapperState {
   }
 
   switchToHidden() {
-    this.paper.canvasHolderElement.classList.remove('shown');
-    this.paper.canvasHolderElement.style.left = '0px';
-    this.paper.canvasHolderElement.style.top = '0px';
-    this.paper.canvasHolderElement.style.width = '0px';
-    this.paper.canvasHolderElement.style.height = '0px';
-    this.paper.setState(new HiddenPaperWrapperState(this.paper));
+    paper.canvasHolderElement.classList.remove('shown');
+    paper.canvasHolderElement.style.left = '0px';
+    paper.canvasHolderElement.style.top = '0px';
+    paper.canvasHolderElement.style.width = '0px';
+    paper.canvasHolderElement.style.height = '0px';
+    paper.setState(new HiddenPaperWrapperState(paper));
   }
 
   getCoords(data) {
@@ -116,7 +124,7 @@ export class ShownPaperWrapperState extends PaperWrapperState {
   }
 
   setCanvasHolderPosition(position) {
-    const paperWrapperStyle = this.paper.canvasHolderElement.style;
+    const paperWrapperStyle = paper.canvasHolderElement.style;
     paperWrapperStyle.left = `${position.left}px`;
     paperWrapperStyle.top = `${position.top}px`;
     paperWrapperStyle.width = `${position.width}px`;

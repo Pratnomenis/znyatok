@@ -2,12 +2,14 @@ import {
   PaperState
 } from "../paper-state.js";
 
+import {
+  palette
+} from '../../dom-mediator/palette.js';
+
 export class PaperBrushState extends PaperState {
-  constructor(paper, shot, palette, listType) {
-    super(paper);
-    this.shot = shot;
-    this.palette = palette;
-    this.color = this.palette.getSelectedColor();
+  constructor(listType) {
+    super();
+    this.color = palette.getSelectedColor();
     this.type = 1;
     this.listType = listType.map(a => String(a));
   }

@@ -7,9 +7,17 @@ import {
   markCounter
 } from "../../mark-counter/mark-counter.js";
 
+import {
+  paper
+} from '../../paper/paper.js';
+
+import {
+  shot
+} from '../../shot/shot.js';
+
 export class MarkPaperBrushState extends PaperBrushState {
-  constructor(paper, shot, palette) {
-    super(paper, shot, palette, Object.values(markType));
+  constructor() {
+    super(Object.values(markType));
   }
 
   processMouseDown(data) {
@@ -22,10 +30,10 @@ export class MarkPaperBrushState extends PaperBrushState {
 
   async processMouseUp(data) {
     if (this.draw(data)) {
-      await this.shot.takeShot();
+      await shot.takeShot();
       const markValue = markCounter.getCurrentValue();
-      this.shot.setMarkToLastImage(markValue);
-      this.paper.clearCtx();
+      shot.setMarkToLastImage(markValue);
+      paper.clearCtx();
       markCounter.setNextValue();
     }
   }
@@ -50,8 +58,8 @@ export class MarkPaperBrushState extends PaperBrushState {
     const x = startCanvasX;
     const y = startCanvasY;
 
-    this.paper.clearCtx();
-    const ctx = this.paper.canvasContext;
+    paper.clearCtx();
+    const ctx = paper.canvasContext;
     ctx.save();
 
     if (Math.abs(distanceX) + Math.abs(distanceY) > 25) {

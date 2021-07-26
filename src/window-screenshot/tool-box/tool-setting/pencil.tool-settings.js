@@ -1,18 +1,23 @@
 import {
   ToolSetings
 } from "./tool-setings.js";
+
 import {
   PencilPaperBrushState
 } from "../../paper/paper-brush/pencil.paper-brush-state.js";
 
+import {
+  paper
+} from '../../paper/paper.js';
+
 export class PencilToolSettings extends ToolSetings {
-  constructor(hldrSelector, tool, paper, shot, palette, settings) {
-    super(hldrSelector, tool, paper, shot, palette, settings, 'brush-pencil');
+  constructor(hldrSelector, tool) {
+    super(hldrSelector, tool, 'brush-pencil');
     this.listeners = {};
   }
 
   activate() {
-    this.paper.setState(new PencilPaperBrushState(this.paper, this.shot, this.palette));
+    paper.setState(new PencilPaperBrushState());
     this.show();
     const list = this.holder.querySelectorAll('.js-settings-type');
 

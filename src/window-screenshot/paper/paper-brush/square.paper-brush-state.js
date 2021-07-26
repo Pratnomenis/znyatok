@@ -8,7 +8,15 @@ import {
 
 import {
   fullScreenImgElement
-} from '../../img-element/full-screen.img-element.js';
+} from '../../dom-mediator/img-element/full-screen.img-element.js';
+
+import {
+  paper
+} from '../../paper/paper.js';
+
+import {
+  shot
+} from '../../shot/shot.js';
 
 export const squeareType = {
   border1: 1,
@@ -19,8 +27,8 @@ export const squeareType = {
 }
 
 export class SquarePaperBrushState extends PaperBrushState {
-  constructor(paper, shot, palette) {
-    super(paper, shot, palette, Object.values(squeareType));
+  constructor() {
+    super(Object.values(squeareType));
   }
 
   processMouseDown(data) {
@@ -43,8 +51,8 @@ export class SquarePaperBrushState extends PaperBrushState {
       startCanvasY,
     } = data;
 
-    const ctx = this.paper.canvasContext;
-    this.paper.clearCtx();
+    const ctx = paper.canvasContext;
+    paper.clearCtx();
 
     switch (this.type) {
       case squeareType.border1:
@@ -68,8 +76,8 @@ export class SquarePaperBrushState extends PaperBrushState {
   }
 
   async processMouseUp(_) {
-    await this.shot.takeShot();
-    this.paper.clearCtx();
+    await shot.takeShot();
+    paper.clearCtx();
   }
 
   drawRect(size, ctx, x, y, width, height) {
@@ -81,7 +89,7 @@ export class SquarePaperBrushState extends PaperBrushState {
   }
 
   setBluredCancas(canvasLeft, canvasTop) {
-    const lastShotImage = this.shot.getLastImage();
+    const lastShotImage = shot.getLastImage();
     const originalImage = fullScreenImgElement.getHtmlElement();
     const {
       width,

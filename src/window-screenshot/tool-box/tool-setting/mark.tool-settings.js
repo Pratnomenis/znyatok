@@ -1,23 +1,29 @@
 import {
   ToolSetings
 } from "./tool-setings.js";
+
 import {
   MarkPaperBrushState
 } from "../../paper/paper-brush/mark.paper-brush-state.js";
+
 import {
   markCounter,
   markType
 } from "../../mark-counter/mark-counter.js";
 
+import {
+  paper
+} from '../../paper/paper.js';
+
 export class MarkToolSettings extends ToolSetings {
-  constructor(hldrSelector, tool, paper, shot, palette, settings) {
-    super(hldrSelector, tool, paper, shot, palette, settings, 'brush-mark');
+  constructor(hldrSelector, tool) {
+    super(hldrSelector, tool, 'brush-mark');
     this.listeners = {};
-    markCounter.init(this.settings.getSetting('brush-mark'), this);
+    markCounter.init(this);
   }
 
   activate() {
-    this.paper.setState(new MarkPaperBrushState(this.paper, this.shot, this.palette));
+    paper.setState(new MarkPaperBrushState());
     this.show();
     const list = this.holder.querySelectorAll('.js-settings-type');
 

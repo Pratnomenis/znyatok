@@ -1,18 +1,23 @@
 import {
   ToolSetings
 } from "./tool-setings.js";
+
 import {
   TextPaperBrushState
 } from "../../paper/paper-brush/text.paper-brush-state.js";
 
+import {
+  paper
+} from '../../paper/paper.js';
+
 export class TextToolSettings extends ToolSetings {
-  constructor(hldrSelector, tool, paper, shot, palette, settings) {
-    super(hldrSelector, tool, paper, shot, palette, settings, 'brush-text');
+  constructor(hldrSelector, tool) {
+    super(hldrSelector, tool, 'brush-text');
     this.listeners = {};
   }
 
   activate() {
-    this.paper.setState(new TextPaperBrushState(this.paper, this.shot, this.palette));
+    paper.setState(new TextPaperBrushState());
     this.show();
     const list = this.holder.querySelectorAll('.js-settings-type');
 
@@ -25,8 +30,8 @@ export class TextToolSettings extends ToolSetings {
   }
 
   deactivate() {
-    if (this.paper && this.paper.state && typeof this.paper.state === 'function') {
-      this.paper.state.deactivate();
+    if (paper && paper.state && typeof paper.state === 'function') {
+      paper.state.deactivate();
     }
     this.holder.querySelectorAll('.js-settings-type').forEach(element => {
       const typeId = element.dataset.type;

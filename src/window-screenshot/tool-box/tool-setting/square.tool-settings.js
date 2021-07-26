@@ -1,18 +1,23 @@
 import {
   ToolSetings
 } from "./tool-setings.js";
+
 import {
   SquarePaperBrushState
 } from "../../paper/paper-brush/square.paper-brush-state.js";
 
+import {
+  paper
+} from '../../paper/paper.js';
+
 export class SquareToolSettings extends ToolSetings {
-  constructor(hldrSelector, tool, paper, shot, palette, settings) {
-    super(hldrSelector, tool, paper, shot, palette, settings, 'brush-square');
+  constructor(hldrSelector, tool) {
+    super(hldrSelector, tool, 'brush-square');
     this.listeners = {};
   }
 
   activate() {
-    this.paper.setState(new SquarePaperBrushState(this.paper, this.shot, this.palette));
+    paper.setState(new SquarePaperBrushState());
     this.show();
     const list = this.holder.querySelectorAll('.js-settings-type');
 

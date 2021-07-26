@@ -1,4 +1,4 @@
-export class Settings {
+class Settings {
   constructor() {
     this.list = window.api.getSettings();
   }
@@ -15,3 +15,5 @@ export class Settings {
     });
   }
 }
+
+export const settings = new Settings();

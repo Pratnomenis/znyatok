@@ -8,7 +8,15 @@ import {
 
 import {
   fullScreenImgElement
-} from '../../img-element/full-screen.img-element.js';
+} from '../../dom-mediator/img-element/full-screen.img-element.js';
+
+import {
+  paper
+} from '../../paper/paper.js';
+
+import {
+  shot
+} from '../../shot/shot.js';
 
 export const circleType = {
   border1: 1,
@@ -19,8 +27,8 @@ export const circleType = {
 }
 
 export class CirclePaperBrushState extends PaperBrushState {
-  constructor(paper, shot, palette) {
-    super(paper, shot, palette, Object.values(circleType));
+  constructor() {
+    super(Object.values(circleType));
   }
 
   processMouseDown(data) {
@@ -43,8 +51,8 @@ export class CirclePaperBrushState extends PaperBrushState {
       startCanvasY
     } = data;
 
-    const ctx = this.paper.canvasContext;
-    this.paper.clearCtx();
+    const ctx = paper.canvasContext;
+    paper.clearCtx();
 
     switch (this.type) {
       case circleType.border1:
@@ -67,8 +75,8 @@ export class CirclePaperBrushState extends PaperBrushState {
   }
 
   async processMouseUp(_) {
-    await this.shot.takeShot();
-    this.paper.clearCtx();
+    await shot.takeShot();
+    paper.clearCtx();
   }
 
 
@@ -124,7 +132,7 @@ export class CirclePaperBrushState extends PaperBrushState {
   }
 
   setBluredCancas(canvasLeft, canvasTop) {
-    const lastShotImage = this.shot.getLastImage();
+    const lastShotImage = shot.getLastImage();
     const originalImage = fullScreenImgElement.getHtmlElement();
     const {
       width,

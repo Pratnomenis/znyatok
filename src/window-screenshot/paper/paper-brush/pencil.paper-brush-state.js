@@ -2,6 +2,14 @@ import {
   PaperBrushState
 } from "./paper-brush-state.js";
 
+import {
+  paper
+} from '../../paper/paper.js';
+
+import {
+  shot
+} from '../../shot/shot.js';
+
 export const pencilType = {
   1: 2,
   2: 6,
@@ -12,8 +20,8 @@ export const pencilType = {
 }
 
 export class PencilPaperBrushState extends PaperBrushState {
-  constructor(paper, shot, palette) {
-    super(paper, shot, palette, Object.keys(pencilType));
+  constructor() {
+    super(Object.keys(pencilType));
     this.ctx = null;
     this.path = [];
   }
@@ -29,7 +37,7 @@ export class PencilPaperBrushState extends PaperBrushState {
       y: startCanvasY
     }];
 
-    this.ctx = this.paper.canvasContext;
+    this.ctx = paper.canvasContext;
     this.drawDot();
   }
 
@@ -56,12 +64,12 @@ export class PencilPaperBrushState extends PaperBrushState {
   }
 
   async processMouseUp(_) {
-    await this.shot.takeShot();
-    this.paper.clearCtx();
+    await shot.takeShot();
+    paper.clearCtx();
   }
 
   startDrawing() {
-    this.paper.clearCtx();
+    paper.clearCtx();
     this.ctx.save();
     this.ctx.filter = 'blur(0.5px)';
     this.ctx.lineWidth = pencilType[this.type];

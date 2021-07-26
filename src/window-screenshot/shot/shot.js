@@ -8,13 +8,23 @@ import {
 
 import {
   fullScreenImgElement
-} from '../img-element/full-screen.img-element.js';
+} from '../dom-mediator/img-element/full-screen.img-element.js';
 
-export class Shot {
-  constructor(paper, cnvPaper, imgLastShot) {
-    this.paper = paper;
-    this.cnvPaper = cnvPaper;
-    this.imgLastShot = imgLastShot;
+import {
+  imgLastShot
+} from '../dom-mediator/img-last-shot.js';
+
+import {
+  paper
+} from '../paper/paper.js';
+
+import {
+  paperDom
+} from '../dom-mediator/paper-dom.js';
+
+class Shot {
+  constructor() {
+    this.cnvPaper = paperDom.canvasElement;
 
     this.undoImportant = null;
 
@@ -22,7 +32,7 @@ export class Shot {
   }
 
   reset() {
-    this.shotListHistory = new ShotHistory(this.imgLastShot);
+    this.shotListHistory = new ShotHistory();
 
     this.screenHeight = 0;
     this.screenWidth = 0;
@@ -69,7 +79,7 @@ export class Shot {
       canvasLeft,
       canvasWidth,
       canvasHeight
-    } = this.paper.startParams;
+    } = paper.startParams;
 
     const fullScreenShot = document.querySelector('.js-img-screenshot');
     if (canvasWidth <= 0 || canvasHeight <= 0) {
@@ -77,7 +87,7 @@ export class Shot {
     } else {
       const tCanvas = new ScaledCanvas(canvasWidth, canvasHeight);
       const tCtx = tCanvas.getContext('2d');
-
+      
       tCtx.drawImage(fullScreenImgElement.getHtmlElement(), canvasLeft, canvasTop, canvasWidth, canvasHeight, 0, 0, canvasWidth, canvasHeight);
       const imgBase64 = tCanvas.toDataURL();
       this.shotListHistory.add(imgBase64);
@@ -98,7 +108,7 @@ export class Shot {
         const {
           canvasWidth,
           canvasHeight
-        } = this.paper.startParams;
+        } = paper.startParams;
 
         const tCanvas = new ScaledCanvas(canvasWidth, canvasHeight);
         const tCtx = tCanvas.getContext('2d');
@@ -121,7 +131,7 @@ export class Shot {
 
   getLastImage() {
     this.takeFirstShotIfRequired();
-    return this.imgLastShot;
+    return imgLastShot.element;
   }
 
   getParams() {
@@ -130,7 +140,7 @@ export class Shot {
       canvasLeft,
       canvasWidth,
       canvasHeight
-    } = this.paper.startParams;
+    } = paper.startParams;
 
     return {
       top: canvasTop,
@@ -164,3 +174,5 @@ export class Shot {
     this.undoImportant = null;
   }
 }
+
+export const shot = new Shot;

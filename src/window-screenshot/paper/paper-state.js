@@ -1,7 +1,5 @@
 export class PaperState {
-  constructor(paper) {
-    this.paper = paper;
-
+  constructor() {
     if (typeof this.processMouseDown !== 'function') {
       throw "processMouseDown() should be setted";
     }

@@ -2,13 +2,16 @@ import {
   markCounter
 } from "../mark-counter/mark-counter.js";
 
+import {
+  imgLastShot
+} from '../dom-mediator/img-last-shot.js';
+
 export class ShotHistory {
-  constructor(imgLastShot) {
+  constructor() {
     this.list = [];
     this.currentId = -1;
-    this.imgLastShot = imgLastShot;
-
-    this.imgLastShot.src = '';
+    
+    imgLastShot.element.src = '';
   }
 
   add(imgBase64) {
@@ -54,7 +57,7 @@ export class ShotHistory {
   refreshLastShot() {
     const lastShot = this.current();
     if (lastShot) {
-      this.imgLastShot.src = lastShot.image;
+      imgLastShot.element.src = lastShot.image;
     }
   }
 

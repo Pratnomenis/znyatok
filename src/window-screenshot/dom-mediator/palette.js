@@ -1,8 +1,13 @@
-export class Palette {
-  constructor(paper, settings) {
-    this.paper = paper;
-    this.settings = settings;
+import {
+  settings
+} from '../settings/settings.js';
 
+import {
+  paper
+} from '../paper/paper.js'
+
+class Palette {
+  constructor() {
     const domPalete = document.querySelector('.js-palete');
     const domColorsHolder = domPalete.querySelector('svg');
     const domColors = document.querySelectorAll('.js-palete-color');
@@ -23,12 +28,12 @@ export class Palette {
       });
     });
 
-    this.setColor(this.settings.getSetting('palette-color'));
+    this.setColor(settings.getSetting('palette-color'));
   }
 
   setColor(newColor) {
     this.selectedColor = newColor;
-    this.settings.setSetting('palette-color', this.selectedColor);
+    settings.setSetting('palette-color', this.selectedColor);
     this.domSelectedColor.style.backgroundColor = newColor;
   }
 
@@ -46,8 +51,8 @@ export class Palette {
 
   hide() {
     if (this.domPalete.style.display === 'block') {
-      if (this.paper.state && this.paper.state.setColor) {
-        this.paper.state.setColor(this.selectedColor);
+      if (paper.state && paper.state.setColor) {
+        paper.state.setColor(this.selectedColor);
       }
       this.domPalete.style.display = 'none';
     }
@@ -57,3 +62,5 @@ export class Palette {
     return this.selectedColor;
   }
 }
+
+export const palette = new Palette;

@@ -7,19 +7,25 @@ import {
 } from '../mark-counter/mark-counter.js';
 
 import {
-  CursorCords
-} from '../cursor-cords/cursor-cords.js';
+  cursorCords
+} from '../dom-mediator/cursor-cords.js';
 
 import {
   fullScreenImgElement
-} from '../img-element/full-screen.img-element.js';
+} from '../dom-mediator/img-element/full-screen.img-element.js';
+
+import {
+  paper
+} from '../paper/paper.js';
+
+import {
+  shot
+} from '../shot/shot.js';
 
 export class Actions {
-  constructor(shot, paper, tools) {
-    this.shot = shot;
-    this.paper = paper;
+  constructor(tools) {
     this.tools = tools;
-    this.saver = new Saver(this.shot);
+    this.saver = new Saver();
 
     document.addEventListener('wheel', this.onMouseWheel.bind(this));
 
@@ -45,21 +51,21 @@ export class Actions {
     window.api.on('keyboard-control-shift-b', () => this.saver.saveAsBase64());
 
     window.api.on('action-load-screen-to-image', screen => {
-      this.shot.screenToImage(screen);
+      shot.screenToImage(screen);
     });
     window.api.on('reset-all', () => this.resetAll());
   }
 
   resetAll() {
-    this.shot.reset();
-    this.paper.reset();
+    shot.reset();
+    paper.reset();
     this.tools.reset();
     markCounter.reset();
     fullScreenImgElement.destroy();
     document.querySelector('.js-img-last-shot').removeAttribute('src');
     document.querySelector('.js-paper-holder').removeAttribute('style');
     document.querySelector('.js-textreader-wrapper').removeAttribute('style');
-    CursorCords.getInstance().show();
+    cursorCords.show();
 
     const cnvPaper = document.querySelector('.js-cnv-paper');
     const context = cnvPaper.getContext('2d');
@@ -69,16 +75,16 @@ export class Actions {
   }
 
   async closeApp() {
-    await this.shot.paper.deactivateLastState();
+    await paper.deactivateLastState();
     window.api.send('action-quit');
   }
 
   historyUndo() {
-    this.shot.undo();
+    shot.undo();
   }
 
   historyRedo() {
-    this.shot.redo();
+    shot.redo();
   }
 
   onMouseWheel(event) {

@@ -8,4 +8,4 @@ class FullScreenImgElement extends ImgElement {
     }
 }
 
-export const fullScreenImgElement = new FullScreenImgElement();
+export const fullScreenImgElement = new FullScreenImgElement;

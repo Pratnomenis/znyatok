@@ -9,16 +9,19 @@ export const markType = {
   emojiDecrese: '+',
   emojiIncrese: '@',
 }
+import {
+  settings
+} from '../settings/settings.js';
 
 class MarkCounter {
   constructor() {
     this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     this.emoji = '?✔⚠↺✂☎⚒⚑❤☹✗';
     this.isActive = false;
+    this.selectedType = settings.getSetting('brush-mark');
   }
 
-  init(selectedType, markTool) {
-    this.selectedType = selectedType;
+  init(markTool) {
     this.markTool = markTool;
     this.reset();
   }

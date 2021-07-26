@@ -1,14 +1,18 @@
+import {
+  settings
+} from '../../settings/settings.js';
+
+import {
+  paper
+} from '../../paper/paper.js';
+
 const activeCssClass = 'settings-list--list-item__active';
 
 // AbstractClass for tools settings
 export class ToolSetings {
-  constructor(hldrSelector, tool, paper, shot, palette, settings, settingName) {
+  constructor(hldrSelector, tool, settingName) {
     this.holder = document.querySelector(hldrSelector);
     this.tool = tool;
-    this.paper = paper;
-    this.shot = shot;
-    this.palette = palette;
-    this.settings = settings;
     this.settingName = settingName;
     if (typeof this.activate !== 'function') {
       throw "activate() should be setted";
@@ -19,13 +23,13 @@ export class ToolSetings {
   }
 
   setTypeFromSettings() {
-    const selectedType = this.settings.getSetting(this.settingName);
+    const selectedType = settings.getSetting(this.settingName);
     this.setType(selectedType);
   }
 
   setType(typeId) {
-    this.paper.state.setType(typeId);
-    this.settings.setSetting(this.settingName, typeId);
+    paper.state.setType(typeId);
+    settings.setSetting(this.settingName, typeId);
 
     this.removeCssActive();
     this.addCssActive(typeId);
@@ -51,20 +55,20 @@ export class ToolSetings {
   }
 
   typeIncrese() {
-    const newType = this.paper.state.typeIncrese();
+    const newType = paper.state.typeIncrese();
     if (newType) {
       this.removeCssActive();
       this.addCssActive(newType);
-      this.settings.setSetting(this.settingName, newType);
+      settings.setSetting(this.settingName, newType);
     }
   }
 
   typeDecrese() {
-    const newType = this.paper.state.typeDecrese();
+    const newType = paper.state.typeDecrese();
     if (newType) {
       this.removeCssActive();
       this.addCssActive(newType);
-      this.settings.setSetting(this.settingName, newType);
+      settings.setSetting(this.settingName, newType);
     }
   }
 }

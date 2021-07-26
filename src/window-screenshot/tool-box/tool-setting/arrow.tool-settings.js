@@ -6,15 +6,18 @@ import {
   ArrowPaperBrushState
 } from "../../paper/paper-brush/arrow.paper-brush-state.js";
 
+import {
+  paper
+} from '../../paper/paper.js';
 
 export class ArrowToolSettings extends ToolSetings {
-  constructor(hldrSelector, tool, paper, shot, palette, settings) {
-    super(hldrSelector, tool, paper, shot, palette, settings, 'brush-arrow');
+  constructor(hldrSelector, tool) {
+    super(hldrSelector, tool, 'brush-arrow');
     this.listeners = {};
   }
 
   activate() {
-    this.paper.setState(new ArrowPaperBrushState(this.paper, this.shot, this.palette));
+    paper.setState(new ArrowPaperBrushState());
     this.show();
     const list = this.holder.querySelectorAll('.js-settings-type');
 

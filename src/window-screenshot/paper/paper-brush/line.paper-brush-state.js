@@ -2,6 +2,13 @@ import {
   PaperBrushState
 } from "./paper-brush-state.js";
 
+import {
+  paper
+} from '../../paper/paper.js';
+
+import {
+  shot
+} from '../../shot/shot.js';
 
 export const lineType = {
   border1: 1,
@@ -13,8 +20,8 @@ export const lineType = {
 }
 
 export class LinePaperBrushState extends PaperBrushState {
-  constructor(paper, shot, palette) {
-    super(paper, shot, palette, Object.values(lineType));
+  constructor() {
+    super(Object.values(lineType));
   }
 
   processMouseDown(_) {}
@@ -27,8 +34,8 @@ export class LinePaperBrushState extends PaperBrushState {
       startCanvasY
     } = data;
 
-    const ctx = this.paper.canvasContext;
-    this.paper.clearCtx();
+    const ctx = paper.canvasContext;
+    paper.clearCtx();
 
     switch (this.type) {
       case lineType.border1:
@@ -54,8 +61,8 @@ export class LinePaperBrushState extends PaperBrushState {
   }
 
   async processMouseUp(_) {
-    await this.shot.takeShot();
-    this.paper.clearCtx();
+    await shot.takeShot();
+    paper.clearCtx();
   }
 
 

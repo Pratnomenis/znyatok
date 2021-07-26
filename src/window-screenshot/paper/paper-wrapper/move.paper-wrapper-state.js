@@ -1,23 +1,29 @@
 import {
   PaperWrapperState
 } from "./paper-wrapper-state.js";
+
 import {
   ShownPaperWrapperState
 } from "./shown.paper-wrapper-state.js";
+
 import {
   PaperControlsPosition
 } from '../paper-controls-position.js';
 
+import {
+  paper
+} from '../../paper/paper.js';
+
 export class MovePaperWrapperState extends PaperWrapperState {
-  constructor(paper) {
-    super(paper);
+  constructor() {
+    super();
 
     this.bodyOffset = {
       maxWidth: document.body.offsetWidth,
       maxHeight: document.body.offsetHeight
     }
 
-    this.controlsPosition = new PaperControlsPosition(this.paper.canvasHolderElement);
+    this.controlsPosition = new PaperControlsPosition();
   }
 
   processMouseDown() {}
@@ -57,7 +63,7 @@ export class MovePaperWrapperState extends PaperWrapperState {
       newLeft = maxLeft;
     }
 
-    const paperWrapperStyle = this.paper.canvasHolderElement.style;
+    const paperWrapperStyle = paper.canvasHolderElement.style;
     paperWrapperStyle.left = `${newLeft}px`;
     paperWrapperStyle.top = `${newTop}px`;
 
@@ -65,6 +71,6 @@ export class MovePaperWrapperState extends PaperWrapperState {
   }
 
   processMouseUp() {
-    this.paper.setState(new ShownPaperWrapperState(this.paper));
+    paper.setState(new ShownPaperWrapperState());
   }
 }

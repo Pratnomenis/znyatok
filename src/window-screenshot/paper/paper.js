@@ -23,22 +23,27 @@ import {
 } from './paper-brush/save.paper-brush-state.js';
 
 import {
-  CursorCords
-} from '../cursor-cords/cursor-cords.js';
+  cursorCords
+} from '../dom-mediator/cursor-cords.js';
 
 import {
   fullScreenImgElement
-} from '../img-element/full-screen.img-element.js';
+} from '../dom-mediator/img-element/full-screen.img-element.js';
 
-export class Paper {
-  constructor(canvasHolderElement, canvasElement) {
-    this.canvasHolderElement = canvasHolderElement;
-    this.canvasElement = canvasElement;
+import {
+  paperDom
+} from '../dom-mediator/paper-dom.js';
+
+import {
+  palette
+} from '../dom-mediator/palette.js'
+
+class Paper {
+  constructor() {
+    this.canvasHolderElement = paperDom.canvasHolderElement;
+    this.canvasElement = paperDom.canvasElement;
     this.canvasContext = this.canvasElement.getContext('2d');
-    this.palete = null;
-
-    this.cursorCords = CursorCords.getInstance();
-
+    
     document.body.addEventListener('mousedown', this.processMouseDown.bind(this));
     document.body.addEventListener('mousemove', this.processMouseMove.bind(this));
     document.body.addEventListener('mouseup', this.processMouseUp.bind(this));
@@ -65,11 +70,7 @@ export class Paper {
     this.canvasHolderElement.classList.remove('shown');
     this.canvasHolderElement.style = '';
 
-    this.cursorCords.show();
-  }
-
-  setPalete(palete) {
-    this.palete = palete;
+    cursorCords.show();
   }
 
   setState(newState) {
@@ -198,14 +199,14 @@ export class Paper {
         ...this.startParams
       });
     }
-    if (event.button === 2 && this.palete) {
+    if (event.button === 2 && palette) {
       const {
         clientX,
         clientY
       } = event;
-      this.palete.show(clientX, clientY);
-    } else if (this.palete) {
-      this.palete.hide();
+      palette.show(clientX, clientY);
+    } else if (palette) {
+      palette.hide();
     }
   }
 
@@ -215,7 +216,7 @@ export class Paper {
       ...this.startParams,
       ...distance
     };
-    this.cursorCords.setCords(coordsData);
+    cursorCords.setCords(coordsData);
 
     if (this.mouseDowned) {
       this.state.processMouseMove(coordsData);
@@ -236,8 +237,10 @@ export class Paper {
         this.saveCanvasSize();
       }
     }
-    if (event.button === 2 && this.palete) {
-      this.palete.hide();
+    if (event.button === 2 && palette) {
+      palette.hide();
     }
   }
 }
+
+export const paper = new Paper;

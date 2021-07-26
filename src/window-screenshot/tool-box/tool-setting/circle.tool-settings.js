@@ -1,18 +1,23 @@
 import {
   ToolSetings
 } from "./tool-setings.js";
+
 import {
   CirclePaperBrushState
 } from "../../paper/paper-brush/circle.paper-brush-state.js";
 
+import {
+  paper
+} from '../../paper/paper.js';
+
 export class CircleToolSettings extends ToolSetings {
-  constructor(hldrSelector, tool, paper, shot, palette, settings) {
-    super(hldrSelector, tool, paper, shot, palette, settings, 'brush-circle');
+  constructor(hldrSelector, tool) {
+    super(hldrSelector, tool, 'brush-circle');
     this.listeners = {};
   }
 
   activate() {
-    this.paper.setState(new CirclePaperBrushState(this.paper, this.shot, this.palette));
+    paper.setState(new CirclePaperBrushState());
     this.show();
     const list = this.holder.querySelectorAll('.js-settings-type');
 

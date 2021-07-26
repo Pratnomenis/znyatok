@@ -1,4 +1,4 @@
-export class CursorCords {
+class CursorCords {
   constructor() {
     this.domWrapper = document.querySelector('.js-cursor-coords');
     this.domX = document.querySelector('.js-cursor-coords-x');
@@ -49,11 +49,6 @@ export class CursorCords {
     this.domWrapper.style.display = 'none';
     this.shown = false;
   }
-
-  static getInstance() {
-    if (this.instance == null) {
-      this.instance = new CursorCords();
-    }
-    return this.instance;
-  }
 }
+
+export const cursorCords = new CursorCords;

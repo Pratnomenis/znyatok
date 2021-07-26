@@ -1,6 +1,13 @@
+import {
+  paper
+} from '../paper/paper.js';
+
+import {
+  shot
+} from '../shot/shot.js';
+
 export class Saver {
-  constructor(shot) {
-    this.shot = shot;
+  constructor() {
   }
 
   closeApp() {
@@ -8,12 +15,12 @@ export class Saver {
   }
 
   async saveToClipboard() {
-    await this.shot.paper.deactivateLastState();
-    const imgBase64 = this.shot.getLastBase64();
+    await paper.deactivateLastState();
+    const imgBase64 = shot.getLastBase64();
 
     const {
       scaleFactor
-    } = this.shot;
+    } = shot;
 
     window.api.clipboard.writeImageFromBase64(imgBase64, scaleFactor);
     this.closeApp();
@@ -35,7 +42,7 @@ export class Saver {
   }
 
   async saveToFolder() {
-    const imgBase64 = await this.shot.getLastBase64();
+    const imgBase64 = await shot.getLastBase64();
     const imageCode = imgBase64.split(';base64,').pop();
     window.api.send('action-quit', true);
     window.api.once('action-quit-reply', () => {
@@ -53,9 +60,9 @@ export class Saver {
   }
 
   async saveImageAs(filePath, imageCode) {
-    await this.shot.paper.deactivateLastState();
+    await paper.deactivateLastState();
     if (!imageCode) {
-      const imgBase64 = await this.shot.getLastBase64();
+      const imgBase64 = await shot.getLastBase64();
       imageCode = imgBase64.split(';base64,').pop();
     }
 
@@ -65,13 +72,13 @@ export class Saver {
   }
 
   async saveToNewWindow() {
-    const shotParams = this.shot.getParams();
+    const shotParams = shot.getParams();
     if (shotParams.width < 3 && shotParams.height < 3) {
       return false;
     }
     const imageName = this.getImageName();
-    await this.shot.paper.deactivateLastState();
-    const imgBase64 = await this.shot.getLastBase64();
+    await paper.deactivateLastState();
+    const imgBase64 = await shot.getLastBase64();
 
     window.api.send('picture-to-new-window', {
       imgBase64,
@@ -84,8 +91,8 @@ export class Saver {
   }
 
   async saveAsBase64() {
-    await this.shot.paper.deactivateLastState();
-    const imgBase64 = this.shot.getLastBase64();
+    await paper.deactivateLastState();
+    const imgBase64 = shot.getLastBase64();
     window.api.clipboard.writeText(imgBase64);
     this.closeApp();
   }

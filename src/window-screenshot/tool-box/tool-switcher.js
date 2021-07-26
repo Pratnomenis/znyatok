@@ -1,3 +1,7 @@
+import {
+  settings
+} from '../settings/settings.js';
+
 const switcherAttrList = {
   'circle-to-square': {
     cssClassFrom: 'js-tool-box__circle',
@@ -25,9 +29,8 @@ const switcherAttrList = {
   },
 }
 export class ToolSwitcher {
-  constructor(selector, settings, toolsList) {
+  constructor(selector, toolsList) {
     this.switchButtons = document.querySelectorAll(selector)
-    this.settings = settings;
     this.toolsList = toolsList;
     this.init();
   }
@@ -49,7 +52,7 @@ export class ToolSwitcher {
         toolFrom.deactivate();
         toolFrom.hide();
         toolTo.activate();
-        this.settings.setSetting(settingName, settingValueToShow);
+        settings.setSetting(settingName, settingValueToShow);
       });
     });
   }
@@ -58,7 +61,7 @@ export class ToolSwitcher {
     const arrSettings = ['square-or-circle', 'arrow-or-line'];
     const arrSwAttrList = Object.values(switcherAttrList);
     arrSettings.forEach(settingName => {
-      const settingValue = this.settings.getSetting(settingName);
+      const settingValue = settings.getSetting(settingName);
       arrSwAttrList.forEach(attrList => {
         if (attrList.settingName === settingName) {
           const tool = this.toolsList[attrList.cssClassTo];

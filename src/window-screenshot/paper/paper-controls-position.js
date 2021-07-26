@@ -1,6 +1,10 @@
+import {
+  paper
+} from '../paper/paper.js';
+
 export class PaperControlsPosition {
-  constructor(canvasHolderElement) {
-    this.canvasHolderElement = canvasHolderElement;
+  constructor() {
+    this.canvasHolderElement = paper.canvasHolderElement;
     this.bodyOffset = {
       width: document.body.offsetWidth,
       height: document.body.offsetHeight

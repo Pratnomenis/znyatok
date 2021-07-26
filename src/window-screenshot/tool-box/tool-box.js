@@ -39,35 +39,34 @@ import {
 } from './tool-switcher.js';
 
 export class ToolBox {
-  constructor(paper, shot, palette, settings) {
+  constructor() {
     this.activeTool = null;
-    this.settings = settings;
 
     const square = new Tool('.js-tool-box__square', this);
-    square.addToolSettings(new SquareToolSettings('.js-settings-list__square', square, paper, shot, palette, this.settings));
+    square.addToolSettings(new SquareToolSettings('.js-settings-list__square', square));
 
     const circle = new Tool('.js-tool-box__circle', this);
-    circle.addToolSettings(new CircleToolSettings('.js-settings-list__circle', circle, paper, shot, palette, this.settings));
+    circle.addToolSettings(new CircleToolSettings('.js-settings-list__circle', circle));
 
     const line = new Tool('.js-tool-box__line', this);
-    line.addToolSettings(new LineToolSettings('.js-settings-list__line', line, paper, shot, palette, this.settings));
+    line.addToolSettings(new LineToolSettings('.js-settings-list__line', line));
 
     const arrow = new Tool('.js-tool-box__arrow', this);
-    arrow.addToolSettings(new ArrowToolSettings('.js-settings-list__arrow', arrow, paper, shot, palette, this.settings));
+    arrow.addToolSettings(new ArrowToolSettings('.js-settings-list__arrow', arrow));
 
     const pencil = new Tool('.js-tool-box__pencil', this);
-    pencil.addToolSettings(new PencilToolSettings('.js-settings-list__pencil', pencil, paper, shot, palette, this.settings));
+    pencil.addToolSettings(new PencilToolSettings('.js-settings-list__pencil', pencil));
 
     const text = new Tool('.js-tool-box__text', this);
-    text.addToolSettings(new TextToolSettings('.js-settings-list__text', text, paper, shot, palette, this.settings));
+    text.addToolSettings(new TextToolSettings('.js-settings-list__text', text));
 
     const mark = new Tool('.js-tool-box__mark', this);
-    mark.addToolSettings(new MarkToolSettings('.js-settings-list__mark', mark, paper, shot, palette, this.settings));
+    mark.addToolSettings(new MarkToolSettings('.js-settings-list__mark', mark));
 
     const save = new Tool('.js-tool-box__save', this);
-    save.addToolSettings(new SaveToolSettings('.js-settings-list__save', text, paper, shot, palette, this.settings));
+    save.addToolSettings(new SaveToolSettings('.js-settings-list__save', text));
 
-    this.toolSwitcher = new ToolSwitcher('.js-list-item-switcher', this.settings, {
+    this.toolSwitcher = new ToolSwitcher('.js-list-item-switcher', {
       'js-tool-box__square': square,
       'js-tool-box__circle': circle,
       'js-tool-box__arrow': arrow,

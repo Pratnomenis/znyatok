@@ -7,6 +7,14 @@ import {
   drawArrow
 } from '../../helpers/draw-arrow.js';
 
+import {
+  paper
+} from '../../paper/paper.js';
+
+import {
+  shot
+} from '../../shot/shot.js';
+
 export const lineType = {
   arrow1: 1,
   arrow2: 2,
@@ -17,8 +25,8 @@ export const lineType = {
 }
 
 export class ArrowPaperBrushState extends PaperBrushState {
-  constructor(paper, shot, palette) {
-    super(paper, shot, palette, Object.values(lineType));
+  constructor() {
+    super(Object.values(lineType));
   }
 
   processMouseDown(_) {}
@@ -31,11 +39,11 @@ export class ArrowPaperBrushState extends PaperBrushState {
       startCanvasY
     } = data;
 
-    const ctx = this.paper.canvasContext;
+    const ctx = paper.canvasContext;
     const endX = startCanvasX + distanceX;
     const endY = startCanvasY + distanceY;
 
-    this.paper.clearCtx()
+    paper.clearCtx()
     ctx.lineWidth = 1;
     ctx.strokeStyle = this.color;
     ctx.fillStyle = this.color;
@@ -45,7 +53,7 @@ export class ArrowPaperBrushState extends PaperBrushState {
   }
 
   async processMouseUp(_) {
-    await this.shot.takeShot();
-    this.paper.clearCtx();
+    await shot.takeShot();
+    paper.clearCtx();
   }
 }

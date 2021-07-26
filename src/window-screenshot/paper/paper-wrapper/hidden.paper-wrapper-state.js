@@ -7,18 +7,21 @@ import {
 } from "./shown.paper-wrapper-state.js";
 
 import {
-  CursorCords
-} from '../../cursor-cords/cursor-cords.js';
+  cursorCords
+} from '../../dom-mediator/cursor-cords.js';
+
+import {
+  paper
+} from '../../paper/paper.js';
 
 export class HiddenPaperWrapperState extends PaperWrapperState {
-  constructor(paper) {
-    super(paper);
-    this.cursorCords = CursorCords.getInstance();
+  constructor() {
+    super();
     this.minDistance = 10;
   }
 
   processMouseDown(_) {
-    this.cursorCords.show();
+    cursorCords.show();
   }
 
   processMouseMove(data) {
@@ -31,14 +34,14 @@ export class HiddenPaperWrapperState extends PaperWrapperState {
       (distanceX >= this.minDistance || distanceX <= -this.minDistance) &&
       (distanceY >= this.minDistance || distanceY <= -this.minDistance)
     ) {
-      this.paper.canvasHolderElement.classList.add('shown');
-      this.paper.setState(new ShownPaperWrapperState(this.paper, true));
+      paper.canvasHolderElement.classList.add('shown');
+      paper.setState(new ShownPaperWrapperState(true));
     } else {
-      this.cursorCords.show();
+      cursorCords.show();
     }
   }
 
   processMouseUp(_) {
-    this.cursorCords.show();
+    cursorCords.show();
   }
 }
