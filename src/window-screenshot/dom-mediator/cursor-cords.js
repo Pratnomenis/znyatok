@@ -25,7 +25,9 @@ class CursorCords {
       this.domX.innerText = currentX;
       this.domY.innerText = currentY;
     }
+  }
 
+  refreshSizeValues(){
     const {
       width,
       height
@@ -35,7 +37,6 @@ class CursorCords {
       this.domWidth.setAttribute('data-value', parseInt(width));
       this.domHeight.setAttribute('data-value', parseInt(height));
     }
-
   }
 
   show() {

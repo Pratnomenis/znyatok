@@ -221,6 +221,8 @@ class Paper {
     if (this.mouseDowned) {
       this.state.processMouseMove(coordsData);
     }
+
+    cursorCords.refreshSizeValues();
   }
 
   processMouseUp(event) {
