@@ -91,16 +91,23 @@ class WindowScreenshot {
       return cursor.x <= waMaxX && cursor.x >= waMinX && cursor.y <= waMaxY && cursor.y >= waMinY;
     }) || displays[0];
 
+    return this.addScaledSizeToScreen(displayUnderCursor);
+  }
+
+  addScaledSizeToScreen(screen) {
     const {
       bounds,
       scaleFactor
-    } = displayUnderCursor;
-    displayUnderCursor.scaledSize = {
-      width: Math.ceil(bounds.width * scaleFactor),
-      height: Math.ceil(bounds.height * scaleFactor),
-      scaleFactor
-    };
-    return displayUnderCursor;
+    } = screen;
+    const screenWithScaledSize = {
+      ...screen,
+      scaledSize: {
+        width: Math.ceil(bounds.width * scaleFactor),
+        height: Math.ceil(bounds.height * scaleFactor),
+        scaleFactor
+      }
+    }
+    return screenWithScaledSize;
   }
 
   setPosition(bounds) {
@@ -186,6 +193,19 @@ class WindowScreenshot {
     if (this.isLoaded && !this.isShown()) {
       this.isVisible = true;
       this.lastScreen = this.getScaledScreen();
+      if (this.isMac) {
+        this.send('action-load-screen-to-image', this.lastScreen);
+      } else {
+        this.setPosition(this.lastScreen.bounds);
+        this.send('action-load-screen-to-image', this.lastScreen);
+      }
+    }
+  }
+
+  startScreenshotOnParticularScreen(screen) {
+    if (this.isLoaded && !this.isShown()) {
+      this.isVisible = true;
+      this.lastScreen = this.addScaledSizeToScreen(screen);
       if (this.isMac) {
         this.send('action-load-screen-to-image', this.lastScreen);
       } else {

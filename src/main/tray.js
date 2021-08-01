@@ -4,25 +4,58 @@ const {
   Tray,
   globalShortcut,
   shell,
+  screen
 } = require('electron');
 
 const path = require('path');
 const os = require('os');
-const appVersion = app.getVersion();
 
 const settings = require('./settings');
 const winScreenshot = require('./window-screenshot');
+
+const appVersion = app.getVersion();
 
 class AppTray {
   constructor() {
     this.tray = null;
     this.contextMenu = null;
+    this.toolTipText = `Znyatok v${appVersion}`;
 
-    this.contextMenuTemplate = [{
+    this.stgTrayIconColor = settings.getSetting('tray-icon-type');
+    this.stgShotOnPrntScr = settings.getSetting('shot-on-prnt-scr');
+    this.stgHotkeyShot = settings.getSetting('hotkey-screenshot');
+  }
+
+  getContextMenuTemplate() {
+    let extraMenuForEachDisplay = [];
+    const displays = screen.getAllDisplays();
+    const menuDisplays = displays.map((screen, index) => {
+      const {
+        width,
+        height
+      } = screen.bounds;
+      return {
         type: 'normal',
-        label: 'Make screenshot',
+        label: `Shot screen #${index + 1} (${width}x${height})`,
+        click: () => this.actionMakeScreenshotForParticularDisplay(screen)
+      }
+    });
+
+    if (menuDisplays.length >= 2) {
+      extraMenuForEachDisplay = [{
+          type: 'separator'
+        },
+        ...menuDisplays
+      ];
+    }
+
+    const template = [{
+        type: 'normal',
+        label: 'Shot this screen',
+        accelerator: this.stgHotkeyShot,
         click: this.actionMakeScreenshot
       },
+      ...extraMenuForEachDisplay,
       {
         type: 'separator'
       },
@@ -40,20 +73,35 @@ class AppTray {
         role: 'quit'
       },
     ];
+    return template;
+  }
 
-    this.toolTipText = `Znyatok v${appVersion}`;
+  refreshContextMenu() {
+    const menuTemplate = this.getContextMenuTemplate();
+    const menu = Menu.buildFromTemplate(menuTemplate);
+    this.tray.setContextMenu(menu);
   }
 
   getIconPath(color, size) {
-    return path.join(__dirname, '..', 'icons', 'tray', `${color}_${size}_Template.png`)
+    return path.join(__dirname, '..', 'icons', 'tray', `${color}_${size}_Template.png`);
   }
 
   actionMakeScreenshot() {
     winScreenshot.startScreenshot();
   }
 
+  actionMakeScreenshotForParticularDisplay(display) {
+    winScreenshot.startScreenshotOnParticularScreen(display);
+  }
+
   actionCheckForUpdates() {
     shell.openExternal(`https://znyatok.com/?update_since=${appVersion}`);
+  }
+
+  defineRefreshOnDisplayChanges() {
+    screen.on('display-metrics-changed', () => {
+      this.refreshContextMenu();
+    });
   }
 }
 
@@ -64,24 +112,24 @@ class AppTrayMacOs extends AppTray {
   }
 
   create() {
-    const stgTrayIconColor = settings.getSetting('tray-icon-type');
-    const stgShotOnPrntScr = settings.getSetting('shot-on-prnt-scr');
-    const stgHotkeyShot = settings.getSetting('hotkey-screenshot');
+    const icon = this.getIconPath(this.stgTrayIconColor, 'small');
 
-    this.tray = new Tray(this.getIconPath(stgTrayIconColor, 'small'));
+    this.tray = new Tray(icon);
     this.tray.setToolTip(this.toolTipText);
-    this.contextMenu = Menu.buildFromTemplate(this.contextMenuTemplate)
 
-    this.tray.setContextMenu(this.contextMenu);
+    this.refreshContextMenu();
+
     this.tray.setIgnoreDoubleClickEvents(true);
 
-    const arrShortcut = [stgHotkeyShot];
-    if (stgShotOnPrntScr) {
+    const arrShortcut = [this.stgHotkeyShot];
+    if (this.stgShotOnPrntScr) {
       arrShortcut.push('PrintScreen');
     }
     globalShortcut.registerAll(arrShortcut, (_) => {
       this.actionMakeScreenshot();
     });
+
+    this.defineRefreshOnDisplayChanges();
   }
 }
 
@@ -91,27 +139,27 @@ class AppTrayLinux extends AppTray {
   }
 
   create() {
-    const stgTrayIconColor = settings.getSetting('tray-icon-type');
-    const stgShotOnPrntScr = settings.getSetting('shot-on-prnt-scr');
-    const stgHotkeyShot = settings.getSetting('hotkey-screenshot');
+    const icon = this.getIconPath(this.stgTrayIconColor, 'medium');
 
-    this.tray = new Tray(this.getIconPath(stgTrayIconColor, 'medium'));
+    this.tray = new Tray(icon);
     this.tray.setToolTip(this.toolTipText);
-    this.contextMenu = Menu.buildFromTemplate(this.contextMenuTemplate)
 
-    this.tray.setContextMenu(this.contextMenu);
+    this.refreshContextMenu();
+
     this.tray.setIgnoreDoubleClickEvents(true);
     this.tray.on('click', event => {
       this.actionMakeScreenshot();
     });
 
-    const arrShortcut = [stgHotkeyShot];
-    if (stgShotOnPrntScr) {
+    const arrShortcut = [this.stgHotkeyShot];
+    if (this.stgShotOnPrntScr) {
       arrShortcut.push('PrintScreen');
     }
     globalShortcut.registerAll(arrShortcut, (_) => {
       this.actionMakeScreenshot();
     });
+
+    this.defineRefreshOnDisplayChanges();
   }
 }
 
@@ -121,27 +169,25 @@ class AppTrayWindows extends AppTray {
   }
 
   create() {
-    const stgTrayIconColor = settings.getSetting('tray-icon-type');
-    const stgShotOnPrntScr = settings.getSetting('shot-on-prnt-scr');
-    const stgHotkeyShot = settings.getSetting('hotkey-screenshot');
+    const icon = this.getIconPath(this.stgTrayIconColor, 'medium');
 
-    this.tray = new Tray(this.getIconPath(stgTrayIconColor, 'medium'));
+    this.tray = new Tray(icon);
     this.tray.setToolTip(this.toolTipText);
-    this.contextMenu = Menu.buildFromTemplate(this.contextMenuTemplate)
-
-    this.tray.setContextMenu(this.contextMenu);
+    this.refreshContextMenu();
     this.tray.setIgnoreDoubleClickEvents(true);
     this.tray.on('click', event => {
       this.actionMakeScreenshot();
     });
 
-    const arrShortcut = [stgHotkeyShot];
-    if (stgShotOnPrntScr) {
+    const arrShortcut = [this.stgHotkeyShot];
+    if (this.stgShotOnPrntScr) {
       arrShortcut.push('PrintScreen');
     }
     globalShortcut.registerAll(arrShortcut, (_) => {
       this.actionMakeScreenshot();
     });
+
+    this.defineRefreshOnDisplayChanges();
   }
 }
 
