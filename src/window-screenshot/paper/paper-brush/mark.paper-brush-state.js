@@ -72,10 +72,10 @@ export class MarkPaperBrushState extends PaperBrushState {
     const endX = x + distanceX;
     const endY = y + distanceY;
 
-    if (distance >= 100) {
+    if (distance >= 110) {
       ctx.beginPath();
       drawArrow(ctx, x, y, endX, endY, arrowType[4]);
-      ctx.fillStyle = this.color.length >= 7 ? `${this.color.substr(0,7)}aa` : this.color;
+      ctx.fillStyle = this.color;
       ctx.closePath();
       ctx.fill();
     } else if (distance > 25) {
@@ -94,7 +94,7 @@ export class MarkPaperBrushState extends PaperBrushState {
       const bXm = x - (bYe - bYs);
       const bYm = y - (bXs - bXe);
 
-      ctx.fillStyle = this.color.length >= 7 ? `${this.color.substr(0,7)}aa` : this.color;
+      ctx.fillStyle = this.color;
       ctx.moveTo(endX, endY);
       ctx.lineTo(bXs, bYs);
       ctx.quadraticCurveTo(bXm, bYm, bXe, bYe);
