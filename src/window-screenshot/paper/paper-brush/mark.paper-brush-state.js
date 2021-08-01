@@ -15,6 +15,11 @@ import {
   shot
 } from '../../shot/shot.js';
 
+import {
+  arrowType,
+  drawArrow
+} from '../../helpers/draw-arrow.js';
+
 export class MarkPaperBrushState extends PaperBrushState {
   constructor() {
     super(Object.values(markType));
@@ -62,10 +67,19 @@ export class MarkPaperBrushState extends PaperBrushState {
     const ctx = paper.canvasContext;
     ctx.save();
 
-    if (Math.abs(distanceX) + Math.abs(distanceY) > 25) {
+    const distance = Math.abs(distanceX) + Math.abs(distanceY);
+
+    const endX = x + distanceX;
+    const endY = y + distanceY;
+
+    if (distance >= 100) {
       ctx.beginPath();
-      const endX = x + distanceX;
-      const endY = y + distanceY;
+      drawArrow(ctx, x, y, endX, endY, arrowType[4]);
+      ctx.fillStyle = this.color.length >= 7 ? `${this.color.substr(0,7)}aa` : this.color;
+      ctx.closePath();
+      ctx.fill();
+    } else if (distance > 25) {
+      ctx.beginPath();
       const endLen = 20;
       let px = y - endY;
       let py = endX - x;
@@ -80,7 +94,7 @@ export class MarkPaperBrushState extends PaperBrushState {
       const bXm = x - (bYe - bYs);
       const bYm = y - (bXs - bXe);
 
-      ctx.fillStyle = `${this.color.substr(0,7)}aa`;
+      ctx.fillStyle = this.color.length >= 7 ? `${this.color.substr(0,7)}aa` : this.color;
       ctx.moveTo(endX, endY);
       ctx.lineTo(bXs, bYs);
       ctx.quadraticCurveTo(bXm, bYm, bXe, bYe);
@@ -92,7 +106,7 @@ export class MarkPaperBrushState extends PaperBrushState {
     // Circle
     ctx.lineWidth = 5.5;
     ctx.lineCap = 'round';
-    ctx.fillStyle = this.color;
+    ctx.fillStyle = `${this.color.substr(0,7)}`;
     ctx.strokeStyle = this.getTextColor();
 
     ctx.beginPath();
