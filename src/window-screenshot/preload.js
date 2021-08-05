@@ -127,7 +127,7 @@ contextBridge.exposeInMainWorld(
     async getDesktopImageLowQualityDataURL({
       width,
       height,
-      screenId
+      screenIndex
     }) {
       return new Promise(async (resolveGetDataImage) => {
         const sources = await desktopCapturer.getSources({
@@ -137,14 +137,8 @@ contextBridge.exposeInMainWorld(
             height: 0
           }
         });
-        const source = sources.find((screen, index) => {
-          let curScreenId = screen.display_id;
-          if (!curScreenId) {
-            curScreenId = index + 1;
-          }
-          return String(curScreenId) === screenId;
-        }) || sources[0];
 
+        const source = sources[screenIndex];
         const stream = await navigator.mediaDevices.getUserMedia({
           audio: false,
           video: {
@@ -180,7 +174,7 @@ contextBridge.exposeInMainWorld(
     async getDesktopImageHightQualityDataURL({
       width,
       height,
-      screenId
+      screenIndex
     }) {
       const sources = await desktopCapturer.getSources({
         types: ['screen'],
@@ -190,14 +184,7 @@ contextBridge.exposeInMainWorld(
         }
       });
 
-      const source = sources.find((screen, index) => {
-        let curScreenId = screen.display_id;
-        if (!curScreenId) {
-          curScreenId = index + 1;
-        }
-        return String(curScreenId) === screenId;
-      }) || sources[0];
-
+      const source = sources[screenIndex];
       return source.thumbnail.toDataURL();
     },
 

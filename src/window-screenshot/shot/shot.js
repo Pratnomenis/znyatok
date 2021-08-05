@@ -46,7 +46,8 @@ class Shot {
       scaleFactor
     } = screen.scaledSize;
 
-    const screenId = String(screen.id);
+    const screenIndex = screen.index;
+
     this.screenHeight = height;
     this.screenWidth = width;
     this.scaleFactor = scaleFactor;
@@ -54,11 +55,10 @@ class Shot {
     const dataUrlLQImg = await window.api.getDesktopImageLowQualityDataURL({
       width,
       height,
-      screenId
+      screenIndex
     });
-
     fullScreenImgElement.create(dataUrlLQImg).then(() => {
-      setTimeout(()=>{
+      setTimeout(() => {
         window.api.send('screenshot-is-ready-to-show');
       })
     });
@@ -66,7 +66,7 @@ class Shot {
     window.api.getDesktopImageHightQualityDataURL({
       width,
       height,
-      screenId
+      screenIndex
     }).then(dataUrlHQImg => {
       fullScreenImgElement.updateWithBetterQuality(dataUrlHQImg);
     });
@@ -87,7 +87,7 @@ class Shot {
     } else {
       const tCanvas = new ScaledCanvas(canvasWidth, canvasHeight);
       const tCtx = tCanvas.getContext('2d');
-      
+
       tCtx.drawImage(fullScreenImgElement.getHtmlElement(), canvasLeft, canvasTop, canvasWidth, canvasHeight, 0, 0, canvasWidth, canvasHeight);
       const imgBase64 = tCanvas.toDataURL();
       this.shotListHistory.add(imgBase64);

@@ -29,15 +29,20 @@ class AppTray {
   getContextMenuTemplate() {
     let extraMenuForEachDisplay = [];
     const displays = screen.getAllDisplays();
-    const menuDisplays = displays.map((screen, index) => {
+    const menuDisplays = displays.map((screen, realIndex) => {
       const {
         width,
         height
       } = screen.bounds;
+      const index = displays.length - realIndex - 1;
+      const screenWithIndex = {
+        ...screen,
+        index
+      }
       return {
         type: 'normal',
         label: `Shot screen #${index + 1} (${width}x${height})`,
-        click: () => this.actionMakeScreenshotForParticularDisplay(screen)
+        click: () => this.actionMakeScreenshotForParticularDisplay(screenWithIndex)
       }
     });
 
@@ -90,8 +95,8 @@ class AppTray {
     winScreenshot.startScreenshot();
   }
 
-  actionMakeScreenshotForParticularDisplay(display) {
-    winScreenshot.startScreenshotOnParticularScreen(display);
+  actionMakeScreenshotForParticularDisplay(displayWithIndex) {
+    winScreenshot.startScreenshotOnParticularScreen(displayWithIndex);
   }
 
   actionCheckForUpdates() {

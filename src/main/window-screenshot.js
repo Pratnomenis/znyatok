@@ -80,34 +80,38 @@ class WindowScreenshot {
   getScaledScreen() {
     const cursor = screen.getCursorScreenPoint();
     const displays = screen.getAllDisplays();
-    const displayUnderCursor = displays.find((display) => {
-      const {
-        bounds
-      } = display;
-      const waMinX = bounds.x;
-      const waMaxX = bounds.x + bounds.width;
-      const waMinY = bounds.y;
-      const waMaxY = bounds.y + bounds.height;
-      return cursor.x <= waMaxX && cursor.x >= waMinX && cursor.y <= waMaxY && cursor.y >= waMinY;
-    }) || displays[0];
+    const displayUnderCursor = displays
+      .map((screen, index) => ({
+        ...screen,
+        index: displays.length - index - 1
+      }))
+      .find((display) => {
+        const {
+          bounds
+        } = display;
+        const waMinX = bounds.x;
+        const waMaxX = bounds.x + bounds.width;
+        const waMinY = bounds.y;
+        const waMaxY = bounds.y + bounds.height;
+        return cursor.x <= waMaxX && cursor.x >= waMinX && cursor.y <= waMaxY && cursor.y >= waMinY;
+      }) || displays[0];
 
     return this.addScaledSizeToScreen(displayUnderCursor);
   }
 
-  addScaledSizeToScreen(screen) {
+  addScaledSizeToScreen(screenWithIndex) {
     const {
       bounds,
       scaleFactor
-    } = screen;
-    const screenWithScaledSize = {
-      ...screen,
+    } = screenWithIndex;
+    return {
+      ...screenWithIndex,
       scaledSize: {
         width: Math.ceil(bounds.width * scaleFactor),
         height: Math.ceil(bounds.height * scaleFactor),
         scaleFactor
       }
-    }
-    return screenWithScaledSize;
+    };
   }
 
   setPosition(bounds) {
