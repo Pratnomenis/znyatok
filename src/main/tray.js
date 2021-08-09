@@ -29,12 +29,11 @@ class AppTray {
   getContextMenuTemplate() {
     let extraMenuForEachDisplay = [];
     const displays = screen.getAllDisplays();
-    const menuDisplays = displays.map((screen, realIndex) => {
+    const menuDisplays = displays.map((screen, index) => {
       const {
         width,
         height
       } = screen.bounds;
-      const index = displays.length - realIndex - 1;
       const screenWithIndex = {
         ...screen,
         index

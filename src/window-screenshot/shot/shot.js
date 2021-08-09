@@ -46,28 +46,21 @@ class Shot {
       scaleFactor
     } = screen.scaledSize;
 
+    const screenId = String(screen.id);
     const screenIndex = screen.index;
 
     this.screenHeight = height;
     this.screenWidth = width;
     this.scaleFactor = scaleFactor;
 
-    const dataUrlLQImg = await window.api.getDesktopImageLowQualityDataURL({
-      width,
-      height,
-      screenIndex
-    });
+    const dataUrlLQImg = await window.api.display.getDesktopImageLowQualityDataURL(width, height, screenId, screenIndex);
     fullScreenImgElement.create(dataUrlLQImg).then(() => {
       setTimeout(() => {
         window.api.send('screenshot-is-ready-to-show');
       })
     });
 
-    window.api.getDesktopImageHightQualityDataURL({
-      width,
-      height,
-      screenIndex
-    }).then(dataUrlHQImg => {
+    window.api.display.getDesktopImageHightQualityDataURL(width, height, screenId, screenIndex).then(dataUrlHQImg => {
       fullScreenImgElement.updateWithBetterQuality(dataUrlHQImg);
     });
 

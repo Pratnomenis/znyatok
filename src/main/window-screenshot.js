@@ -83,7 +83,7 @@ class WindowScreenshot {
     const displayUnderCursor = displays
       .map((screen, index) => ({
         ...screen,
-        index: displays.length - index - 1
+        index
       }))
       .find((display) => {
         const {
