@@ -11,22 +11,32 @@ const fs = require('fs');
 
 const validRenderActions = ['keyboard-escape', 'keyboard-control-z', 'keyboard-control-shift-z', 'keyboard-control-c', 'keyboard-control-s', 'keyboard-control-shift-s', 'keyboard-control-w', 'keyboard-control-shift-b', 'action-load-screen-to-image', 'reset-all', 'action-quit', 'get-desktop-folder', 'get-desktop-folder-reply', 'action-quit-reply', 'get-select-path', 'get-select-path-reply', 'picture-to-new-window', 'picture-to-new-window-reply', 'setting-updated', 'screenshot-is-ready-to-show', 'window-screenshot-loaded', 'do-log'];
 
+const settings = {
+  getSettings() {
+    const paramSettingsPath = process.argv.find(arg => arg.startsWith('--settings='));
+    const settingsRaw = paramSettingsPath.split('=', 2).pop();
+    return JSON.parse(settingsRaw);
+  }
+}
 
 const display = {
   async getDisplay(displayId, displayIndex, sourceOptions, predefinedSources) {
     const sources = predefinedSources || await desktopCapturer.getSources(sourceOptions);
+
     if (displayId) {
       // 1. get display by id
       return sources.find((screen) => {
         return displayId === String(screen.display_id);
       }) || await display.getDisplay(null, displayIndex, sourceOptions, sources);
     } else {
-      if (true) {
-        // 2. get display by index
-        return sources[displayIndex];
-      } else {
+      // FIXME: linux has no displayId, some linux has reversed display index 
+      const isReverseDisplay = settings.getSettings()['is-reverse-display'];
+      if (isReverseDisplay) {
         // 3. get display by reverse index
         return sources[sources.length - displayIndex - 1];
+      } else {
+        // 2. get display by index
+        return sources[displayIndex];
       }
     }
   },
@@ -67,7 +77,6 @@ const display = {
         resolveGetDataImage(tCnv.toDataURL());
         setTimeout(() => {
           video.pause();
-          // TODO:
           delete video;
         });
       };
@@ -75,7 +84,7 @@ const display = {
   },
 
   async getDesktopImageHightQualityDataURL(width, height, screenId, screenIndex) {
-    const source =  await display.getDisplay(screenId, screenIndex, {
+    const source = await display.getDisplay(screenId, screenIndex, {
       types: ['screen'],
       thumbnailSize: {
         width: width,
@@ -193,16 +202,12 @@ contextBridge.exposeInMainWorld(
       }
     },
 
-    getSettings() {
-      const paramSettingsPath = process.argv.find(arg => arg.startsWith('--settings='));
-      const settingsRaw = paramSettingsPath.split('=', 2).pop();
-      return JSON.parse(settingsRaw);
-    },
 
     pathJoin(...args) {
       return path.join(...args);
     },
 
+    ...settings,
     display
   }
 );

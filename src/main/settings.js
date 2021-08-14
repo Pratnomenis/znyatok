@@ -62,6 +62,7 @@ class Settings {
             'shot-on-prnt-scr': isMacOs || isWindows,
             'hotkey-screenshot': isMacOs ? 'Option+Shift+S' : 'Control+Alt+S',
             'tray-icon-type': 'color',
+            'is-reverse-display': !isMacOs && !isWindows,
             'brush-arrow': 2,
             'brush-circle': 2,
             'brush-line': 2,
