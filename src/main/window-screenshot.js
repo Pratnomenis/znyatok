@@ -4,6 +4,7 @@ const {
 } = require('electron');
 
 const settings = require('./settings');
+const hotkey = require('./hotkey');
 const path = require('path');
 const os = require('os');
 
@@ -63,6 +64,7 @@ class WindowScreenshot {
     if (!this.isMac) {
       this.browserWindow.on('blur', () => {
         if (this.destroyOnBlur) {
+          hotkey.unregisterAll();
           this.destroy();
         }
       });
