@@ -10,6 +10,8 @@ class Hotkey {
   }
 
   registerAll() {
+    winScreenshot.setHotkeyReset(this.unregisterAll.bind(this));
+
     if (!this.keysRegistred) {
       globalShortcut.register('Escape', () => {
         winScreenshot.send('keyboard-escape');

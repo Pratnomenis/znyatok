@@ -4,7 +4,6 @@ const {
 } = require('electron');
 
 const settings = require('./settings');
-const hotkey = require('./hotkey');
 const path = require('path');
 const os = require('os');
 
@@ -51,6 +50,8 @@ class WindowScreenshot {
     this.isMac = os.platform() === 'darwin';
 
     this.lastScreen = null;
+
+    this.hotkeyReset = null;
   }
 
   create() {
@@ -64,7 +65,9 @@ class WindowScreenshot {
     if (!this.isMac) {
       this.browserWindow.on('blur', () => {
         if (this.destroyOnBlur) {
-          hotkey.unregisterAll();
+          if (typeof this.hotkeyReset === 'function') {
+            this.hotkeyReset();
+          }
           this.destroy();
         }
       });
@@ -227,6 +230,10 @@ class WindowScreenshot {
 
   windowLoaded() {
     this.isLoaded = true;
+  }
+
+  setHotkeyReset(hotkeyReset) {
+    this.hotkeyReset = hotkeyReset;
   }
 };
 
