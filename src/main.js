@@ -34,15 +34,14 @@ const startApp = () => {
 
 const autoloadApp = () => {
   const isDev = !app.isPackaged;
-
-  if (!isDev && os.platform() in ['win32', 'darwin']) {
-    const loginOptions = app.getLoginItemSettings();
-    if (!loginOptions.openAtLogin) {
-      app.setLoginItemSettings({
-        openAtLogin: true,
-        path: app.getPath("exe")
-      });
-    }
+  const isWindowsOrMacOs = (os.platform() in {'win32': 1, 'darwin': 1});
+  const shuldStartWithSystem = settings.getSetting('start-with-system');
+  const startsWithSystem = app.getLoginItemSettings().openAtLogin; 
+  if (!isDev && isWindowsOrMacOs && (shuldStartWithSystem !== startsWithSystem)) {
+    app.setLoginItemSettings({
+      openAtLogin: shuldStartWithSystem,
+      path: app.getPath("exe")
+    });
   }
 }
 
@@ -57,9 +56,7 @@ const winWelcomeConfirm = (frmData) => {
     settings.setSetting('hotkey-screenshot', frmData.hkMakeShot);
     settings.setSetting('tray-icon-type', frmData.trayIconType);
 
-    if (frmData.chbAutoload) {
-      autoloadApp();
-    }
+    autoloadApp();
   }
   startApp();
 }

@@ -20,7 +20,10 @@ class AppTray {
     this.tray = null;
     this.contextMenu = null;
     this.toolTipText = `Znyatok v${appVersion}`;
+    this.refreshSettings();
+  }
 
+  refreshSettings() {
     this.stgTrayIconColor = settings.getSetting('tray-icon-type');
     this.stgShotOnPrntScr = settings.getSetting('shot-on-prnt-scr');
     this.stgHotkeyShot = settings.getSetting('hotkey-screenshot');
@@ -116,6 +119,7 @@ class AppTrayMacOs extends AppTray {
   }
 
   create() {
+    this.refreshSettings();
     const icon = this.getIconPath(this.stgTrayIconColor, 'small');
 
     this.tray = new Tray(icon);
@@ -143,6 +147,7 @@ class AppTrayLinux extends AppTray {
   }
 
   create() {
+    this.refreshSettings();
     const icon = this.getIconPath(this.stgTrayIconColor, 'medium');
 
     this.tray = new Tray(icon);
@@ -173,6 +178,7 @@ class AppTrayWindows extends AppTray {
   }
 
   create() {
+    this.refreshSettings();
     const icon = this.getIconPath(this.stgTrayIconColor, 'medium');
 
     this.tray = new Tray(icon);
