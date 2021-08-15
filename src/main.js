@@ -51,7 +51,7 @@ const winWelcomeConfirm = (frmData) => {
     setTimeout(() => {
       winWelcome.destroy();
     })
-    settings.setSetting('welcome-setted-170', true);
+    settings.setSetting('welcome-setted-180', true);
     settings.setSetting('start-with-system', frmData.chbAutoload);
     settings.setSetting('shot-on-prnt-scr', frmData.chbShotOnPS);
     settings.setSetting('hotkey-screenshot', frmData.hkMakeShot);
@@ -67,7 +67,7 @@ const winWelcomeConfirm = (frmData) => {
 app.commandLine.appendSwitch('high-dpi-support', '1');
 
 app.whenReady().then(() => {
-  if (settings.getSetting('welcome-setted-170')) {
+  if (settings.getSetting('welcome-setted-180')) {
     startApp();
   } else {
     winWelcome.create();

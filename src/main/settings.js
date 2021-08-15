@@ -57,7 +57,7 @@ class Settings {
         const isWindows = os.platform() === 'win32';
 
         this.list = {
-            'welcome-setted-170': false,
+            'welcome-setted-180': false,
             'start-with-system': isMacOs || isWindows,
             'shot-on-prnt-scr': isMacOs || isWindows,
             'hotkey-screenshot': isMacOs ? 'Option+Shift+S' : 'Control+Alt+S',
