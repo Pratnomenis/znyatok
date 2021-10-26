@@ -31,6 +31,9 @@ class Hotkey {
       globalShortcut.register('CommandOrControl+Shift+S', () => {
         winScreenshot.send('keyboard-control-shift-s');
       });
+      globalShortcut.register('CommandOrControl+Shift+F', () => {
+        winScreenshot.send('keyboard-control-shift-f');
+      });
       globalShortcut.register('CommandOrControl+W', () => {
         winScreenshot.send('keyboard-control-w');
       });
@@ -49,6 +52,7 @@ class Hotkey {
       globalShortcut.unregister('CommandOrControl+C');
       globalShortcut.unregister('CommandOrControl+S');
       globalShortcut.unregister('CommandOrControl+Shift+S');
+      globalShortcut.unregister('CommandOrControl+Shift+G');
       globalShortcut.unregister('CommandOrControl+W');
       globalShortcut.unregister('CommandOrControl+Shift+B');
       this.keysRegistred = false;

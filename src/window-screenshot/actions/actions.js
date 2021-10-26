@@ -48,6 +48,7 @@ export class Actions {
     window.api.on('keyboard-control-s', () => this.saver.saveToFile());
     window.api.on('keyboard-control-shift-s', () => this.saver.saveToFolder());
     window.api.on('keyboard-control-w', () => this.saver.saveToNewWindow());
+    window.api.on('keyboard-control-shift-f', () => this.saver.saveToSearch());
     window.api.on('keyboard-control-shift-b', () => this.saver.saveAsBase64());
 
     window.api.on('action-load-screen-to-image', screen => {

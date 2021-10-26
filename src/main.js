@@ -19,6 +19,8 @@ const settings = require('./main/settings');
 const winScreenshot = require('./main/window-screenshot');
 const winPreview = require('./main/window-preview');
 const winWelcome = require('./main/window-welcome');
+const winSearch = require('./main/window-search');
+const winLoading = require('./main/window-loading');
 
 const startApp = () => {
   if (os.platform() == 'darwin') {
@@ -34,9 +36,10 @@ const startApp = () => {
 
 const autoloadApp = () => {
   const isDev = !app.isPackaged;
-  const isWindowsOrMacOs = (os.platform() in {'win32': 1, 'darwin': 1});
+  const isWindowsOrMacOs = ['win32', 'darwin'].includes(os.platform());
   const shuldStartWithSystem = settings.getSetting('start-with-system');
-  const startsWithSystem = app.getLoginItemSettings().openAtLogin; 
+  const startsWithSystem = app.getLoginItemSettings().openAtLogin;
+
   if (!isDev && isWindowsOrMacOs && (shuldStartWithSystem !== startsWithSystem)) {
     app.setLoginItemSettings({
       openAtLogin: shuldStartWithSystem,
@@ -79,6 +82,7 @@ app.on('second-instance', () => {
 });
 
 ipcMain.on('screenshot-is-ready-to-show', () => {
+  winLoading.destroy();
   winScreenshot.show();
   hotkey.registerAll();
 });
@@ -121,6 +125,12 @@ ipcMain.on('picture-to-new-window', (event, data) => {
   event.sender.send('picture-to-new-window-reply');
 });
 
+ipcMain.on('picture-to-search', (event, data) => {
+  winSearch.create(data);
+  winLoading.create();
+  event.sender.send('picture-to-search-reply');
+});
+
 ipcMain.on('setting-updated', (event, data) => {
   const {
     settingName,
@@ -135,4 +145,19 @@ ipcMain.on('window-screenshot-loaded', (event, frmData) => {
 
 ipcMain.on('window-welcome-confirm', (event, frmData) => {
   winWelcomeConfirm(frmData)
+});
+
+ipcMain.on('set-value-window-loading', (event, newValue) => {
+  winLoading.setValue(newValue);
+});
+
+ipcMain.on('search-link-ready', (event, link) => {
+  if (winLoading.isExist()) {
+    winSearch.finish(link);
+    setTimeout(() => {
+      winLoading.destroy();
+    });
+  } else {
+    winLoading.destroy();
+  }
 });

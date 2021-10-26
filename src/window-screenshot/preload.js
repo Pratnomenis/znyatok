@@ -9,7 +9,7 @@ const {
 const path = require('path');
 const fs = require('fs');
 
-const validRenderActions = ['keyboard-escape', 'keyboard-control-z', 'keyboard-control-shift-z', 'keyboard-control-c', 'keyboard-control-s', 'keyboard-control-shift-s', 'keyboard-control-w', 'keyboard-control-shift-b', 'action-load-screen-to-image', 'reset-all', 'action-quit', 'get-desktop-folder', 'get-desktop-folder-reply', 'action-quit-reply', 'get-select-path', 'get-select-path-reply', 'picture-to-new-window', 'picture-to-new-window-reply', 'setting-updated', 'screenshot-is-ready-to-show', 'window-screenshot-loaded', 'do-log'];
+const validRenderActions = ['keyboard-escape', 'keyboard-control-z', 'keyboard-control-shift-z', 'keyboard-control-c', 'keyboard-control-s', 'keyboard-control-shift-s', 'keyboard-control-w', 'keyboard-control-shift-f', 'keyboard-control-shift-b', 'action-load-screen-to-image', 'reset-all', 'action-quit', 'get-desktop-folder', 'get-desktop-folder-reply', 'action-quit-reply', 'get-select-path', 'get-select-path-reply', 'picture-to-new-window', 'picture-to-new-window-reply', 'picture-to-search', 'picture-to-search-reply', 'setting-updated', 'screenshot-is-ready-to-show', 'window-screenshot-loaded', 'do-log'];
 
 const settings = {
   getSettings() {
@@ -102,7 +102,7 @@ contextBridge.exposeInMainWorld(
       if (validRenderActions.includes(action)) {
         ipcRenderer.send(action, data);
       } else {
-        console.error('send', action, data);
+        console.error('send', action);
       }
     },
 
@@ -110,7 +110,7 @@ contextBridge.exposeInMainWorld(
       if (validRenderActions.includes(action)) {
         ipcRenderer.on(action, (_, data) => callback(data));
       } else {
-        console.error('on', action, data);
+        console.error('on', action);
       }
     },
 
@@ -119,7 +119,7 @@ contextBridge.exposeInMainWorld(
         const newCallback = (_, data) => callback(data);
         ipcRenderer.once(action, newCallback);
       } else {
-        console.error('once', action, data);
+        console.error('once', action);
       }
     },
 
@@ -127,7 +127,7 @@ contextBridge.exposeInMainWorld(
       if (validRenderActions.includes(action)) {
         ipcRenderer.removeListener(action, callback);
       } else {
-        console.error('removeListener', action, data);
+        console.error('removeListener', action);
       }
     },
 
@@ -135,7 +135,7 @@ contextBridge.exposeInMainWorld(
       if (validRenderActions.includes(action)) {
         ipcRenderer.removeAllListeners(action)
       } else {
-        console.error('removeAllListeners', action, data);
+        console.error('removeAllListeners', action);
       }
     },
 

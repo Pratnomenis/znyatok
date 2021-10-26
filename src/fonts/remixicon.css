@@ -7,7 +7,7 @@
 
 @font-face {
     font-family: "remixicon";
-    src: url("./remixicon.woff2?t=1612060355804") format("woff2");
+    src: url("./remixicon.woff2?t=1635258746296") format("woff2");
     font-display: swap;
 }
 
@@ -132,10 +132,6 @@
     content: "\ef77";
 }
 
-.ri-vip-diamond-fill:before {
-    content: "\f28f";
-}
-
 .ri-code-box-line:before {
     content: "\eba7";
 }
@@ -148,14 +144,10 @@
     content: "\eff4";
 }
 
-.ri-error-warning-line:before {
-    content: "\eca1";
-}
-
 .ri-map-pin-add-line:before {
     content: "\ef12";
 }
 
-.ri-pushpin-line:before {
-    content: "\f039";
+.ri-search-2-line:before {
+    content: "\f0cd";
 }

@@ -90,6 +90,22 @@ export class Saver {
     });
   }
 
+  async saveToSearch() {
+    const shotParams = shot.getParams();
+    if (shotParams.width < 3 && shotParams.height < 3) {
+      return false;
+    }
+    await paper.deactivateLastState();
+    const imgBase64 = await shot.getLastBase64();
+
+    window.api.send('picture-to-search', {
+      imgBase64,
+    });
+    window.api.once('picture-to-search-reply', () => {
+      this.closeApp();
+    });
+  }
+
   async saveAsBase64() {
     await paper.deactivateLastState();
     const imgBase64 = shot.getLastBase64();
@@ -121,6 +137,8 @@ export class Saver {
       this.saveToFolder();
     } else if (saveType == 'window') {
       this.saveToNewWindow();
+    } else if (saveType == 'search') {
+      this.saveToSearch();
     } else if (saveType == 'base64') {
       this.saveAsBase64();
     }
