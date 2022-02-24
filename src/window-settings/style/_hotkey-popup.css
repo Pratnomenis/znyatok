@@ -1,0 +1,28 @@
+.popup-wrapper {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(200, 200, 200, .8);
+    z-index: 99999;
+}
+
+.popup{
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    left: calc(50% - 100px);
+    top: calc(50% - 100px);
+    background: var(--zuik-color-bg-main);
+    border: 1em solid var(--zuik-color-bg-second);
+    color: var(--zuik-color-text-main);
+    border-radius: 20px;
+}
+
+.popup-header {
+    color: var(--zuik-color-text-second);
+}
+
+.popup-value {}
+
+.popup-info {
+    color: var(--zuik-color-text-second);
+}

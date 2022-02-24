@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+  <link rel="stylesheet" href="./style/zuik.min.css">
+  <link rel="stylesheet" href="./style/index.css">
+  <link rel="stylesheet" href="../fonts/remixicon.css">
+  <script src="./script/react/react.js" defer></script>
+  <script src="./script/react/react-dom.js" defer></script>
+  <script type="module" src="./app.js" defer></script>
+</head>
+
+<body>
+  <header class="zuik zuik__header">
+    <div class="zuik-tab--list">
+      <button class="zuik-tab--item js-setting-menu-item zuik-tab--item__active" data-href="general">General</button>
+      <button class="zuik-tab--item js-setting-menu-item" data-href="hotkey">Hotkey</button>
+      <button class="zuik-tab--item js-setting-menu-item" data-href="tools">Tools</button>
+      <button class="zuik-tab--item js-setting-menu-item" data-href="colors">Colors</button>
+    </div>
+  </header>
+  <section class="zuik zuik__main setting-section setting-section__general js-setting-section setting-section__active"
+    data-url="general">
+    <h2>General</h2>
+    <p>Shot on printscreen</p>
+    <p>Icon color</p>
+    <p>Start with system</p>
+    <p>Remove saved screenshots</p>
+    <p>Folder for saving screenshots</p>
+  </section>
+  <section class="zuik zuik__main setting-section setting-section__hotkey js-setting-section" data-url="hotkey">
+    <h2>Hotkey</h2>
+    <!-- TODO: button, show\hide unset -->
+  </section>
+  <section class="zuik zuik__main setting-section setting-section__tools js-setting-section" data-url="tools">
+    <h2>Tools</h2>
+    <p>TODO, each tool</p>
+    <ul>
+      <li>Enabled</li>
+      <li>Hotkey</li>
+      <li>Color: selected, selected half transparent, defined</li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </section>
+  <section class="zuik zuik__main setting-section setting-section__colors js-setting-section" data-url="colors">
+    <h2>Colors</h2>
+    <p>TODO: dropdawn list</p>
+    <input type="color" value="#ff0000">
+    <p>...</p>
+    <p>transparancy 20%-90%</p>
+    <p>...</p>
+    <p><input type="range" min="20" max="90" value="50" step="5"></p>
+    <p>
+      preview
+    </p>
+  </section>
+  <footer class="zuik zuik__footer">
+    <div class="zuik-row">
+      <div class="zuik-col text-right">
+        <button class="zuik-button zuik-button__link">Restore default settings</button>
+        <button class="zuik-button">Confirm</button>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

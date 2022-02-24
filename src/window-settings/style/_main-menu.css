@@ -1,0 +1,7 @@
+.setting-section {
+    display: none;
+}
+
+.setting-section__active {
+    display: block;
+}
