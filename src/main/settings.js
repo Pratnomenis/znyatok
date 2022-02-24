@@ -23,7 +23,11 @@ class Settings {
 
     saveSettings() {
         try {
-            const data = JSON.stringify(this.list, null, 2);
+            const settingsWithoutDefault = {
+                ...this.list,
+                defaultSettings: null
+            }
+            const data = JSON.stringify(settingsWithoutDefault, null, 2);
             fs.writeFile(this.settingsFilePath, data, (err) => {
                 if (err) throw err;
             });
@@ -43,7 +47,8 @@ class Settings {
 
                 this.list = {
                     ...this.list,
-                    ...JSON.parse(rawData)
+                    ...JSON.parse(rawData),
+                    defaultSettings: this.#getDefaultSettings()
                 };
             }
         } catch (error) {
@@ -53,16 +58,21 @@ class Settings {
     }
 
     loadDefaultSettings() {
+        this.list = this.#getDefaultSettings();
+    }
+
+    #getDefaultSettings() {
         const isMacOs = os.platform() === 'darwin';
         const isWindows = os.platform() === 'win32';
+        const isLinux = !isMacOs && !isWindows;
 
-        this.list = {
+        return {
             'welcome-setted-180': false,
             'start-with-system': isMacOs || isWindows,
             'shot-on-prnt-scr': isMacOs || isWindows,
             'hotkey-screenshot': isMacOs ? 'Option+Shift+S' : 'Control+Alt+S',
             'tray-icon-type': 'color',
-            'is-reverse-display': !isMacOs && !isWindows,
+            'is-reverse-display': isLinux,
             'brush-arrow': 2,
             'brush-circle': 2,
             'brush-line': 2,
@@ -74,7 +84,22 @@ class Settings {
             'save-type-history': ['clipboard', 'desktop'],
             'square-or-circle': 'square',
             'arrow-or-line': 'arrow',
-            'palette-color': '#17a2b8'
+            'palette-color': '#17a2b8',
+            'color-0': '#00bcd4',
+            'color-1': '#009688',
+            'color-2': '#4caf50',
+            'color-3': '#8bc34a',
+            'color-4': '#ffeb3b',
+            'color-5': '#ffc107',
+            'color-6': '#f44336',
+            'color-7': '#e91e63',
+            'color-8': '#673ab7',
+            'color-9': '#3f51b5',
+            'color-10': '#2196f3',
+            'color-11': '#03a9f4',
+            'color-opacity': 40,
+            'schema-hotkeys': 'default',
+            'schema-colors': 'default',
         }
     }
 
